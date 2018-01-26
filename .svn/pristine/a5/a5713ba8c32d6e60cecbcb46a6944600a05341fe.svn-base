@@ -1,0 +1,340 @@
+package net.northking.cloudplatform.controller;
+
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.constants.SuccessConstants;
+import net.northking.cloudplatform.domain.dictionary.CltDictionaryItem;
+import net.northking.cloudplatform.domain.dictionary.CltDictionaryType;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.query.dictionary.DictionaryTypeQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.DictionaryService;
+import net.northking.cloudplatform.query.dictionary.DictionaryItemQuery ;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+/**
+ * @Title:
+ * @Description: 数据字典控制层
+ * @Company: Northking
+ * @Author: HBH
+ * @CreateDate: 2017-12-12 16:05
+ * @UpdateUser:
+ * @Version:0.1
+ */
+
+@RestController
+public class DictionaryController {
+
+    //注入service
+    @Autowired
+    private DictionaryService dictionaryService;
+
+    //日志
+    private final static Logger logger = LoggerFactory.getLogger(DictionaryController.class);
+
+
+    //添加数据字典类型
+    @PostMapping("/addDictionaryType")
+    public ResultInfo<Integer> addDictionaryType(@RequestBody @Validated DictionaryTypeQuery dictionaryTypeQuery) throws Exception {
+
+        logger.info(" addDictionaryType start paramData" + dictionaryTypeQuery.toString());
+
+        Integer result = dictionaryService.addDictionaryType(dictionaryTypeQuery);
+
+        logger.info(" addDictionaryType end paramData");
+
+        return  new ResultInfo<>(ResultCode.SUCCESS, SuccessConstants.ADD_CLT_DICTIONARY_TYPE_INFO_SUCCESS, result);
+
+    }
+
+
+
+    //添加数据字典明细
+    @PostMapping("/addDictionaryItem")
+    public ResultInfo<Integer> addDictionaryItem(@RequestBody @Validated DictionaryItemQuery dictionaryItemQuery) throws Exception {
+
+        logger.info(" addDictionaryItem start paramData" + dictionaryItemQuery.toString());
+
+        Integer result = dictionaryService.addDictionaryItem(dictionaryItemQuery);
+
+        logger.info(" addDictionaryItem end paramData");
+
+        return  new ResultInfo<>(ResultCode.SUCCESS, SuccessConstants.ADD_CLT_DICTIONARY_ITEM_INFO_SUCCESS, result);
+
+    }
+
+
+
+    //删除数据字典明细
+    @PostMapping("/deleteDictionaryItem")
+    public ResultInfo<Integer> deleteDictionaryItem(@RequestBody  DictionaryItemQuery dictionaryItemQuery) throws Exception {
+
+        logger.info(" deleteDictionaryItem start paramData" + dictionaryItemQuery.toString());
+
+        String itemId=dictionaryItemQuery.getItemId();
+
+        if(StringUtils.isEmpty(itemId)){
+            throw  new GlobalException(ResultCode.INVALID_PARAM.code(),"字典条目id不能为空");
+
+        }
+        Integer result = dictionaryService.deleteDictionaryItem(dictionaryItemQuery);
+
+        logger.info(" deleteDictionaryItem end paramData");
+
+        return  new ResultInfo<>(ResultCode.SUCCESS, SuccessConstants.DELETE_CLT_DICTIONARY_ITEM_INFO_SUCCESS, result);
+
+    }
+
+
+    //删除数据字典类型
+    @PostMapping("/deleteDictionaryType")
+    public ResultInfo<Integer> deleteDictionaryType(@RequestBody   DictionaryTypeQuery dictionaryTypeQuery) throws Exception {
+
+        logger.info(" deleteDictionaryType start paramData" + dictionaryTypeQuery.toString());
+
+        String typeId=dictionaryTypeQuery.getTypeId();
+
+        if(StringUtils.isEmpty(typeId)){
+
+            throw  new GlobalException(ResultCode.INVALID_PARAM.code(),"字典类型id不能为空");
+
+        }
+        Integer result = dictionaryService.deleteDictionaryType(dictionaryTypeQuery);
+
+        logger.info(" deleteDictionaryType end paramData");
+
+        return  new ResultInfo<>(ResultCode.SUCCESS,SuccessConstants.DELETE_CLT_DICTIONARY_TYPE_INFO_SUCCESS , result);
+
+    }
+
+
+
+    //更新数据字典类型
+    @PostMapping("/updateDictionaryType")
+    public ResultInfo<Integer> updateDictionaryType(@RequestBody @Validated  DictionaryTypeQuery dictionaryTypeQuery) throws Exception {
+
+        logger.info(" updateDictionaryType start paramData" + dictionaryTypeQuery.toString());
+
+        String typeId=dictionaryTypeQuery.getTypeId();
+
+        if(StringUtils.isEmpty(typeId)){
+
+            throw  new GlobalException(ResultCode.INVALID_PARAM.code(),"字典类型id不能为空");
+
+        }
+        Integer result = dictionaryService.updateDictionaryType(dictionaryTypeQuery);
+
+        logger.info(" updateDictionaryType end paramData");
+
+        return  new ResultInfo<>(ResultCode.SUCCESS, SuccessConstants.UPDATE_CLT_DICTIONARY_TYPE_INFO_SUCCESS, result);
+
+    }
+
+
+
+
+    //更新数据字典明细
+    @PostMapping("/updateDictionaryItem")
+    public ResultInfo<Integer> updateDictionaryItem(@RequestBody @Validated  DictionaryItemQuery dictionaryItemQuery ) throws Exception {
+
+        logger.info(" updateDictionaryItem start paramData" + dictionaryItemQuery.toString());
+
+        String itemId=dictionaryItemQuery.getItemId();
+
+        if(StringUtils.isEmpty(itemId)){
+
+            throw  new GlobalException(ResultCode.INVALID_PARAM.code(),"字典条目id不能为空");
+
+        }
+        Integer result = dictionaryService.updateDictionaryItem(dictionaryItemQuery);
+
+        logger.info(" updateDictionaryItem end paramData");
+
+        return  new ResultInfo<>(ResultCode.SUCCESS, SuccessConstants.DPDATE_CLT_DICTIONARY_ITEM_INFO_SUCCESS, result);
+
+    }
+
+
+   //根据typeId查询字典明细列表
+    @PostMapping("/queryCltDictionaryItemsByTypeId")
+    public ResultInfo<List<CltDictionaryItem>> queryCltDictionaryItemsByTypeId(@RequestBody DictionaryItemQuery dictionaryItemQuery) throws Exception {
+
+        logger.info(" queryCltDictionaryItemsByTypeId start paramData" + dictionaryItemQuery.toString());
+
+         String typeId=dictionaryItemQuery.getTypeId();
+         if(StringUtils.isEmpty(typeId)){
+             throw new GlobalException(ResultCode.INVALID_PARAM.code(),"typeId为空!");
+         }
+
+
+       List<CltDictionaryItem> result=dictionaryService.queryCltDictionaryItemsByTypeId(dictionaryItemQuery);
+
+        logger.info(" queryCltDictionaryItemsByTypeId end paramData");
+
+        return  new ResultInfo<>(ResultCode.SUCCESS, SuccessConstants.QUERY_DICTIONARY_ITEM_LIST_BY_TYPE_ID_SUCCESS, result);
+
+    }
+
+   //查询所有字典类型列表
+    @PostMapping("/queryDictionaryTypeList")
+    public ResultInfo<Page<CltDictionaryType>> queryDictionaryTypeList(@RequestBody DictionaryTypeQuery dictionaryTypeQuery) throws Exception {
+
+        logger.info(" queryDictionaryTypeList start paramData" + dictionaryTypeQuery.toString());
+
+        Page<CltDictionaryType> result=dictionaryService.queryDictionaryTypeList(dictionaryTypeQuery);
+
+        logger.info(" queryDictionaryTypeList end paramData");
+
+        return  new ResultInfo<>(ResultCode.SUCCESS, SuccessConstants.QUERY_DICTIONARY_TYPE_LIST_SUCCESS, result);
+
+    }
+
+   //批量删除字典类型表
+    @PostMapping("/deleteCltDictionaryTypeBatch")
+    public ResultInfo<Integer> deleteCltDictionaryBatch(@RequestBody DictionaryTypeQuery dictionaryTypeQuery)throws Exception{
+
+        logger.info(" deleteCltDictionaryTypeBatch start paramData" + dictionaryTypeQuery.toString());
+
+        //参数校验
+          String[] typeIds=dictionaryTypeQuery.getTypeIds();
+
+          if(typeIds.length==0){
+              throw new GlobalException(ResultCode.INVALID_PARAM.code(),"要删除的个数不能为0");
+          }
+
+        for (int i = 0; i < typeIds.length; i++) {
+            String typeId = typeIds[i];
+
+            if(StringUtils.isEmpty(typeId)){
+                throw new GlobalException(ResultCode.INVALID_PARAM.code(),"typeId为空!");
+
+            }
+        }
+
+        Integer result = dictionaryService.deleteDictionaryTypeBatch(dictionaryTypeQuery);
+
+        logger.info(" deleteCltDictionaryTypeBatch end paramData");
+
+        return  new ResultInfo<>(ResultCode.SUCCESS, SuccessConstants.DELETE_DICTIONARY_TYPE_BATCH_SUCCESS, result);
+
+
+    }
+
+
+   //批量删除字典明细表
+    @PostMapping("/deleteDictionaryItemBatch")
+    public ResultInfo<Integer> deleteDictionaryItemBatch(@RequestBody  DictionaryItemQuery dictionaryItemQuery)throws Exception{
+
+        logger.info(" deleteDictionaryItemBatch start paramData" + dictionaryItemQuery.toString());
+
+        //参数校验
+          String[] itemIds=dictionaryItemQuery.getItemIds();
+
+          if(itemIds.length==0){
+              throw new GlobalException(ResultCode.INVALID_PARAM.code(),"要删除的个数不能为0");
+          }
+
+        for (int i = 0; i < itemIds.length; i++) {
+            String itemId = itemIds[i];
+
+            if(StringUtils.isEmpty(itemId)){
+                throw new GlobalException(ResultCode.INVALID_PARAM.code(),"itemId为空!");
+
+            }
+        }
+
+        Integer result = dictionaryService.deleteDictionaryItemBatch(dictionaryItemQuery);
+
+        logger.info(" deleteDictionaryItemBatch end paramData");
+
+        return  new ResultInfo<>(ResultCode.SUCCESS, SuccessConstants.DELETE_DICTIONARY_ITEM_BATCH_SUCCESS, result);
+
+
+    }
+
+
+    //启用/禁用
+    @PostMapping("/disEnableDictionary")
+    public ResultInfo<Integer> disEnableDictionary(@RequestBody DictionaryTypeQuery dictionaryTypeQuery ) throws Exception {
+
+        logger.info(" disEnableDictionary start paramData" + dictionaryTypeQuery.toString());
+
+        String typeId=dictionaryTypeQuery.getTypeId();
+
+        String status=dictionaryTypeQuery.getStatus();
+        if(StringUtils.isEmpty(typeId)){
+
+            throw  new GlobalException(ResultCode.INVALID_PARAM.code(),"typeId不能为空");
+
+        }
+        if("".equals(status) || status==null || !status.matches("[12]")){
+
+            throw new GlobalException(ErrorConstants.DISENABLE_CLT_DICTIONARY_PARAM_ERROR_CODE,ErrorConstants.DISENABLE_CLT_DICTIONARY_PARAM_ERROR_MESSAGE);
+        }
+
+        Integer result = dictionaryService.disEnableDictionary(dictionaryTypeQuery);
+
+        logger.info(" disEnableDictionary end paramData");
+
+        return  new ResultInfo<>(ResultCode.SUCCESS, SuccessConstants.UPDATE_DICTIONARY_STATUS_SUCCESS, result);
+
+    }
+
+
+    //调换字典明细顺序
+    @PostMapping("/updateOrderSeq")
+    public ResultInfo<Integer> updateOrderSeq(@RequestBody  List<DictionaryItemQuery> dictionaryItemQueries) throws Exception {
+
+        logger.info(" updateOrderSeq start paramData" + dictionaryItemQueries.toString());
+
+
+
+        for (int i = 0; i < dictionaryItemQueries.size(); i++) {
+
+            DictionaryItemQuery dictionaryItemQuery =  dictionaryItemQueries.get(i);
+
+            String  itemId=dictionaryItemQuery.getItemId();
+
+            Integer orderSql=dictionaryItemQuery.getOrderSeq();
+
+            if(StringUtils.isEmpty(itemId)){
+
+                throw  new GlobalException(ResultCode.INVALID_PARAM.code(),"itemId不能为空");
+
+            }
+            if(orderSql==null){
+
+                throw  new GlobalException(ResultCode.INVALID_PARAM.code(),"顺序号不能为空!");
+            }
+
+        }
+
+          Integer result=dictionaryService.updateDictionaryItemOrderSeq(dictionaryItemQueries);
+
+          logger.info(" updateOrderSeq end paramData");
+
+        return  new ResultInfo<>(ResultCode.SUCCESS, SuccessConstants.UPDATE_DICTIONARY_ORDER_SEQ_SUCCESS, result);
+
+    }
+
+
+
+
+
+
+
+
+
+
+}

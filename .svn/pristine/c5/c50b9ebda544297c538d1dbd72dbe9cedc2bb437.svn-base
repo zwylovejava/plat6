@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.dictionary.CltDictionaryItemMapper" >
+  <resultMap id="BaseResultMap" type="net.northking.cloudplatform.domain.dictionary.CltDictionaryItem" >
+    <id column="ITEM_ID" property="itemId" jdbcType="VARCHAR" />
+    <result column="ORDER_SEQ" property="orderSeq" jdbcType="INTEGER" />
+    <result column="ITEM_NAME" property="itemName" jdbcType="VARCHAR" />
+    <result column="ITEM_VALUE" property="itemValue" jdbcType="VARCHAR" />
+    <result column="TYPE_ID" property="typeId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ITEM_ID, ORDER_SEQ, ITEM_NAME, ITEM_VALUE, TYPE_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.northking.cloudplatform.domain.dictionary.CltDictionaryItemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CLT_DICTIONARY_ITEM
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CLT_DICTIONARY_ITEM
+    where ITEM_ID = #{itemId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CLT_DICTIONARY_ITEM
+    where ITEM_ID = #{itemId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.northking.cloudplatform.domain.dictionary.CltDictionaryItemExample" >
+    delete from CLT_DICTIONARY_ITEM
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.northking.cloudplatform.domain.dictionary.CltDictionaryItem" >
+    insert into CLT_DICTIONARY_ITEM (ITEM_ID, ORDER_SEQ, ITEM_NAME, 
+      ITEM_VALUE, TYPE_ID)
+    values (#{itemId,jdbcType=VARCHAR}, #{orderSeq,jdbcType=INTEGER}, #{itemName,jdbcType=VARCHAR}, 
+      #{itemValue,jdbcType=VARCHAR}, #{typeId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.northking.cloudplatform.domain.dictionary.CltDictionaryItem" >
+    insert into CLT_DICTIONARY_ITEM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="itemId != null" >
+        ITEM_ID,
+      </if>
+      <if test="orderSeq != null" >
+        ORDER_SEQ,
+      </if>
+      <if test="itemName != null" >
+        ITEM_NAME,
+      </if>
+      <if test="itemValue != null" >
+        ITEM_VALUE,
+      </if>
+      <if test="typeId != null" >
+        TYPE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="itemId != null" >
+        #{itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSeq != null" >
+        #{orderSeq,jdbcType=INTEGER},
+      </if>
+      <if test="itemName != null" >
+        #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemValue != null" >
+        #{itemValue,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        #{typeId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.northking.cloudplatform.domain.dictionary.CltDictionaryItemExample" resultType="java.lang.Integer" >
+    select count(*) from CLT_DICTIONARY_ITEM
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CLT_DICTIONARY_ITEM
+    <set >
+      <if test="record.itemId != null" >
+        ITEM_ID = #{record.itemId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderSeq != null" >
+        ORDER_SEQ = #{record.orderSeq,jdbcType=INTEGER},
+      </if>
+      <if test="record.itemName != null" >
+        ITEM_NAME = #{record.itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.itemValue != null" >
+        ITEM_VALUE = #{record.itemValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.typeId != null" >
+        TYPE_ID = #{record.typeId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CLT_DICTIONARY_ITEM
+    set ITEM_ID = #{record.itemId,jdbcType=VARCHAR},
+      ORDER_SEQ = #{record.orderSeq,jdbcType=INTEGER},
+      ITEM_NAME = #{record.itemName,jdbcType=VARCHAR},
+      ITEM_VALUE = #{record.itemValue,jdbcType=VARCHAR},
+      TYPE_ID = #{record.typeId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.northking.cloudplatform.domain.dictionary.CltDictionaryItem" >
+    update CLT_DICTIONARY_ITEM
+    <set >
+      <if test="orderSeq != null" >
+        ORDER_SEQ = #{orderSeq,jdbcType=INTEGER},
+      </if>
+      <if test="itemName != null" >
+        ITEM_NAME = #{itemName,jdbcType=VARCHAR},
+      </if>
+      <if test="itemValue != null" >
+        ITEM_VALUE = #{itemValue,jdbcType=VARCHAR},
+      </if>
+      <if test="typeId != null" >
+        TYPE_ID = #{typeId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ITEM_ID = #{itemId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.northking.cloudplatform.domain.dictionary.CltDictionaryItem" >
+    update CLT_DICTIONARY_ITEM
+    set ORDER_SEQ = #{orderSeq,jdbcType=INTEGER},
+      ITEM_NAME = #{itemName,jdbcType=VARCHAR},
+      ITEM_VALUE = #{itemValue,jdbcType=VARCHAR},
+      TYPE_ID = #{typeId,jdbcType=VARCHAR}
+    where ITEM_ID = #{itemId,jdbcType=VARCHAR}
+  </update>
+</mapper>

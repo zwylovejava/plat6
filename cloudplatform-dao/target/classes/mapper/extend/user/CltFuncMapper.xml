@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.user.CltFuncMapper" >
+    <select id="fingFuncByUserId" parameterType="string" resultMap = "BaseResultMap">
+        <!--    select <include refid="Base_Column_List"/> from clt_func fn where fn.FUNC_ID in(
+            select fc.FUNC_ID
+            from clt_user_role ur join clt_func_role fc
+            on ur.ROLE_ID=fc.ROLE_ID
+            where ur.USER_ID=#{userId}
+            )-->
+        SELECT DISTINCT a.FUNC_ID,a.FUNC_CODE,a.FUNC_NAME,a.PARENT_FUNC_ID,a.FUNC_SEQ,a.IS_LEAF,a.FUNC_DESC,a.FUNC_URL,a.STATUS,a.FUNC_TYPE,a.FUNC_AUTH FROM CLT_FUNC a JOIN CLT_FUNC_ROLE b
+        ON a.FUNC_ID=b.FUNC_ID
+        JOIN CLT_ROLE c
+        ON c.ROLE_ID=b.ROLE_ID
+        JOIN CLT_USER_ROLE d
+        ON c.ROLE_ID=d.ROLE_ID
+        WHERE d.USER_ID=#{userId}
+        order by a.FUNC_SEQ
+
+
+    </select>
+
+    <select id="fingFuncByUserIdAndParent" resultMap = "BaseResultMap">
+        SELECT DISTINCT a.FUNC_ID,a.FUNC_CODE,a.FUNC_NAME,a.PARENT_FUNC_ID,a.FUNC_SEQ,a.IS_LEAF,a.FUNC_DESC,a.FUNC_URL,a.STATUS,a.FUNC_TYPE,a.FUNC_AUTH FROM CLT_FUNC a JOIN CLT_FUNC_ROLE b
+        ON a.FUNC_ID=b.FUNC_ID
+        JOIN CLT_ROLE c
+        ON c.ROLE_ID=b.ROLE_ID
+        JOIN CLT_USER_ROLE d
+        ON c.ROLE_ID=d.ROLE_ID
+        WHERE d.USER_ID=#{userId} and a.PARENT_FUNC_ID=#{parentFuncId}
+        order by a.FUNC_SEQ
+
+
+    </select>
+
+    <!-- 根据角色ID获取所有资源 -->
+    <select id="selectByRoleId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        a.*
+        from CLT_FUNC a, CLT_FUNC_ROLE b
+        where a.FUNC_ID=b.FUNC_ID and ROLE_ID = #{roled,jdbcType=CHAR}
+    </select>
+
+    <!--根据用户id查询功能信息-->
+    <select id="selectFuncByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+        SELECT DISTINCT
+        <include refid="Base_Column_List" />
+        from CLT_PROJECT_TEAM cpt ,CLT_ROLE cr,CLT_FUNC_ROLE cfr,CLT_FUNC cf
+        where cpt.ROLE_ID = cr.ROLE_ID and cr.ROLE_ID = cfr.ROLE_ID and
+        cfr.FUNC_ID=cf.FUNC_ID and cpt.USER_ID =#{userId}
+    </select>
+
+    <!-- 查询项目下用户的功能菜单-->
+    <select id="queryFuncListByAdminRoleId"  resultMap="BaseResultMap" parameterType="java.lang.String">
+
+        SELECT b.* FROM CLT_FUNC_ROLE AS a,CLT_FUNC AS b,CLT_ROLE AS c
+
+        WHERE  a.FUNC_ID = b.FUNC_ID  AND a.ROLE_ID = c.ROLE_ID
+
+        AND a.ROLE_ID = #{roleId}  AND b.FUNC_TYPE = '3'
+
+    </select>
+
+    <!-- 查询项目下用户的功能菜单-->
+    <select id="queryFuncListByProIdAndUserId"  resultMap="BaseResultMap" parameterType="java.lang.String">
+
+        SELECT d.* FROM  CLT_PROJECT_TEAM AS a,CLT_USER_LOGIN AS b ,CLT_FUNC_ROLE AS c,CLT_FUNC AS d
+
+        WHERE a.USER_ID  = b.USER_ID  AND a.ROLE_ID = c.ROLE_ID AND c.FUNC_ID = d.FUNC_ID
+
+        AND a.USER_ID = #{userId} AND a.PRO_ID = #{proId} AND d.FUNC_TYPE ='3'
+
+    </select>
+
+    <select id="selectAllFuncInfo" resultMap="BaseResultMap" >
+        select
+        *
+        from CLT_FUNC
+    </select>
+
+
+</mapper>

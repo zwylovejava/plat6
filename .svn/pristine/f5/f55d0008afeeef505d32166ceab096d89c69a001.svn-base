@@ -1,0 +1,74 @@
+package net.northking.cloudplatform.api.service.impl;
+
+
+import com.lorne.core.framework.exception.ServiceException;
+
+import net.northking.cloudplatform.api.service.ApiAdminService;
+import net.northking.cloudplatform.compensate.model.TxModel;
+import net.northking.cloudplatform.compensate.service.CompensateService;
+import net.northking.cloudplatform.manager.service.MicroService;
+import net.northking.cloudplatform.model.ModelName;
+import net.northking.cloudplatform.model.TxState;
+import net.northking.cloudplatform.redis.service.RedisServerService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * create by zwy on 2017/12/18
+ */
+@Service
+public class ApiAdminServiceImpl implements ApiAdminService {
+
+
+    @Autowired
+    private MicroService eurekaService;
+
+    @Autowired
+    private RedisServerService redisServerService;
+
+    @Autowired
+    private CompensateService compensateService;
+
+    @Override
+    public TxState getState() {
+        return eurekaService.getState();
+    }
+
+    @Override
+    public String loadNotifyJson() {
+        return redisServerService.loadNotifyJson();
+    }
+
+    @Override
+    public List<ModelName> modelList() {
+        return compensateService.loadModelList();
+    }
+
+
+    @Override
+    public List<String> modelTimes(String model) {
+        return compensateService.loadCompensateTimes(model);
+    }
+
+    @Override
+    public List<TxModel> modelInfos(String path) {
+        return compensateService.loadCompensateByModelAndTime(path);
+    }
+
+    @Override
+    public boolean compensate(String path) throws ServiceException {
+        return compensateService.executeCompensate(path);
+    }
+
+    @Override
+    public boolean delCompensate(String path) {
+        return compensateService.delCompensate(path);
+    }
+
+    @Override
+    public boolean hasCompensate() {
+        return compensateService.hasCompensate();
+    }
+}

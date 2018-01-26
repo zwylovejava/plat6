@@ -1,0 +1,304 @@
+package net.northking.cloudplatform.service.impl.testexecute;
+import com.codingapi.tx.annotation.TxTransaction;
+import net.northking.cloudplatform.Utils.ServiceUtil;
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.domain.testbug.CltTestBug;
+import net.northking.cloudplatform.domain.testexecute.CltJob;
+import net.northking.cloudplatform.domain.testexecute.CltTestStepData;
+import net.northking.cloudplatform.domain.user.CltUserAndLogin;
+import net.northking.cloudplatform.dto.testexecute.*;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.feign.testexecute.JobFeignClient;
+import net.northking.cloudplatform.feign.user.UserFeignClient;
+import net.northking.cloudplatform.query.testexecute.JobQuery;
+import net.northking.cloudplatform.query.testexecute.TestCaseStepQuery;
+import net.northking.cloudplatform.query.user.UserAndLoginQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.testexecute.JobService;
+import net.northking.cloudplatform.service.user.RoleService;
+import net.northking.cloudplatform.service.testexecute.TestTeamService;
+import net.northking.cloudplatform.service.user.UserRoleService;
+import net.northking.cloudplatform.utils.CltUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+
+/**
+ * Created by Administrator on 2017/12/20 0020.
+ */
+@Service
+public class JobServiceImpl implements JobService {
+    @Autowired
+    JobFeignClient jobFeignClient;
+
+    @Autowired
+    RoleService roleService;
+
+    @Autowired
+    UserRoleService userRoleService;
+    @Autowired
+    UserFeignClient userFeignClient;
+
+    @Autowired
+    JobService jobService;
+
+    @Autowired
+    TestTeamService testTeamService;
+
+    private final static Logger logger = LoggerFactory.getLogger(JobServiceImpl.class);
+
+    //新增任务信息
+    @Override
+    public ResultInfo<Integer> addCltJobInfo(JobQuery jobQuery) throws Exception {
+
+        CltUtils.printStartInfo(jobQuery, "serviceImpl addCltJobInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> resultInfo = null;
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl addCltJobInfo", startTime);
+
+        return resultInfo;
+    }
+
+    //给任务分派测试主管
+    @Override
+    public ResultInfo<String> updateCltJobByManagerId(JobQuery jobQuery) throws Exception {
+
+        CltUtils.printStartInfo(jobQuery, "serviceImpl updateCltJobByManagerId");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<String> resultInfo = new ResultInfo<>();
+
+        try {
+            //调用微服务接口
+            ResultInfo<Integer> result = jobFeignClient.addTestManager(jobQuery);
+
+            if (result != null && result.getResultCode().equals("CLT000000000")) {
+                UserAndLoginQuery userAndLoginQuery = new UserAndLoginQuery();
+                userAndLoginQuery.setUserId(jobQuery.getManagerId());
+                ResultInfo<CltUserAndLogin> cltUserAndLoginResultInfo = userFeignClient.queryUserInfoByUserId(userAndLoginQuery);
+
+                if (cltUserAndLoginResultInfo != null && cltUserAndLoginResultInfo.getResultCode().equals("CLT000000000")) {
+                    String userChnName = cltUserAndLoginResultInfo.getResultData().getUserChnName();
+
+                    resultInfo.setResultData(userChnName);
+
+                    return resultInfo;
+
+                }
+
+
+            }
+
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_TESTEXECUTE_ERROR_CODE, ErrorConstants.CLT_WEB_TESTEXECUTE_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(resultInfo);
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl updateCltJobByManagerId", startTime);
+
+        return resultInfo;
+    }
+
+
+    //根据角色查询出任务列表
+    @Override
+    public ResultInfo<Page<JobPlan>> queryCltJobByRoleId(JobPlanQuery jobPlanQuery) throws Exception {
+
+        CltUtils.printStartInfo(jobPlanQuery, "serviceImpl queryCltJobByRoleId");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Page<JobPlan>> resultInfo = null;
+
+        try {
+            //调用微服务接口
+            resultInfo = jobFeignClient.queryPlanList(jobPlanQuery);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_TESTEXECUTE_ERROR_CODE, ErrorConstants.CLT_WEB_TESTEXECUTE_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(resultInfo);
+
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl queryCltJobByRoleId", startTime);
+
+        return resultInfo;
+    }
+
+
+    //根据任务Id查询任务详情
+    @Override
+    public ResultInfo<CltJob> queryCltJobByJobId(JobQuery jobQuery) throws Exception {
+
+        CltUtils.printStartInfo(jobQuery, "serviceImpl queryCltJobByJobId");
+
+        long startTime = System.currentTimeMillis();
+
+
+        ResultInfo<CltJob> resultInfo = null;
+
+        try {
+            //调用数据库
+            resultInfo = jobFeignClient.queryCltJobInfoByJobId(jobQuery);
+
+        } catch (Exception e) {
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_TESTEXECUTE_ERROR_CODE, ErrorConstants.CLT_WEB_TESTEXECUTE_ERROR_MESSAGE);
+
+        }
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl queryCltJobByJobId", startTime);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<Integer> countNumCltJobByManagerId(JobQuery jobQuery) throws Exception {
+
+        CltUtils.printStartInfo(jobQuery, "serviceImpl countNumCltJobByManagerId");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> resultInfo = null;
+
+        try {
+            //调用数据库
+            resultInfo = jobFeignClient.countJobByManagerId(jobQuery);
+
+        } catch (Exception e) {
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_TESTEXECUTE_ERROR_CODE, ErrorConstants.CLT_WEB_TESTEXECUTE_ERROR_MESSAGE);
+
+        }
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl countNumCltJobByManagerId", startTime);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<Integer> genTestExecuteJob(JobQuery jobQuery) throws Exception {
+
+        CltUtils.printStartInfo(jobQuery, "serviceImpl genTestExecuteJob");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> resultInfo = null;
+
+        try {
+            //调用数据库
+            resultInfo = jobFeignClient.genTestExecuteJob(jobQuery);
+
+        } catch (Exception e) {
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_TESTEXECUTE_ERROR_CODE, ErrorConstants.CLT_WEB_TESTEXECUTE_ERROR_MESSAGE);
+
+        }
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl genTestExecuteJob", startTime);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<List<CltTestStepData>> quryStepDataByCaseId(TestCaseStepQuery testCaseStepQuery) throws Exception {
+
+        CltUtils.printStartInfo(testCaseStepQuery, "serviceImpl countNumCltJobByManagerId");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<List<CltTestStepData>> listResultInfo = null;
+
+        try {
+            //调用数据库
+            listResultInfo = jobFeignClient.quryStepDataByCaseId(testCaseStepQuery);
+
+        } catch (Exception e) {
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_TESTEXECUTE_ERROR_CODE, ErrorConstants.CLT_WEB_TESTEXECUTE_ERROR_MESSAGE);
+
+        }
+        //不需要判断返回为异常的时候 抛出异常（前端需要拿到返回值进行判断）
+        //ServiceUtil.throwServiceException(listResultInfo);
+        if(listResultInfo!=null){
+
+            CltUtils.printEndInfo(listResultInfo, "serviceImpl countNumCltJobByManagerId", startTime);
+        }
+
+        return listResultInfo;
+    }
+
+    @Override
+    public ResultInfo<List<CltTestBug>> queryBugByBatchId(JobQuery jobQuery) throws Exception {
+
+        CltUtils.printStartInfo(jobQuery, "serviceImpl queryBugByBatchId");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<List<CltTestBug>> resultInfo = null;
+
+        try {
+            //调用数据库
+            resultInfo = jobFeignClient.queryBugByBatchId(jobQuery);
+
+        } catch (Exception e) {
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_TESTEXECUTE_ERROR_CODE, ErrorConstants.CLT_WEB_TESTEXECUTE_ERROR_MESSAGE);
+
+        }
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl queryBugByBatchId", startTime);
+
+        return resultInfo;
+    }
+    public ResultInfo<Page<CltJob>> queryExecuting(JobQuery jobQuery) throws Exception{
+        ResultInfo<Page<CltJob>> pageResultInfo = jobFeignClient.queryJobPlanAna(jobQuery);
+        return pageResultInfo;
+    }
+
+    @Override
+    public ResultInfo<Page<CltJob>> queryExecutedProject(JobQuery jobQuery) {
+        ResultInfo<Page<CltJob>> pageResultInfo = jobFeignClient.queryExecutedProject(jobQuery);
+
+        return pageResultInfo;
+    }
+
+    @Override
+    public ResultInfo<EcharsData> getEcharsData(JobQuery jobQuery) {
+        ResultInfo<EcharsData> echarsData = jobFeignClient.getEcharsData(jobQuery);
+        return echarsData;
+    }
+
+}

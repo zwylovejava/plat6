@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.user.CltUserLoginMapper" >
+    <resultMap id="UserWithRolesByUserId" type="net.northking.cloudplatform.domain.user.CltUserLogin" extends="BaseResultMap">
+        <collection property="roles" javaType="ArrayList" ofType="net.northking.cloudplatform.domain.user.CltRole"
+                    column="USER_ID"
+                    select="net.northking.cloudplatform.dao.user.CltRoleMapper.selectByUserId"/>
+    </resultMap>
+
+    <resultMap id="UserWithRolesAndFuncsByUserId" type="net.northking.cloudplatform.domain.user.CltUserLogin" extends="BaseResultMap">
+        <collection property="roles" javaType="ArrayList" ofType="net.northking.cloudplatform.domain.user.CltRole"
+                    column="USER_ID"
+                    select="net.northking.cloudplatform.dao.user.CltRoleMapper.selectAndFuncsByUserId"/>
+    </resultMap>
+
+
+    <select id="findUserByPd" resultType="CltUserLogin">
+        select <include refid="Base_Column_List"/> from CLT_USER_LOGIN where LOGIN_PWD=#{pwd} and LOGIN_NO=#{username}
+    </select>
+    <update id="updatePassword">
+        update CLT_USER_LOGIN set LOGIN_PWD=#{loginPwd,jdbcType=VARCHAR},UPDATE_DATE=#{updateDate,jdbcType=DATE} where USER_ID=#{userId,jdbcType=VARCHAR}
+    </update>
+    <select id="selectUserIdByName" parameterType="string" resultType="string">
+        select USER_ID from CLT_USER_LOGIN where LOGIN_NO=#{loginName} and USER_CHN_NAME=#{chnName}
+    </select>
+
+    <select id="findUserByLoginNo" resultType="CltUserLogin">
+        select <include refid="Base_Column_List"/> from CLT_USER_LOGIN where LOGIN_NO=#{loginNo}
+    </select>
+
+    <!--查询除管理员之外的所有用户 -->
+    <select id="findAll" resultType="net.northking.cloudplatform.domain.user.CltUserAndLogin">
+
+        SELECT s.USER_ID, s.USER_CHN_NAME,s.LOGIN_NO,c.CREATE_DATE,c.WORK_STATUS,s.STATUS,s.UPDATE_DATE,c.CELL_PHONE,c.ORG_ID,a.ORG_NAME AS orgName FROM  CLT_USER_LOGIN s INNER JOIN CLT_USER c ON s.USER_ID= c.USER_ID LEFT JOIN CLT_ORG a ON c.ORG_ID=a.ORG_ID WHERE s.IS_SUPER='N'AND c.CUST_ID=#{userAndLoginQuery.custId}
+
+
+        <!-- 添加查询条件 -->
+        <if test="userAndLoginQuery != null">
+            <!-- 判断条件是否存在-->
+            <if test="userAndLoginQuery.userChnName!= null and userAndLoginQuery.userChnName !=''">
+                and   s.USER_CHN_NAME  like CONCAT('%',#{userAndLoginQuery.userChnName},'%')
+            </if>
+            <if test="userAndLoginQuery.loginNo != null and userAndLoginQuery.loginNo !=''">
+                and  s.LOGIN_NO  like CONCAT('%',#{userAndLoginQuery.loginNo},'%')
+            </if>
+            <if test="userAndLoginQuery.status != null and userAndLoginQuery.status !=''">
+                and  s.STATUS =#{userAndLoginQuery.status}
+            </if>
+            <if test="userAndLoginQuery.orgId != null and userAndLoginQuery.orgId !=''">
+                and  c.ORG_ID =#{userAndLoginQuery.orgId}
+            </if>
+        </if>
+
+    </select>
+
+
+    <!-- 查询所有已经启用的用户列表-->
+    <select id="queryUserListEnable" resultType="net.northking.cloudplatform.domain.user.CltUserAndLogin">
+
+        SELECT s.USER_ID, s.USER_CHN_NAME,s.LOGIN_NO,c.CREATE_DATE,c.WORK_STATUS,s.STATUS,s.UPDATE_DATE,c.CELL_PHONE,c.ORG_ID,a.ORG_NAME AS orgName FROM  CLT_USER_LOGIN s INNER JOIN CLT_USER c ON s.USER_ID= c.USER_ID LEFT JOIN CLT_ORG a ON c.ORG_ID=a.ORG_ID WHERE s.IS_SUPER='N' AND c.CUST_ID=#{userAndLoginQuery.custId} AND  s.STATUS='2'
+
+
+        <!-- 添加查询条件 -->
+        <if test="userAndLoginQuery != null">
+            <!-- 判断条件是否存在-->
+            <if test="userAndLoginQuery.userChnName!= null and userAndLoginQuery.userChnName !=''">
+                and   s.USER_CHN_NAME  like CONCAT('%',#{userAndLoginQuery.userChnName},'%')
+            </if>
+            <if test="userAndLoginQuery.loginNo != null and userAndLoginQuery.loginNo !=''">
+                and  s.LOGIN_NO  like CONCAT('%',#{userAndLoginQuery.loginNo},'%')
+            </if>
+            <if test="userAndLoginQuery.status != null and userAndLoginQuery.status !=''">
+                and  s.STATUS =#{userAndLoginQuery.status}
+            </if>
+            <if test="userAndLoginQuery.orgId != null and userAndLoginQuery.orgId !=''">
+                and  c.ORG_ID =#{userAndLoginQuery.orgId}
+            </if>
+        </if>
+
+    </select>
+
+
+
+
+    <select id="findUserById" resultType="net.northking.cloudplatform.domain.user.CltUserAndLogin">
+        SELECT  s.USER_TYPE,s.STATUS,s.LOGIN_NO,s.USER_CHN_NAME,s.UPDATE_DATE,c.ADDRESS,c.BIRTHDAY,c.CELL_PHONE,c.CUST_ID,c.EDU_CODE,c.EMAIL,c.FAMILY_COUNTY_ID,c.GENDER,c.GRADUATED_DATE,
+        c.GRADUATED_SCHOOL,c.GRADUATED_SPECIALTY,c.ID_NO,c.ID_TYPE,c.MARRIAGE,c.NATIONALITY,c.POLITICS,c.SKILLS_CERTIFICATE,c.SPECIALTY,c.USER_ID,c.WORK_STATUS ,
+        a.ORG_ID,a.ORG_NAME AS orgName  FROM CLT_USER_LOGIN s INNER JOIN CLT_USER c ON s.USER_ID= c.USER_ID LEFT JOIN CLT_ORG a ON c.ORG_ID=a.ORG_ID WHERE c.USER_ID=#{userId}
+    </select>
+
+
+    <!-- 根据机构id查询用户列表-->
+    <select id="findUserByOrgId" resultType="net.northking.cloudplatform.domain.user.CltUserAndLogin">
+        SELECT   s.USER_TYPE, s.LOGIN_NO, s.USER_CHN_NAME, s.LOGIN_PWD, s.PWD_STATUS, s.PWD_ERR_NUM,
+        s.UPDATE_DATE, s.STATUS, c.USER_ID, c.CUST_ID, c.ORG_ID, c.GENDER, c.NATIONALITY, c.ID_TYPE, c.ID_NO, c.MARRIAGE, c.POLITICS,
+        c.FAMILY_COUNTY_ID, c.EMAIL, c.CELL_PHONE, c.ADDRESS, c.BIRTHDAY, c.GRADUATED_SCHOOL, c.GRADUATED_DATE,
+        c.GRADUATED_SPECIALTY, c.EDU_CODE, c.SKILLS_CERTIFICATE, c.SPECIALTY, c.WORK_STATUS, c.CREATE_USER,
+        c.CREATE_DATE, c.UPDATE_USER,  c.EXPANDS,
+        a.ORG_ID,a.ORG_NAME AS orgName  FROM CLT_USER_LOGIN s INNER JOIN CLT_USER c ON s.USER_ID= c.USER_ID LEFT JOIN CLT_ORG a ON c.ORG_ID=a.ORG_ID WHERE  c.CUST_ID=#{userAndLoginQuery.custId} AND s.IS_SUPER='N' AND s.STATUS='2'
+
+        <!-- 添加查询条件 -->
+        <if test="userAndLoginQuery != null">
+
+            <if test="userAndLoginQuery.orgId == null or userAndLoginQuery.orgId =='' ">
+                AND  (a.ORG_ID='' or a.ORG_ID is null)
+            </if>
+
+            <if test="userAndLoginQuery.orgId!= null and userAndLoginQuery.orgId !=''">
+                AND  a.ORG_ID=#{userAndLoginQuery.orgId}
+            </if>
+
+            <!-- 判断条件是否存在-->
+            <if test="userAndLoginQuery.userChnName!= null and userAndLoginQuery.userChnName !=''">
+                and   s.USER_CHN_NAME  like CONCAT('%',#{userAndLoginQuery.userChnName},'%')
+            </if>
+            <if test="userAndLoginQuery.loginNo != null and userAndLoginQuery.loginNo !=''">
+                and  s.LOGIN_NO  like CONCAT('%',#{userAndLoginQuery.loginNo},'%')
+            </if>
+            <if test="userAndLoginQuery.status != null and userAndLoginQuery.status !=''">
+                and  s.STATUS =#{userAndLoginQuery.status}
+            </if>
+
+        </if>
+
+
+    </select>
+
+
+    <!-- add by hcs 根据用户登录名获取用户登录信息及角色 -->
+    <select id="findOneWithRolesByLoginNo"  parameterType="java.lang.String" resultMap="UserWithRolesByUserId">
+        select
+        <include refid="Base_Column_List" />
+        from CLT_USER_LOGIN
+        where LOGIN_NO = #{loginNo,jdbcType=CHAR} and STATUS='2'
+    </select>
+
+    <select id="findOneWithRolesAndFuncsByLoginNo"  parameterType="java.lang.String" resultMap="UserWithRolesAndFuncsByUserId">
+        select
+        <include refid="Base_Column_List" />
+        from CLT_USER_LOGIN
+        where LOGIN_NO = #{loginNo,jdbcType=CHAR}
+    </select>
+
+    <!--根据项目id查询用户详情-->
+    <select id="queryUserLoginByProId" resultMap="UserWithRolesByUserId">
+        select cu.`*` ,  cul.USER_TYPE ,cul.LOGIN_NO, cul.USER_CHN_NAME ,cul.LOGIN_PWD ,cul.PWD_STATUS,
+        cul.PWD_ERR_NUM ,cul.UPDATE_DATE ,cul.`STATUS`
+        from CLT_PROJECT_TEAM cpt , CLT_USER cu ,CLT_USER_LOGIN cul
+        where cpt.USER_ID = cu.USER_ID and cpt.USER_ID = cul.USER_ID
+        and cpt.PRO_ID = #{proId}
+    </select>
+
+    <select id="queryTestManagerInfo" resultType="net.northking.cloudplatform.query.user.UserAndLoginQuery">
+        select  us.`*` , cul.USER_TYPE ,cul.LOGIN_NO, cul.USER_CHN_NAME ,cul.LOGIN_PWD ,cul.PWD_STATUS,
+        cul.PWD_ERR_NUM ,cul.UPDATE_DATE ,cul.`STATUS`
+        from CLT_PROJECT cp , CLT_USER us , CLT_USER_LOGIN cul
+        where cp.TEST_MANAGER = us.USER_ID and cp.TEST_MANAGER = cul.USER_ID
+        and cp.PRO_ID = #{proId}
+
+    </select>
+
+    <!-- 根据角色代码查询用户列表-->
+    <select id="queryUserListByRoleCode" resultType="net.northking.cloudplatform.domain.user.CltUserAndLogin">
+       SELECT s.USER_TYPE, s.LOGIN_NO, s.USER_CHN_NAME, s.LOGIN_PWD, s.PWD_STATUS, s.PWD_ERR_NUM,
+         s.UPDATE_DATE, s.STATUS, c.USER_ID, c.CUST_ID, c.ORG_ID, c.GENDER, c.NATIONALITY, c.ID_TYPE, c.ID_NO, c.MARRIAGE, c.POLITICS,
+         c.FAMILY_COUNTY_ID, c.EMAIL, c.CELL_PHONE, c.ADDRESS, c.BIRTHDAY, c.GRADUATED_SCHOOL, c.GRADUATED_DATE,
+         c.GRADUATED_SPECIALTY, c.EDU_CODE, c.SKILLS_CERTIFICATE, c.SPECIALTY, c.WORK_STATUS, c.CREATE_USER,
+         c.CREATE_DATE, c.UPDATE_USER,  c.EXPANDS,d.ROLE_CODE,d.ROLE_NAME,
+         a.ORG_ID,a.ORG_NAME AS orgName  FROM CLT_USER_LOGIN s INNER JOIN CLT_USER c ON s.USER_ID= c.USER_ID LEFT JOIN CLT_ORG a ON c.ORG_ID=a.ORG_ID
+         INNER JOIN CLT_USER_ROLE AS b ON b.USER_ID=s.USER_ID INNER JOIN CLT_ROLE AS d ON b.ROLE_ID=d.ROLE_ID WHERE d.ROLE_CODE=#{userAndLoginQuery.roleCode} AND  s.IS_SUPER='N'AND c.CUST_ID=#{userAndLoginQuery.custId} AND s.STATUS='2'
+        <!-- 添加查询条件 -->
+        <if test="userAndLoginQuery != null">
+            <!-- 判断条件是否存在-->
+            <if test="userAndLoginQuery.userChnName!= null and userAndLoginQuery.userChnName !=''">
+                and   s.USER_CHN_NAME  like CONCAT('%',#{userAndLoginQuery.userChnName},'%')
+            </if>
+            <if test="userAndLoginQuery.loginNo != null and userAndLoginQuery.loginNo !=''">
+                and  s.LOGIN_NO  like CONCAT('%',#{userAndLoginQuery.loginNo},'%')
+            </if>
+            <if test="userAndLoginQuery.status != null and userAndLoginQuery.status !=''">
+                and  s.STATUS =#{userAndLoginQuery.status}
+            </if>
+
+        </if>
+
+    </select>
+
+
+    <!-- 根据用户类型查询用户列表-->
+<select id="queryUserListByUserType" resultType="net.northking.cloudplatform.domain.user.CltUserAndLogin">
+
+ SELECT s.USER_TYPE, s.LOGIN_NO, s.USER_CHN_NAME, s.LOGIN_PWD, s.PWD_STATUS, s.PWD_ERR_NUM,
+         s.UPDATE_DATE, s.STATUS, c.USER_ID, c.CUST_ID, c.ORG_ID, c.GENDER, c.NATIONALITY, c.ID_TYPE, c.ID_NO, c.MARRIAGE, c.POLITICS,
+         c.FAMILY_COUNTY_ID, c.EMAIL, c.CELL_PHONE, c.ADDRESS, c.BIRTHDAY, c.GRADUATED_SCHOOL, c.GRADUATED_DATE,
+         c.GRADUATED_SPECIALTY, c.EDU_CODE, c.SKILLS_CERTIFICATE, c.SPECIALTY, c.WORK_STATUS, c.CREATE_USER,
+         c.CREATE_DATE, c.UPDATE_USER,  c.EXPANDS,
+         a.ORG_ID,a.ORG_NAME AS orgName  FROM CLT_USER_LOGIN s INNER JOIN CLT_USER c ON s.USER_ID= c.USER_ID LEFT JOIN CLT_ORG a ON c.ORG_ID=a.ORG_ID
+         WHERE s.USER_TYPE=#{userAndLoginQuery.userType} AND  s.IS_SUPER='N'AND c.CUST_ID=#{userAndLoginQuery.custId} AND s.STATUS='2'
+
+</select>
+
+<!-- 根据用户的登录号更新用户的登录信息-->
+    <update id="updateUserLoginByLoginNo" parameterType="net.northking.cloudplatform.domain.user.CltUserLogin">
+        update CLT_USER_LOGIN
+        <set >
+            <if test="userType != null" >
+                USER_TYPE = #{userType,jdbcType=VARCHAR},
+            </if>
+
+            <if test="userChnName != null" >
+                USER_CHN_NAME = #{userChnName,jdbcType=VARCHAR},
+            </if>
+            <if test="loginPwd != null" >
+                LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR},
+            </if>
+            <if test="pwdStatus != null" >
+                PWD_STATUS = #{pwdStatus,jdbcType=CHAR},
+            </if>
+            <if test="pwdErrNum != null" >
+                PWD_ERR_NUM = #{pwdErrNum,jdbcType=INTEGER},
+            </if>
+            <if test="updateDate != null" >
+                UPDATE_DATE = #{updateDate,jdbcType=DATE},
+            </if>
+            <if test="status != null" >
+                STATUS = #{status,jdbcType=VARCHAR},
+            </if>
+            <if test="isSuper != null" >
+                IS_SUPER = #{isSuper,jdbcType=CHAR},
+            </if>
+        </set>
+        where  LOGIN_NO = #{loginNo,jdbcType=VARCHAR}
+
+    </update>
+
+<select id="queryCltUserLoginByLoginNo" parameterType="java.lang.String" resultType="net.northking.cloudplatform.domain.user.CltUserLogin">
+
+    SELECT * FROM CLT_USER_LOGIN WHERE  LOGIN_NO = #{loginNo,jdbcType=VARCHAR}
+
+</select>
+
+
+
+
+</mapper>

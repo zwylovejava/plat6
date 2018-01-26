@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.testexecute.CltCaseExecuteMapper" >
+        <select id="queryCaseExecuteByCaseId" resultType="net.northking.cloudplatform.domain.testexecute.CltCaseExecute">
+
+            SELECT <include refid="Base_Column_List"/> FROM CLT_CASE_EXECUTE WHERE  CASE_ID=#{caseId}
+
+        </select>
+        <update id="updatStatusByCaseId">
+
+            UPDATE CLT_CASE_EXECUTE SET RESULT_STATUS=#{status},STATUS = '1' WHERE CASE_ID=#{caseId}
+
+        </update>
+
+        <select id="queryOverNumBybathId" parameterType="map" resultType="net.northking.cloudplatform.domain.testexecute.CltCaseExecute" >
+            SELECT COUNT(*) num,DATE(COMPLETE_TIME) completeTime
+            FROM CLT_CASE_EXECUTE
+            WHERE COMPLETE_TIME BETWEEN #{map.startDate,jdbcType=TIMESTAMP} AND  #{map.endDate,jdbcType=TIMESTAMP} AND RESULT_STATUS=#{map.over} and BATCH_ID=#{map.batchId} GROUP BY DATE(COMPLETE_TIME)
+            ORDER BY completeTime ASC
+
+        </select>
+
+
+        <select id="querySuccessNumBybathId" parameterType="map" resultType="net.northking.cloudplatform.domain.testexecute.CltCaseExecute" >
+            SELECT COUNT(*) num,DATE(COMPLETE_TIME) completeTime
+            FROM CLT_CASE_EXECUTE
+            WHERE COMPLETE_TIME BETWEEN #{map.startDate,jdbcType=TIMESTAMP} AND  #{map.endDate,jdbcType=TIMESTAMP} AND RESULT_STATUS=#{map.success} and BATCH_ID=#{map.batchId} GROUP BY DATE(COMPLETE_TIME)
+            ORDER BY completeTime ASC
+
+        </select>
+
+        <select id="queryFailNumBybathId" parameterType="map" resultType="net.northking.cloudplatform.domain.testexecute.CltCaseExecute" >
+            SELECT COUNT(*) num,DATE(COMPLETE_TIME) completeTime
+            FROM CLT_CASE_EXECUTE
+            WHERE COMPLETE_TIME BETWEEN #{map.startDate,jdbcType=TIMESTAMP} AND  #{map.endDate,jdbcType=TIMESTAMP} AND RESULT_STATUS=#{map.fail} and BATCH_ID=#{map.batchId} GROUP BY DATE(COMPLETE_TIME)
+            ORDER BY completeTime ASC
+
+        </select>
+
+</mapper>

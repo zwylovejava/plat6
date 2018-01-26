@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.testexecute.CltBatchMapper" >
+    <select id="queryCaseBugById" resultType="net.northking.cloudplatform.domain.testbug.CltTestBug" >
+      SELECT d.*
+      FROM CLT_BATCH a ,CLT_CASE_SET b , CLT_CASE_SET_REL c ,CLT_TEST_BUG d
+      WHERE a.BATCH_ID=b.BATCH_ID AND b.CASE_SET_ID=c.CASE_SET_ID AND d.CASE_ID =c.CASE_ID AND a.BATCH_ID=#{batchId}
+    </select>
+</mapper>

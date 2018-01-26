@@ -1,0 +1,635 @@
+package net.northking.cloudplatform.service.impl;
+
+
+
+import com.alibaba.druid.util.StringUtils;
+import net.northking.cloudplatform.assist.RedisUtil;
+import net.northking.cloudplatform.constants.CommonConstants;
+import net.northking.cloudplatform.dao.base.BaseServiceImpl;
+import net.northking.cloudplatform.dao.testexecute.CltBatchMapper;
+import net.northking.cloudplatform.dao.testexecute.CltJobMapper;
+import net.northking.cloudplatform.domain.testbug.CltTestBug;
+import net.northking.cloudplatform.domain.testexecute.*;
+import net.northking.cloudplatform.dao.testexecute.*;
+import net.northking.cloudplatform.domain.user.CltRole;
+import net.northking.cloudplatform.domain.user.CltUserAndLogin;
+import net.northking.cloudplatform.domain.user.CltUserLogin;
+import net.northking.cloudplatform.dto.testexecute.EcharsData;
+import net.northking.cloudplatform.dto.testexecute.JobPlan;
+import net.northking.cloudplatform.dto.testexecute.JobPlanQuery;
+import net.northking.cloudplatform.enums.CltCaseExecuteStatus;
+import net.northking.cloudplatform.enums.CltExecuteStatus;
+import net.northking.cloudplatform.enums.CltJobStatus;
+import net.northking.cloudplatform.feign.testbug.TestBugFeignClient;
+import net.northking.cloudplatform.feign.user.UserFeignClient;
+import net.northking.cloudplatform.query.testbug.TestBugQuery;
+import net.northking.cloudplatform.query.testexecute.JobQuery;
+import net.northking.cloudplatform.query.testexecute.TestCaseSetQuery;
+import net.northking.cloudplatform.query.user.UserAndLoginQuery;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.JobService;
+import net.northking.cloudplatform.utils.UUIDUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
+
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.utils.BeanUtil;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+/**
+ * @Title:
+ * @Description: CltJob业务逻辑层实现类
+ * @Company: Northking
+ * @Author: HBH
+ * @CreateDate: 2017-12-19 18:59
+ * @UpdateUser:
+ * @Version:0.1
+ */
+@Service
+public class JobServiceImpl extends BaseServiceImpl<CltJob,CltJobExample,String> implements JobService {
+    @Autowired
+    private CltJobMapper cltJobMapper;
+    @Autowired
+    private CltTestTeamMapper cltTestTeamMapper;
+
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @Autowired
+    private UserFeignClient userFeignClient;
+
+    @Autowired
+    private CltBatchMapper cltBatchMapper;
+
+    @Autowired
+    private CltCaseSetMapper cltCaseSetMapper;
+
+    @Autowired
+    private CltTestCaseMapper cltTestCaseMapper;
+
+    @Autowired
+    private TestBugFeignClient testBugFeignClient;
+
+    @Autowired
+    private CoreWfWorkitemMapper coreWfWorkitemMapper;
+
+    @Autowired
+    private CltCaseSetRelMapper cltCaseSetRelMapper;
+
+    @Autowired
+    private CltCaseExecuteMapper cltCaseExecuteMapper;
+
+    //日志
+    private Logger logger = LoggerFactory.getLogger(JobServiceImpl.class);
+
+    @Override
+    public List<JobPlan> queryPlanList(JobPlanQuery jobPlanQuery) {
+
+        List<JobQuery> jobList = null;
+
+        String isAdmin = "0";//1代表管理员 2代表测试经理 0其他角色
+
+        //根据token拿出用户信息
+        CltUserLogin cltUserLogin = (CltUserLogin) redisUtil.get(jobPlanQuery.getAccess_token());
+
+        //取出用户拥有的角色信息
+        List<CltRole> roles = cltUserLogin.getRoles();
+
+        Integer testTeamCount = 0;
+
+        List<JobPlan> queryList = new ArrayList<JobPlan>();
+
+        //遍历角色然后判断角色类型
+        for (CltRole cltRole : roles) {
+            String roleCode = cltRole.getRoleCode();
+            //判断是否是管理员
+            if (CommonConstants.ROLE_NKADMIN.equalsIgnoreCase(roleCode)) {
+                isAdmin = "1";
+                break;
+                //判断是否是测试主管
+            } else if (CommonConstants.ROLE_TESTLEAD.equalsIgnoreCase(roleCode)) {
+                isAdmin = "2";
+                break;
+            } else {
+                isAdmin = "0";
+            }
+
+
+        }
+        if ("1".equals(isAdmin)) {//管理员查询所有信息
+            queryList = cltJobMapper.quertJobListById(jobPlanQuery);
+            for (JobPlan jobPlan : queryList) {
+                if (!StringUtils.isEmpty(jobPlan.getManagerId())) {
+                    UserAndLoginQuery userAndLoginQuery = new UserAndLoginQuery();
+                    userAndLoginQuery.setUserId(jobPlan.getManagerId());
+                    ResultInfo<CltUserAndLogin> cltUserAndLoginResultInfo = userFeignClient.queryUserInfoByUserId(userAndLoginQuery);
+                    String userName = cltUserAndLoginResultInfo.getResultData().getUserChnName();
+                    jobPlan.setManagerName(userName);
+                }
+            }
+        } else if ("2".equals(isAdmin)) {//根据用户id去查
+            jobPlanQuery.setManagerId(cltUserLogin.getUserId());
+            queryList = cltJobMapper.quertJobListById(jobPlanQuery);
+            for (JobPlan jobPlan : queryList) {
+                String batchId = jobPlan.getBatchId();
+                if (!StringUtils.isEmpty(jobPlan.getBatchId())) {
+                    List<CltTestBug> cltTestBugs = cltBatchMapper.queryCaseBugById(batchId);
+                    jobPlan.setBugSize(cltTestBugs.size());
+                }
+            }
+
+
+        }
+
+        if (queryList != null) {
+
+            for (JobPlan jobPlan : queryList) {
+                if (!StringUtils.isEmpty(jobPlan.getJobId())) {
+                    testTeamCount = cltTestTeamMapper.countByJobId(jobPlan.getJobId());
+                    jobPlan.setTestTeamCount(testTeamCount);
+                }
+
+            }
+
+        }
+
+
+        return queryList;
+    }
+
+
+    /**
+     * @Author:HBH
+     * @Description: 指定测试主管
+     * @Date:19:01 2017/12/19
+     * @param1:
+     * @param2:
+     * @return:
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer addTestManager(JobQuery jobQuery) {
+
+        Integer addNum = 0;
+
+
+        try {
+
+            CltJob cltJob = new CltJob();
+
+            BeanUtil.copyProperties(jobQuery, cltJob);
+
+            //更新任务表
+            addNum = cltJobMapper.updateByPrimaryKeySelective(cltJob);
+
+            return addNum;
+
+        } catch (Exception e) {
+
+            logger.error("addTestManager", e);
+
+            throw new GlobalException(ErrorConstants.ADD_TEST_MAMAGER_ERROR_CODE, ErrorConstants.ADD_TEST_MAMAGER_ERROR_ERROR_MESSAGE);
+        }
+
+
+    }
+
+    /**
+     * @Author:HBH
+     * @Description: 查询任务详情
+     * @Date:11:57 2017/12/20
+     * @param1:
+     * @param2:
+     * @return:
+     */
+    @Override
+    public CltJob queryJobByJobId(JobQuery jobQuery) {
+
+        try {
+
+            //根据jobID查询任务详情
+            CltJob cltJob = cltJobMapper.selectByPrimaryKey(jobQuery.getJobId());
+
+            return cltJob;
+
+        } catch (Exception e) {
+
+            logger.error("queryJobByJobId", e);
+
+            throw new GlobalException(ErrorConstants.QUERY_CLT_JOB_BY_JOBID_ERROR_CODE, ErrorConstants.QUERY_CLT_JOB_BY_JOBID__ERROR_MESSAGE);
+        }
+
+
+    }
+
+    /**
+     * @Author:HBH
+     * @Description: 根据测试主管ID查询任务记录数
+     * @Date:14:09 2017/12/20
+     * @param1:
+     * @param2:
+     * @return:
+     */
+
+    @Override
+    public Integer countJobByManagerId(JobQuery jobQuery) {
+
+        String managerId = jobQuery.getManagerId();
+
+        try {
+
+            Integer countByManagerIdNum = cltJobMapper.countByManagerId(managerId);
+
+            return countByManagerIdNum;
+
+        } catch (Exception e) {
+
+            logger.error("countJobByManagerId", e);
+
+            throw new GlobalException(ErrorConstants.QUERY_CLT_JOB_BY_MANAGERID_ERROR_CODE, ErrorConstants.QUERY_CLT_JOB_BY_MANAGER__ERROR_MESSAGE);
+        }
+
+    }
+
+    /**
+     * 生成测试执行任务,压队列
+     *
+     * @param jobQuery
+     * @return
+     */
+    public Integer genTestExecuteJob(JobQuery jobQuery) throws Exception {
+        int totolNum = 0;
+        //根据任务ID查询任务
+        CltJob cltJob = super.findObject(jobQuery.getJobId());
+        //判断任务状态是否为未执行状态，只有未执行状态的才可以生成测试任务
+        if (cltJob != null && org.apache.commons.lang.StringUtils.isNotEmpty(cltJob.getStatus())) {
+            if (!"1".equals(cltJob.getStatus())) {
+                //不允许生成测试任务
+                throw new GlobalException(ErrorConstants.JOB_NOT_GEN_ERROR_CODE, ErrorConstants.JOB_NOT_GEN_ERROR_MESSAGE);
+            }
+
+            //修改任务状态为执行中
+            CltJob cltJobTemp = new CltJob();
+            cltJobTemp.setJobId(cltJob.getJobId());
+            cltJobTemp.setStatus(CltJobStatus.GENJOB.code());
+            cltJobMapper.updateByPrimaryKeySelective(cltJobTemp);
+
+            //查询批次
+            String batchId = cltJob.getBatchId();
+            CltBatch cltBatch = cltBatchMapper.selectByPrimaryKey(batchId);
+
+            if (cltBatch != null) {
+                //查询用例集
+                TestCaseSetQuery testCaseSetQuery = new TestCaseSetQuery();
+                testCaseSetQuery.setBatchId(cltBatch.getBatchId());
+                List<CltCaseSet> cltCaseSets = cltCaseSetMapper.queryTestCaseSetById(testCaseSetQuery);
+                for (CltCaseSet cltCaseSet : cltCaseSets) {
+                    //根据用例集查询用例
+                    TestCaseSetQuery caseSetQuery = new TestCaseSetQuery();
+                    caseSetQuery.setCaseSetId(cltCaseSet.getCaseSetId());
+                    List<CltTestCase> cltTestCases = cltTestCaseMapper.queryTestCaseById(caseSetQuery);
+
+                    //开始压队列
+                    for (CltTestCase cltTestCase : cltTestCases) {
+                        totolNum++;
+                        CoreWfWorkitem coreWfWorkitem = new CoreWfWorkitem();
+                        coreWfWorkitem.setId(UUIDUtil.getUUID());
+                        coreWfWorkitem.setWorkqueue(cltJob.getJobId()); //任务ID
+                        coreWfWorkitem.setCreateTime(new Date());
+                        coreWfWorkitem.setCreatedTime(new BigDecimal(new Date().getYear()));
+                        coreWfWorkitem.setState(1);
+                        coreWfWorkitem.setPriority(cltBatch.getPriority() == null ? 0 : cltBatch.getPriority());
+                        coreWfWorkitem.setProjectId(cltTestCase.getId());
+                        coreWfWorkitem.setAcquireTime(new Date());
+                        coreWfWorkitemMapper.insertSelective(coreWfWorkitem);
+                    }
+                }
+
+
+                //修改任务状态为执行中
+                CltJob cltJob1 = new CltJob();
+                cltJob1.setJobId(cltJob.getJobId());
+                cltJob1.setStatus(CltJobStatus.EXECUTEING.code());
+                cltJobMapper.updateByPrimaryKeySelective(cltJob1);
+            }
+
+
+        } else {
+            //测试任务为空或测试任务状态异常
+            throw new GlobalException(ErrorConstants.JOB_NULL_OR_STATUS_ERROR_CODE, ErrorConstants.JOB_NULL_OR_STATUS_ERROR_MESSAGE);
+        }
+        return totolNum;
+    }
+
+    @Override
+    public List<CltTestBug> queryBugByBatchId(String batchId) {
+        List<CltTestBug> cltTestBugs = cltBatchMapper.queryCaseBugById(batchId);
+        return cltTestBugs;
+    }
+
+    /**
+     * 查询已压队列
+     *
+     * @param jobQuery
+     * @return
+     */
+    @Override
+    public List<CltJob> queryJobPlanAna(JobQuery jobQuery) {
+        CltJobExample cltJobExample = new CltJobExample();
+        CltJobExample.Criteria criteria = cltJobExample.createCriteria();
+        String status = CltJobStatus.EXECUTEING.code();
+        criteria.andStatusEqualTo(status);
+        String custemName = jobQuery.getCustemName();
+        String projectName = jobQuery.getProjectName();
+        String jobName = jobQuery.getJobName();
+        if (!StringUtils.isEmpty(custemName)) {
+            criteria.andCustemNameLike("%" + custemName + "%");
+        }
+        if (!StringUtils.isEmpty(projectName)) {
+            criteria.andProjectNameLike("%" + projectName + "%");
+        }
+        if (!StringUtils.isEmpty(jobName)) {
+            criteria.andJobNameLike("%" + jobName + "%");
+        }
+        List<CltJob> cltJobs = cltJobMapper.selectByExample(cltJobExample);
+        //根据批次ID查询出所有用例数量 以及队列中的数据
+        for (CltJob cltJob : cltJobs) {
+            String bathId = cltJob.getBatchId();
+            String jobId = cltJob.getJobId();
+            Integer caseNum = 0;
+
+            //根据批次Id查询出caseSetIds
+            CltCaseSetExample cltCaseSetExample = new CltCaseSetExample();
+            CltCaseSetExample.Criteria criteria1 = cltCaseSetExample.createCriteria();
+            criteria1.andBatchIdEqualTo(bathId);
+            List<CltCaseSet> cltCaseSets = cltCaseSetMapper.selectByExample(cltCaseSetExample);
+            if (cltCaseSets != null && cltCaseSets.size() > 0) {
+                //根据caseSetId查询出Case
+                for (CltCaseSet cltCaseSet : cltCaseSets) {
+                    CltCaseSetRelExample cltCaseSetRelExample = new CltCaseSetRelExample();
+                    CltCaseSetRelExample.Criteria criteria2 = cltCaseSetRelExample.createCriteria();
+                    CltCaseSetRelExample.Criteria criteria3 = criteria2.andCaseSetIdEqualTo(cltCaseSet.getCaseSetId());
+                    List<CltCaseSetRel> cltCaseSetRels = cltCaseSetRelMapper.selectByExample(cltCaseSetRelExample);
+                    caseNum += cltCaseSetRels.size();
+                }
+            }
+            //根据caseId查询状态并统计状态数量
+            Integer readyNum = 0;   //初始化数量
+            Integer successNum = 0; //成功数量
+            Integer failNum = 0; //失败数量
+            Integer overNum = 0; //终止数量
+            Integer completeNum = 0; //已完成
+            Integer bugSize = 0;  //缺陷数量
+
+            CltCaseExecuteExample cltCaseExecuteExample = new CltCaseExecuteExample();
+            CltCaseExecuteExample.Criteria criteria2 = cltCaseExecuteExample.createCriteria();
+            criteria2.andBatchIdEqualTo(bathId);
+            List<CltCaseExecute> cltCaseExecutes = cltCaseExecuteMapper.selectByExample(cltCaseExecuteExample);
+            if (cltCaseExecutes != null && cltCaseExecutes.size() > 0) {
+                for (CltCaseExecute clt : cltCaseExecutes) {
+                    String resultStatus = clt.getResultStatus();
+                    String status1 = clt.getStatus();
+                    if (CltExecuteStatus.INIT.getCode().equals(resultStatus)) {
+                        readyNum++;
+                    }
+                    if (CltExecuteStatus.SUCCESS.getCode().equals(resultStatus)) {
+                        successNum++;
+                    }
+                    if (CltExecuteStatus.FAIL.getCode().equals(resultStatus)) {
+                        failNum++;
+                    }
+                    if (CltExecuteStatus.OVER.getCode().equals(resultStatus)) {
+                        overNum++;
+                    }
+                    if (CltCaseExecuteStatus.COMPLETE.code().equals(status1)) {
+                        completeNum++;
+                    }
+                    // bugSize = failNum + overNum;
+                }
+            }
+            //根据批次Id查询缺陷列表
+            TestBugQuery testBugQuery = new TestBugQuery();
+            testBugQuery.setBatchId(bathId);
+            ResultInfo<List<CltTestBug>> listResultInfo = testBugFeignClient.queryTestBugByBathId(testBugQuery);
+            if (listResultInfo != null && listResultInfo.getResultData() != null && listResultInfo.getResultData().size() > 0) {
+                bugSize = listResultInfo.getResultData().size();
+            }
+            cltJob.setCaseNum(caseNum);
+            cltJob.setBugSize(bugSize);
+            cltJob.setSuccessNum(successNum);
+            cltJob.setFailNum(failNum);
+            cltJob.setCompleteNum(completeNum);
+            cltJob.setOverNum(overNum);
+            cltJob.setReadyNum(readyNum);
+            cltJob.getPercentComplete();
+            cltJob.getPercentFail();
+            cltJob.getPercentOver();
+            cltJob.getPercentReady();
+            cltJob.getPercentSuccess();
+            cltJob.setJobId(jobId);
+            cltJob.setBatchId(bathId);
+        }
+
+        return cltJobs;
+    }
+
+    /**
+     * 查询已执行完成的项目
+     *
+     * @param jobQuery
+     * @return
+     */
+    @Override
+    public List<CltJob> queryExecutedProject(JobQuery jobQuery) {
+
+        CltJobExample cltJobExample = new CltJobExample();
+        CltJobExample.Criteria criteria = cltJobExample.createCriteria();
+        String status = CltJobStatus.COMPLETE.code();
+        String over = CltExecuteStatus.OVER.getCode();
+        String success = CltExecuteStatus.SUCCESS.getCode();
+        String fail = CltExecuteStatus.FAIL.getCode();
+        criteria.andStatusEqualTo(status);
+        String custemName = jobQuery.getCustemName();
+        String projectName = jobQuery.getProjectName();
+        String jobName = jobQuery.getJobName();
+        if (!StringUtils.isEmpty(custemName)) {
+            criteria.andCustemNameLike("%" + custemName + "%");
+        }
+        if (!StringUtils.isEmpty(projectName)) {
+            criteria.andProjectNameLike("%" + projectName + "%");
+        }
+        if (!StringUtils.isEmpty(jobName)) {
+            criteria.andJobNameLike("%" + jobName + "%");
+        }
+        List<CltJob> cltJobs = cltJobMapper.selectByExample(cltJobExample);
+        //根据批次ID查询出所有用例数量 以及队列中的数据
+        for (CltJob cltJob : cltJobs) {
+            String bathId = cltJob.getBatchId();
+            String jobId = cltJob.getJobId();
+            Integer caseNum = 0;
+
+            //根据caseId查询状态并统计状态数量
+            Integer successNum = 0; //成功数量
+            Integer bugSize = 0;  //缺陷数量
+            Integer unSolveNum = 0; //未决解缺陷数
+            //根据批次Id查询出caseSetIds
+            CltCaseSetExample cltCaseSetExample = new CltCaseSetExample();
+            CltCaseSetExample.Criteria criteria1 = cltCaseSetExample.createCriteria();
+            criteria1.andBatchIdEqualTo(bathId);
+            List<CltCaseSet> cltCaseSets = cltCaseSetMapper.selectByExample(cltCaseSetExample);
+            if (cltCaseSets != null && cltCaseSets.size() > 0) {
+                //根据caseSetId查询出Case
+                for (CltCaseSet cltCaseSet : cltCaseSets) {
+                    CltCaseSetRelExample cltCaseSetRelExample = new CltCaseSetRelExample();
+                    CltCaseSetRelExample.Criteria criteria2 = cltCaseSetRelExample.createCriteria();
+                    CltCaseSetRelExample.Criteria criteria3 = criteria2.andCaseSetIdEqualTo(cltCaseSet.getCaseSetId());
+                    List<CltCaseSetRel> cltCaseSetRels = cltCaseSetRelMapper.selectByExample(cltCaseSetRelExample);
+                    caseNum += cltCaseSetRels.size();
+                }
+            }
+            CltCaseExecuteExample cltCaseExecuteExample = new CltCaseExecuteExample();
+            CltCaseExecuteExample.Criteria criteria2 = cltCaseExecuteExample.createCriteria();
+            criteria2.andBatchIdEqualTo(bathId);
+            List<CltCaseExecute> cltCaseExecutes = cltCaseExecuteMapper.selectByExample(cltCaseExecuteExample);
+            if (cltCaseExecutes != null && cltCaseExecutes.size() > 0) {
+                for (CltCaseExecute clt : cltCaseExecutes) {
+                    String resultStatus = clt.getResultStatus();
+                    String status1 = clt.getStatus();
+
+                    if (success.equals(resultStatus)) {
+                        successNum++;
+                    }
+                }
+            }
+            //根据批次Id查询缺陷列表
+            TestBugQuery testBugQuery = new TestBugQuery();
+            testBugQuery.setBatchId(bathId);
+            ResultInfo<List<CltTestBug>> listResultInfo = testBugFeignClient.queryTestBugByBathId(testBugQuery);
+            if (listResultInfo != null && listResultInfo.getResultData() != null && listResultInfo.getResultData().size() > 0) {
+                List<CltTestBug> testBugList =listResultInfo.getResultData();
+                bugSize = testBugList.size();
+                //统计未解决的缺陷
+                List<CltTestBug> collect = testBugList.stream()
+                        .filter(testBug -> fail.equals(testBug.getStatus()) || over.equals(testBug.getStatus()))
+                        .collect(Collectors.toList());
+                if(collect!=null){
+
+                    unSolveNum = collect.size();
+                }
+            }
+
+            cltJob.setCaseNum(caseNum);
+            cltJob.setUnSloveNum(unSolveNum);
+            cltJob.setBugSize(bugSize);
+            cltJob.setSuccessNum(successNum);
+            cltJob.getPercentSuccess();
+            cltJob.setJobId(jobId);
+            cltJob.setBatchId(bathId);
+        }
+
+
+        return cltJobs;
+
+    }
+
+    @Override
+    public EcharsData getEcharsData(JobQuery jobQuery) {
+
+        //CltJob cltJob = cltJobMapper.selectByPrimaryKey(jobQuery.getJobId());
+        //根据批次ID查询出所有用例数量 以及队列中的数据
+        String bathId = jobQuery.getBatchId();
+        CltCaseExecuteExample cltCaseExecuteExample = new CltCaseExecuteExample();
+        CltCaseExecuteExample.Criteria criteria2 = cltCaseExecuteExample.createCriteria();
+        criteria2.andBatchIdEqualTo(bathId);
+        Date startDate = jobQuery.getStartDate();
+        Date endDate =  jobQuery.getEndDate();
+        criteria2.andCompleteTimeBetween(startDate,endDate);
+        List<CltCaseExecute> cltCaseExecutes = cltCaseExecuteMapper.selectByExample(cltCaseExecuteExample);
+        String over = CltExecuteStatus.OVER.getCode();
+        String success = CltExecuteStatus.SUCCESS.getCode();
+        String fail = CltExecuteStatus.FAIL.getCode();
+        EcharsData echarsData = new EcharsData();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+        String start = sdf.format(startDate);
+        String end = sdf.format(endDate);
+
+        List<String> date = collectLocalDates(LocalDate.parse(start), LocalDate.parse(end));
+        echarsData.setListDate(date);
+        if (date.size() > 0) {
+            for (String dt : date) {
+               // echarsData.getListDate().add(strDate);
+                Integer overNum = 0;
+                Integer successNum = 0;
+                Integer failNum = 0;
+                Integer unSloveNum = 0;
+              for (CltCaseExecute cltCaseExecute : cltCaseExecutes) {
+                    if (sdf.format(cltCaseExecute.getCompleteTime()).equals(dt)) {
+                        String result = cltCaseExecute.getResultStatus();
+                        if (over.equals(result)) {
+                            overNum++;
+                        }
+                        if (success.equals(result)) {
+                            successNum++;
+                        }
+                        if (fail.equals(result) || over.equals(result)) {
+                            String caseId = cltCaseExecute.getCaseId();
+                            //根据caseId查询缺陷数量
+                            List<CltTestBug> testBugList = null;
+                            List<CltTestBug> unSloveList = null;
+                            if(!StringUtils.isEmpty(caseId)){
+                                TestBugQuery testBugQuery = new TestBugQuery();
+                                testBugQuery.setCaseId(caseId);
+                                ResultInfo<List<CltTestBug>> listResultInfo = testBugFeignClient.queryTestBugByCaseId(testBugQuery);
+                                if(listResultInfo.getResultData()!=null){
+                                    testBugList=listResultInfo.getResultData();
+                                    //统计未解决的缺陷
+                                    unSloveList = testBugList.stream()
+                                            .filter(testBug -> fail.equals(testBug.getStatus()) || over.equals(testBug.getStatus()))
+                                            .collect(Collectors.toList());
+                                }
+                            }
+                            if(testBugList!=null&&testBugList.size()>0){
+                                failNum+=testBugList.size();
+                            }
+                            if(unSloveList!=null&&unSloveList.size()>0){
+                                unSloveNum+=unSloveList.size();
+                            }
+                        }
+                    }
+                }
+
+                echarsData.getOverNum().add(overNum);
+                echarsData.getSuccessNum().add(successNum);
+                echarsData.getBugSize().add(failNum);
+                echarsData.getUnSloveNum().add(unSloveNum);
+            }
+        }
+
+        return echarsData;
+    }
+    public  List<String> collectLocalDates(LocalDate start, LocalDate end){
+        // 用起始时间作为流的源头，按照每次加一天的方式创建一个无限流
+        return Stream.iterate(start, localDate -> localDate.plusDays(1))
+                // 截断无限流，长度为起始时间和结束时间的差+1个
+                .limit(ChronoUnit.DAYS.between(start, end) + 1)
+                // 由于最后要的是字符串，所以map转换一下
+                .map(LocalDate::toString)
+                // 把流收集为List
+                .collect(Collectors.toList());
+    }
+
+}

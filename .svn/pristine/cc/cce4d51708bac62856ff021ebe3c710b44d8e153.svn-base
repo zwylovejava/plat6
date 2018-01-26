@@ -1,0 +1,259 @@
+package net.northking.cloudplatform.service.impl;
+
+
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.service.CustService;
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.dao.base.BaseServiceImpl;
+import net.northking.cloudplatform.dao.project.CltCustomerMapper;
+import net.northking.cloudplatform.domain.project.CltCustomer;
+import net.northking.cloudplatform.domain.project.CltCustomerExample;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.query.cust.CustomerQuery;
+import net.northking.cloudplatform.utils.BeanUtil;
+import net.northking.cloudplatform.utils.PageUtil;
+import net.northking.cloudplatform.utils.UUIDUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import java.util.Date;
+import java.util.List;
+
+/**
+ * @Title:
+ * @Description: 客户表service实现类
+ * @Company: Northking
+ * @Author: HBH
+ * @CreateDate: 2017-12-05 16:23
+ * @UpdateUser:
+ * @Version:0.1
+ */
+
+@Service
+public class CustServiceImpl extends BaseServiceImpl<CltCustomer, CltCustomerExample, String> implements CustService {
+
+    //注入mapper
+    @Autowired
+    private CltCustomerMapper cltCustomerMapper;
+
+
+
+    //日志
+    private final static Logger logger = LoggerFactory.getLogger(CustServiceImpl.class);
+
+    //添加客户
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public CltCustomer addCustomer(CltCustomer cltCustomer) throws Exception {
+
+        Integer addNum=0;
+
+        //校验客户简称
+        Integer countCustCode = countCustomerByCustCode(cltCustomer.getCustCode());
+
+        if(countCustCode!=null && countCustCode>0){
+
+            throw new GlobalException(ResultCode.INVALID_PARAM.code(),"该客户简称已经存在,请更换");
+
+        }
+
+        try {
+
+            //客户id
+            cltCustomer.setCustId(UUIDUtil.getUUID());
+
+            cltCustomer.setStatus("1");
+            //创建时间
+            cltCustomer.setCreateDate(new Date());
+             //插入数据库
+            addNum=cltCustomerMapper.insertSelective(cltCustomer);
+
+             if(addNum==1){
+
+                 return cltCustomer;
+             }
+
+              return null;
+
+        }catch (Exception e){
+            logger.error("addCustomer" , e);
+            throw new GlobalException(ErrorConstants.ADD_CLT_CUSTOMER_ERROR_CODE , ErrorConstants.ADD_CLT_CUSTOMER_ERROR_MESSAGE);
+        }
+
+
+    }
+
+
+
+    //更新客户
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public int updateCustomer(CltCustomer cltCustomer)  throws Exception{
+
+          Integer updateNum=0;
+
+        try{
+            //更新时间
+            cltCustomer.setUpdateDate(new Date());
+            //更新
+            updateNum=cltCustomerMapper.updateByPrimaryKeySelective(cltCustomer);
+
+        }catch (Exception e){
+            logger.error("updateCustomer" , e);
+            throw new GlobalException(ErrorConstants.UPDATE_CLT_CUSTOMER_ERROR_CODE , ErrorConstants.UPDATE_CLT_CUSTOMER_ERROR_MESSAGE);
+        }
+
+        return updateNum;
+    }
+
+
+    //查看客户列表
+    @Override
+    public Page<CltCustomer> queryAllCustomers(CustomerQuery customerQuery) throws Exception {
+        try {
+            customerQuery.validate();
+            PageUtil.startPage(customerQuery);//获取分页信息
+            CltCustomerExample customerExample  = assemblyExample(customerQuery); //组装请求参数
+            List<CltCustomer> customers = cltCustomerMapper.selectByExample(customerExample);
+            return new Page<>(customers);
+        } catch (Exception e) {
+            logger.error("queryAllCustomers", e);
+            throw new GlobalException(ErrorConstants.QUERY_CLT_CUSTOMER_LIST_ERROR_CODE, ErrorConstants.QUERY_CLT_CUSTOMER_LIST_MESSAGE);
+        }
+
+
+    }
+
+
+    //查看客户详情
+    @Override
+    public CltCustomer queryByCustId(String custId) throws Exception {
+
+        try {
+          CltCustomer customer = cltCustomerMapper.selectByPrimaryKey(custId);
+            return customer;
+        } catch (Exception e) {
+            logger.error("queryByCustId", e);
+            throw new GlobalException(ErrorConstants.QUWERY_CLT_CUSTOMER_BYCUSTID_ERROR_CODE, ErrorConstants.QUWERY_CLT_CUSTOMER_BYCUSTID_ERROR_MESSAGE);
+        }
+
+    }
+
+    //根据客户简称查询客户记录数
+    @Override
+    public Integer countCustomerByCustCode(String custCode) throws Exception {
+
+        Integer custCount=0;
+
+        try {
+
+            custCount=cltCustomerMapper.countCustomerByCustCode(custCode);
+
+            return custCount;
+
+        } catch (Exception e) {
+            logger.error("countCustomerByCustCode", e);
+
+            throw new GlobalException(ErrorConstants.COUNT_CLT_CUSTOMER_BY_CUSTCODE_ERROR_CODE , ErrorConstants.COUNT_CLT_CUSTOMER_BY_CUSTCODE_ERROR_MESSAGE);
+        }
+
+    }
+    //根据客户简称查询客户详情
+    @Override
+    public CltCustomer queryCustomerByCustCode(String custCode) throws Exception {
+        try {
+
+            CltCustomer cltCustomer = cltCustomerMapper.queryCustomerByCustCode(custCode);
+
+            return cltCustomer;
+
+        } catch (Exception e) {
+            logger.error("queryCustomerByCustCode", e);
+
+            throw new GlobalException(ErrorConstants. QUERY_CLT_CUSTOMER_BY_CUSTCODE_ERROR_CODE , ErrorConstants.QUERY_CLT_CUSTOMER_BY_CUSTCODE_ERROR_MESSAGE);
+        }
+
+    }
+
+    //启用禁用客户
+    @Override
+    public Integer disEnableCustomer(CustomerQuery customerQuery) throws Exception {
+
+           Integer updateNum=0;
+
+           CltCustomer cltCustomer=new CltCustomer();
+
+           BeanUtil.copyProperties(customerQuery,cltCustomer);
+
+           cltCustomer.setUpdateDate(new Date());
+
+        try{
+                updateNum  = cltCustomerMapper.updateByPrimaryKeySelective(cltCustomer);
+
+                return updateNum;
+
+            }catch (Exception e){
+
+                logger.error("disEnableCustomer", e);
+
+                throw new GlobalException(ErrorConstants.DISENABLE_CLT_CUSTOMER_ERROR_CODE, ErrorConstants.DISENABLE_CLT_CUSTOMER_ERROR_MESSAGE);
+
+            }
+
+
+    }
+
+
+    //根据custId删除用户
+    @Override
+    public Integer deleteCustomerByCustId(CustomerQuery customerQuery) throws Exception {
+
+            Integer deleteNum=0;
+
+        try{
+            deleteNum  = cltCustomerMapper.deleteByPrimaryKey(customerQuery.getCustId());
+
+
+        }catch (Exception e){
+
+            logger.error("deleteCustomerByCustId", e);
+
+            throw new GlobalException(ErrorConstants.DELETE_CLT_CUSTOMER_BY_CUSTID_ERROR_CODE, ErrorConstants.DELETE_CLT_CUSTOMER_BY_CUSTID_ERROR_MESSAGE);
+
+        }
+        return deleteNum;
+
+
+    }
+
+
+    /**
+     * 装配查询参数
+     *
+     * @param
+     * @return
+     */
+    private CltCustomerExample assemblyExample(CustomerQuery customerQuery) {
+        CltCustomerExample example = new CltCustomerExample();
+        example.setOrderByClause(customerQuery.getOrderByClause());
+        CltCustomerExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.hasText(customerQuery.getCustName())) {
+            criteria.andCustNameLike("%"+customerQuery.getCustName()+"%");
+        }
+
+        if (StringUtils.hasText(customerQuery.getTrade())) {
+            criteria.andTradeLike("%"+customerQuery.getTrade()+"%");
+        }
+        return example;
+    }
+
+
+
+}

@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.testexecute.CltCaseItemSetupMapper" >
+  <resultMap id="BaseResultMap" type="net.northking.cloudplatform.domain.testexecute.CltCaseItemSetup" >
+    <id column="ITEM_SETUP_ID" property="itemSetupId" jdbcType="VARCHAR" />
+    <result column="PRO_ID" property="proId" jdbcType="VARCHAR" />
+    <result column="COLUMN_NAME" property="columnName" jdbcType="VARCHAR" />
+    <result column="LABEL_NAME" property="labelName" jdbcType="VARCHAR" />
+    <result column="SELECT_VALUE" property="selectValue" jdbcType="VARCHAR" />
+    <result column="DATA_TYPE" property="dataType" jdbcType="VARCHAR" />
+    <result column="ORDER_SEQ" property="orderSeq" jdbcType="INTEGER" />
+    <result column="IS_SUPPORT_FILL" property="isSupportFill" jdbcType="CHAR" />
+    <result column="IS_COMMON" property="isCommon" jdbcType="CHAR" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ITEM_SETUP_ID, PRO_ID, COLUMN_NAME, LABEL_NAME, SELECT_VALUE, DATA_TYPE, ORDER_SEQ,
+    IS_SUPPORT_FILL, IS_COMMON, MEMO, CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE,STATUS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseItemSetupExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CLT_CASE_ITEM_SETUP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CLT_CASE_ITEM_SETUP
+    where ITEM_SETUP_ID = #{itemSetupId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CLT_CASE_ITEM_SETUP
+    where ITEM_SETUP_ID = #{itemSetupId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseItemSetupExample" >
+    delete from CLT_CASE_ITEM_SETUP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseItemSetup" >
+    insert into CLT_CASE_ITEM_SETUP (ITEM_SETUP_ID, PRO_ID, COLUMN_NAME,
+      LABEL_NAME, SELECT_VALUE, DATA_TYPE, 
+      ORDER_SEQ, IS_SUPPORT_FILL, IS_COMMON, 
+      MEMO, CREATE_USER, CREATE_DATE, 
+      UPDATE_USER, UPDATE_DATE,STATUS)
+    values (#{itemSetupId,jdbcType=VARCHAR}, #{proId,jdbcType=VARCHAR}, #{columnName,jdbcType=VARCHAR},
+      #{labelName,jdbcType=VARCHAR}, #{selectValue,jdbcType=VARCHAR}, #{dataType,jdbcType=VARCHAR}, 
+      #{orderSeq,jdbcType=INTEGER}, #{isSupportFill,jdbcType=CHAR}, #{isCommon,jdbcType=CHAR}, 
+      #{memo,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=TIMESTAMP},#{status,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseItemSetup" >
+    insert into CLT_CASE_ITEM_SETUP
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="itemSetupId != null" >
+        ITEM_SETUP_ID,
+      </if>
+      <if test="proId != null" >
+        PRO_ID,
+      </if>
+      <if test="columnName != null" >
+        COLUMN_NAME,
+      </if>
+      <if test="labelName != null" >
+        LABEL_NAME,
+      </if>
+      <if test="selectValue != null" >
+        SELECT_VALUE,
+      </if>
+      <if test="dataType != null" >
+        DATA_TYPE,
+      </if>
+      <if test="orderSeq != null" >
+        ORDER_SEQ,
+      </if>
+      <if test="isSupportFill != null" >
+        IS_SUPPORT_FILL,
+      </if>
+      <if test="isCommon != null" >
+        IS_COMMON,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="itemSetupId != null" >
+        #{itemSetupId,jdbcType=VARCHAR},
+      </if>
+      <if test="proId != null" >
+        #{proId,jdbcType=VARCHAR},
+      </if>
+      <if test="columnName != null" >
+        #{columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="labelName != null" >
+        #{labelName,jdbcType=VARCHAR},
+      </if>
+      <if test="selectValue != null" >
+        #{selectValue,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null" >
+        #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSeq != null" >
+        #{orderSeq,jdbcType=INTEGER},
+      </if>
+      <if test="isSupportFill != null" >
+        #{isSupportFill,jdbcType=CHAR},
+      </if>
+      <if test="isCommon != null" >
+        #{isCommon,jdbcType=CHAR},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseItemSetupExample" resultType="java.lang.Integer" >
+    select count(*) from CLT_CASE_ITEM_SETUP
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CLT_CASE_ITEM_SETUP
+    <set >
+      <if test="record.itemSetupId != null" >
+        ITEM_SETUP_ID = #{record.itemSetupId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proId != null" >
+        PRO_ID = #{record.proId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.columnName != null" >
+        COLUMN_NAME = #{record.columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.labelName != null" >
+        LABEL_NAME = #{record.labelName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.selectValue != null" >
+        SELECT_VALUE = #{record.selectValue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataType != null" >
+        DATA_TYPE = #{record.dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderSeq != null" >
+        ORDER_SEQ = #{record.orderSeq,jdbcType=INTEGER},
+      </if>
+      <if test="record.isSupportFill != null" >
+        IS_SUPPORT_FILL = #{record.isSupportFill,jdbcType=CHAR},
+      </if>
+      <if test="record.isCommon != null" >
+        IS_COMMON = #{record.isCommon,jdbcType=CHAR},
+      </if>
+      <if test="record.memo != null" >
+        MEMO = #{record.memo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null" >
+        CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null" >
+        UPDATE_USER = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CLT_CASE_ITEM_SETUP
+    set ITEM_SETUP_ID = #{record.itemSetupId,jdbcType=VARCHAR},
+      PRO_ID = #{record.proId,jdbcType=VARCHAR},
+      COLUMN_NAME = #{record.columnName,jdbcType=VARCHAR},
+      LABEL_NAME = #{record.labelName,jdbcType=VARCHAR},
+      SELECT_VALUE = #{record.selectValue,jdbcType=VARCHAR},
+      DATA_TYPE = #{record.dataType,jdbcType=VARCHAR},
+      ORDER_SEQ = #{record.orderSeq,jdbcType=INTEGER},
+      IS_SUPPORT_FILL = #{record.isSupportFill,jdbcType=CHAR},
+      IS_COMMON = #{record.isCommon,jdbcType=CHAR},
+      MEMO = #{record.memo,jdbcType=VARCHAR},
+      CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      UPDATE_USER = #{record.updateUser,jdbcType=VARCHAR},
+      UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      STATUS = #{record.status,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseItemSetup" >
+    update CLT_CASE_ITEM_SETUP
+    <set >
+      <if test="proId != null" >
+        PRO_ID = #{proId,jdbcType=VARCHAR},
+      </if>
+      <if test="columnName != null" >
+        COLUMN_NAME = #{columnName,jdbcType=VARCHAR},
+      </if>
+      <if test="labelName != null" >
+        LABEL_NAME = #{labelName,jdbcType=VARCHAR},
+      </if>
+      <if test="selectValue != null" >
+        SELECT_VALUE = #{selectValue,jdbcType=VARCHAR},
+      </if>
+      <if test="dataType != null" >
+        DATA_TYPE = #{dataType,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSeq != null" >
+        ORDER_SEQ = #{orderSeq,jdbcType=INTEGER},
+      </if>
+      <if test="isSupportFill != null" >
+        IS_SUPPORT_FILL = #{isSupportFill,jdbcType=CHAR},
+      </if>
+      <if test="isCommon != null" >
+        IS_COMMON = #{isCommon,jdbcType=CHAR},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where ITEM_SETUP_ID = #{itemSetupId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseItemSetup" >
+    update CLT_CASE_ITEM_SETUP
+    set PRO_ID = #{proId,jdbcType=VARCHAR},
+      COLUMN_NAME = #{columnName,jdbcType=VARCHAR},
+      LABEL_NAME = #{labelName,jdbcType=VARCHAR},
+      SELECT_VALUE = #{selectValue,jdbcType=VARCHAR},
+      DATA_TYPE = #{dataType,jdbcType=VARCHAR},
+      ORDER_SEQ = #{orderSeq,jdbcType=INTEGER},
+      IS_SUPPORT_FILL = #{isSupportFill,jdbcType=CHAR},
+      IS_COMMON = #{isCommon,jdbcType=CHAR},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      STATUS = #{status,jdbcType=CHAR}
+    where ITEM_SETUP_ID = #{itemSetupId,jdbcType=VARCHAR}
+  </update>
+</mapper>

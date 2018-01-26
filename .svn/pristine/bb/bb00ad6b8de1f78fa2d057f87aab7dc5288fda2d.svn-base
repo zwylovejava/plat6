@@ -1,0 +1,356 @@
+package net.northking.cloudplatform.service.impl.user;
+
+import net.northking.cloudplatform.Utils.ServiceUtil;
+import net.northking.cloudplatform.assist.RedisUtil;
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.domain.user.CltUserAndLogin;
+import net.northking.cloudplatform.domain.user.CltUserLogin;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.feign.user.UserFeignClient;
+import net.northking.cloudplatform.query.user.UserAndLoginQuery;
+import net.northking.cloudplatform.query.user.UserUpdatePwd;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.user.UserService;
+import net.northking.cloudplatform.utils.CltUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ * Created by Administrator on 2017/12/21 0021.
+ */
+@Service
+public class UserServiceImpl implements UserService {
+    @Autowired
+    private  UserFeignClient userFeignClient;
+
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @Override
+    public ResultInfo<String> addUserInfo(UserAndLoginQuery userAndLoginQuery) throws Exception{
+
+        ResultInfo<String>  resultInfo = null;
+
+        try{
+            //调用数据库
+            resultInfo =  userFeignClient.saveUser(userAndLoginQuery);
+
+        }catch (Exception e){
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<Integer> updateCltUser(UserAndLoginQuery userAndLoginQuery) throws Exception{
+
+        ResultInfo<Integer>  resultInfo = null;
+
+        try{
+            //调用数据库
+            resultInfo =  userFeignClient.updateCluUser(userAndLoginQuery);
+
+        }catch (Exception e){
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<String> deleteUsersByUserIds(UserAndLoginQuery userAndLoginQuery)throws Exception {
+
+        ResultInfo<String>  resultInfo = null;
+
+        try{
+            //调用数据库
+            resultInfo =  userFeignClient.deleteUsersByUserIds(userAndLoginQuery);
+
+        }catch (Exception e){
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<Integer> disEnableUser(UserAndLoginQuery userAndLoginQuery)throws Exception {
+
+        ResultInfo<Integer>  resultInfo = null;
+
+        try{
+            //调用数据库
+            resultInfo =  userFeignClient.disEnableUser(userAndLoginQuery);
+
+        }catch (Exception e){
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<CltUserAndLogin> queryUserInfoByUserId(UserAndLoginQuery userAndLoginQuery)throws Exception {
+
+        ResultInfo<CltUserAndLogin>  resultInfo = null;
+
+        try{
+            //调用数据库
+            resultInfo =  userFeignClient.queryUserInfoByUserId(userAndLoginQuery);
+
+        }catch (Exception e){
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<Page<CltUserAndLogin>> queryAllUserList(UserAndLoginQuery userAndLoginQuery) throws Exception{
+
+        ResultInfo<Page<CltUserAndLogin>>  resultInfo = null;
+
+        try{
+            //调用数据库
+            resultInfo =  userFeignClient.queryAllUserList(userAndLoginQuery);
+
+        }catch (Exception e){
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<Page<CltUserAndLogin>> queryLikeUserListByOrgId(UserAndLoginQuery userAndLoginQuery) throws Exception {
+
+        ResultInfo<Page<CltUserAndLogin>>  resultInfo = null;
+
+        try{
+            //调用数据库
+            resultInfo =  userFeignClient.queryUserListByOrgId(userAndLoginQuery);
+
+        }catch (Exception e){
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<Page<CltUserAndLogin>> queryAllTestMangerList(UserAndLoginQuery userAndLoginQuery) throws Exception {
+        ResultInfo<Page<CltUserAndLogin>>  resultInfo = null;
+
+        try{
+            //调用数据库
+            resultInfo =  userFeignClient.queryTestManagersList(userAndLoginQuery);
+
+        }catch (Exception e){
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<Page<CltUserAndLogin>> queryUserByUserType(UserAndLoginQuery userAndLoginQuery) throws Exception {
+        ResultInfo<Page<CltUserAndLogin>>  resultInfo = null;
+
+        try{
+            //调用数据库
+            resultInfo =  userFeignClient.queryUserListByUserType(userAndLoginQuery);
+
+        }catch (Exception e){
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        return resultInfo;
+    }
+
+
+    //查询用户的详细信息(从token里面拿出UserId查询)
+    @Override
+    public ResultInfo<CltUserAndLogin> queryUserByToken(UserAndLoginQuery userAndLoginQuery) throws Exception {
+
+        CltUserLogin cltUserLogin = (CltUserLogin) redisUtil.get(userAndLoginQuery.getAccess_token());
+
+        String userId=cltUserLogin.getUserId();
+
+        userAndLoginQuery.setUserId(userId);
+
+        ResultInfo<CltUserAndLogin>  resultInfo = null;
+
+        try{
+            //调用数据库
+            resultInfo =  userFeignClient.queryUserInfoByUserId(userAndLoginQuery);
+
+        }catch (Exception e){
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<String> updateUserPassword(UserUpdatePwd userUpdatePwd) throws Exception {
+
+        CltUtils.printStartInfo(userUpdatePwd, "updateUserPassword");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<String> stringResultInfo = null;
+
+        try {
+
+            stringResultInfo = userFeignClient.updatePassword(userUpdatePwd);
+
+        }catch (Exception e){
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(stringResultInfo);
+
+        CltUtils.printEndInfo(stringResultInfo, "updateUserPassword", startTime);
+
+        return stringResultInfo;
+    }
+
+    @Override
+    public ResultInfo<String> updateOrgIdByUserIds(UserAndLoginQuery userAndLoginQuery) throws Exception {
+
+        CltUtils.printStartInfo(userAndLoginQuery, "updateOrgIdByUserIds");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<String>  resultInfo = null;
+
+        try{
+
+            //调用user微服务接口
+            resultInfo =  userFeignClient.updateOrgIdByUserIds(userAndLoginQuery);
+
+        }catch (Exception e){
+
+            e.printStackTrace();
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(resultInfo);
+
+        CltUtils.printEndInfo(resultInfo, "updateOrgIdByUserIds", startTime);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<Integer> updateCltUserLoginByLoginNo(UserAndLoginQuery userAndLoginQuery) throws Exception {
+
+        CltUtils.printStartInfo(userAndLoginQuery, "updateCltUserLoginByLoginNo");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer>  resultInfo = null;
+
+        try{
+            //调用user微服务接口
+            resultInfo =  userFeignClient.updateCltUserLoginByLoginNo(userAndLoginQuery);
+
+        }catch (Exception e){
+
+            e.printStackTrace();
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(resultInfo);
+
+        CltUtils.printEndInfo(resultInfo, "updateCltUserLoginByLoginNo", startTime);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<CltUserLogin> queryCltUserLoginByLoginNo(UserAndLoginQuery userAndLoginQuery) throws Exception {
+
+        CltUtils.printStartInfo(userAndLoginQuery, "queryCltUserLoginByLoginNo");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<CltUserLogin>  resultInfo = null;
+
+        try{
+            //调用user微服务接口
+            resultInfo =  userFeignClient.queryCltUserLoginByLoginNo(userAndLoginQuery);
+
+        }catch (Exception e){
+
+            e.printStackTrace();
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(resultInfo);
+
+        CltUtils.printEndInfo(resultInfo, "queryCltUserLoginByLoginNo", startTime);
+
+        return resultInfo;
+    }
+}

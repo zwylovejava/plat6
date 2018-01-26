@@ -1,0 +1,2153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" readonly="true" id="9ed1d59e-ac8b-434b-8f9e-5c971963cc68" name="Default" comment="zwy">
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__antlr_antlr_2_7_7.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__aopalliance_aopalliance_1_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_classic_1_1_11.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_classic_1_1_8.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_core_1_1_11.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__ch_qos_logback_logback_core_1_1_8.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_alibaba_fastjson_1_2_31.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_classmate_1_3_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_classmate_1_3_4.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_annotations_2_8_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_core_2_8_10.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_core_jackson_databind_2_8_10.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_dataformat_jackson_dataformat_xml_2_8_10.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_afterburner_2_7_5.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_afterburner_2_8_10.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_jackson_module_jackson_module_jaxb_annotations_2_8_10.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_fasterxml_woodstox_woodstox_core_5_0_3.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_jsqlparser_jsqlparser_0_9_5.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_pagehelper_pagehelper_4_2_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_github_virtuald_curvesapi_1_03.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_findbugs_annotations_2_0_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_code_gson_gson_2_8_2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_guava_guava_18_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_google_inject_guice_4_1_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_ibm_icu_icu4j_2_6_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_jayway_jsonpath_json_path_2_2_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_archaius_archaius_core_0_6_6.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_archaius_archaius_core_0_7_4.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_eureka_eureka_client_1_6_2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_eureka_eureka_core_1_6_2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_feign_feign_core_8_16_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_feign_feign_httpclient_8_16_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_hystrix_hystrix_core_1_5_12.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_hystrix_hystrix_javanica_1_5_12.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_hystrix_hystrix_metrics_event_stream_1_5_12.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_hystrix_hystrix_serialization_1_5_12.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_netflix_commons_netflix_commons_util_0_1_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_netflix_commons_netflix_eventbus_0_3_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_netflix_commons_netflix_infix_0_3_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_netflix_commons_netflix_statistics_0_1_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_ribbon_ribbon_2_2_2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_ribbon_ribbon_core_2_2_2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_ribbon_ribbon_eureka_2_2_2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_ribbon_ribbon_httpclient_2_2_2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_ribbon_ribbon_loadbalancer_2_2_2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_ribbon_ribbon_transport_2_2_2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_servo_servo_core_0_10_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_servo_servo_internal_0_10_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_netflix_zuul_zuul_core_1_3_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_rabbitmq_amqp_client_4_0_3.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_rabbitmq_http_client_1_1_1_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_jersey_contribs_jersey_apache_client4_1_19_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_jersey_jersey_client_1_19_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_jersey_jersey_core_1_19_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_jersey_jersey_server_1_19_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_jersey_jersey_servlet_1_19_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_mail_javax_mail_1_5_4.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_sun_mail_javax_mail_1_5_6.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_thoughtworks_xstream_xstream_1_4_9.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__com_vaadin_external_google_android_json_0_0_20131108_vaadin1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_10.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_collections_commons_collections_3_2_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_collections_commons_collections_3_2_2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_configuration_commons_configuration_1_8.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_io_commons_io_2_4.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_jxpath_commons_jxpath_1_3.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_lang_commons_lang_2_6.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_logging_commons_logging_1_2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_net_commons_net_3_6.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__dom4j_dom4j_1_6_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_openfeign_feign_core_9_5_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_openfeign_feign_hystrix_9_5_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_github_openfeign_feign_slf4j_9_5_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_jsonwebtoken_jjwt_0_9_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_buffer_4_0_27_Final.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_4_0_27_Final.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_codec_http_4_0_27_Final.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_common_4_0_27_Final.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_handler_4_0_27_Final.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_4_0_27_Final.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_netty_netty_transport_native_epoll_4_0_27_Final.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_reactivex_rxjava_1_1_10.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_reactivex_rxnetty_0_4_9.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_reactivex_rxnetty_contexts_0_4_9.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__io_reactivex_rxnetty_servo_0_4_9.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_activation_activation_1_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_inject_javax_inject_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_validation_validation_api_1_1_0_Final.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_ws_rs_jsr311_api_1_1_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__javax_xml_stream_stax_api_1_0_2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jaxen_jaxen_1_1_6.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jaxen_jaxen_1_1_beta_6.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__jdom_jdom_1_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__joda_time_joda_time_2_9_9.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_12.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__mysql_mysql_connector_java_5_1_39.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__mysql_mysql_connector_java_5_1_44.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_accessors_smart_1_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_minidev_json_smart_2_2_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__net_northking_cloudplatform_httpfiletrans_client_0_0_1_SNAPSHOT.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_antlr_antlr_runtime_3_4.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_antlr_stringtemplate_3_2_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_collections4_4_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_lang3_3_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_math_2_2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_pool2_2_3.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_commons_commons_pool2_2_4_2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpclient_4_5_3.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_6.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_httpcomponents_httpcore_4_4_8.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_3_17.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_3_14.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_ooxml_schemas_3_17.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_poi_poi_scratchpad_3_17.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_core_8_5_23.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_el_8_5_23.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_embed_tomcat_embed_websocket_8_5_23.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_tomcat_annotations_api_8_5_23.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_tomcat_jdbc_7_0_39.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_tomcat_jdbc_8_5_23.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_tomcat_jdbc_8_5_6.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_tomcat_juli_7_0_39.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_tomcat_juli_8_5_23.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_tomcat_tomcat_juli_8_5_6.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_apache_xmlbeans_xmlbeans_2_6_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_aspectj_aspectjweaver_1_8_11.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_aspectj_aspectjweaver_1_8_6.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_assertj_assertj_core_2_6_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bouncycastle_bcpkix_jdk15on_1_55.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bouncycastle_bcpkix_jdk15on_1_56.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bouncycastle_bcprov_jdk15on_1_55.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_bouncycastle_bcprov_jdk15on_1_56.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ccil_cowan_tagsoup_tagsoup_0_9_7.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_jackson_jackson_core_asl_1_9_13.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_jackson_jackson_mapper_asl_1_9_13.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_jettison_jettison_1_3_7.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_woodstox_stax2_api_3_1_4.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_codehaus_woodstox_woodstox_core_asl_4_4_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_freemarker_freemarker_2_3_26_incubating.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_core_1_3.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hamcrest_hamcrest_library_1_3.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hdrhistogram_HdrHistogram_2_1_9.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_hibernate_hibernate_validator_5_3_5_Final.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_3_0_Final.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jboss_logging_jboss_logging_3_3_1_Final.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_jvnet_animal_sniffer_annotation_1_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mockito_mockito_core_1_10_19.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_3_4_2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_mybatis_spring_1_3_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_spring_boot_mybatis_spring_boot_autoconfigure_1_2_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_mybatis_spring_boot_mybatis_spring_boot_starter_1_2_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_objenesis_objenesis_2_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_5_0_3.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_ow2_asm_asm_5_0_4.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_projectlombok_lombok_1_16_18.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_skyscreamer_jsonassert_1_4_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jcl_over_slf4j_1_7_13.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jcl_over_slf4j_1_7_22.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jcl_over_slf4j_1_7_25.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jul_to_slf4j_1_7_22.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jul_to_slf4j_1_7_25.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_log4j_over_slf4j_1_7_22.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_log4j_over_slf4j_1_7_25.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_13.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_7_25.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_amqp_spring_amqp_1_7_4_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_amqp_spring_rabbit_1_7_4_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_1_4_3_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_1_5_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_actuator_1_5_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_autoconfigure_1_4_3_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_autoconfigure_1_5_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_1_4_3_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_1_5_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_actuator_1_5_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_amqp_1_5_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_aop_1_5_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_data_redis_1_5_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_freemarker_1_5_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_jdbc_1_4_3_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_jdbc_1_5_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_logging_1_4_3_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_logging_1_5_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_redis_1_3_5_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_security_1_5_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_test_1_5_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_tomcat_1_5_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_starter_web_1_5_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_1_5_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_boot_spring_boot_test_autoconfigure_1_5_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_commons_1_2_4_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_config_client_1_3_3_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_context_1_2_4_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_netflix_core_1_3_5_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_netflix_eureka_client_1_3_5_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_netflix_eureka_server_1_3_5_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_netflix_hystrix_dashboard_1_3_5_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_security_1_2_1_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_1_2_4_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_archaius_1_3_5_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_config_1_3_3_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_eureka_1_3_5_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_eureka_server_1_3_5_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_feign_1_3_5_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_hystrix_1_3_5_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_hystrix_dashboard_1_3_5_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_oauth2_1_2_1_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_ribbon_1_3_5_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_security_1_2_1_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_cloud_spring_cloud_starter_zuul_1_3_5_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_commons_1_13_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_keyvalue_1_2_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_redis_1_6_4_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_data_spring_data_redis_1_8_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_retry_spring_retry_1_2_0_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_retry_spring_retry_1_2_1_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_oauth_spring_security_oauth2_2_0_14_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_config_4_2_3_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_core_4_2_3_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_crypto_4_2_3_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_data_4_2_3_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_jwt_1_0_8_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_rsa_1_0_3_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_security_spring_security_web_4_2_3_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_4_3_12_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_4_3_9_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_4_3_12_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_4_3_9_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_4_3_12_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_4_3_9_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_support_4_1_9_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_support_4_3_12_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_4_3_12_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_4_3_5_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_4_3_9_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_4_3_12_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_4_3_9_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jdbc_4_3_12_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_jdbc_4_3_5_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_messaging_4_3_12_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_oxm_4_1_9_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_oxm_4_3_12_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_test_4_3_12_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_tx_4_1_9_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_tx_4_3_12_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_tx_4_3_5_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_4_3_12_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_webmvc_4_3_12_RELEASE.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_webjars_d3js_3_4_11.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_webjars_jquery_2_1_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_yaml_snakeyaml_1_17.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__redis_clients_jedis_2_7_3.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__redis_clients_jedis_2_9_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__stax_stax_api_1_0_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xalan_xalan_2_6_0.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xerces_xercesImpl_2_6_2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xerces_xmlParserAPIs_2_6_2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xml_apis_xml_apis_1_0_b2.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xml_apis_xml_apis_1_4_01.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xmlpull_xmlpull_1_1_3_1.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xom_xom_1_0b3.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__xpp3_xpp3_min_1_1_4c.xml" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/config" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/config/FeignConfig.java" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" afterPath="$PROJECT_DIR$/.idea/encodings.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/cloud_platform.iml" afterPath="$PROJECT_DIR$/cloud_platform.iml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-api/cloudplatform-api.iml" afterPath="$PROJECT_DIR$/cloudplatform-api/cloudplatform-api.iml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-api/pom.xml" afterPath="$PROJECT_DIR$/cloudplatform-api/pom.xml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-auth/cloudplatform-auth.iml" afterPath="$PROJECT_DIR$/cloudplatform-auth/cloudplatform-auth.iml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-auth/src/main/resources/bootstrap.yml" afterPath="$PROJECT_DIR$/cloudplatform-auth/src/main/resources/bootstrap.yml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-cust/cloudplatform-cust.iml" afterPath="$PROJECT_DIR$/cloudplatform-cust/cloudplatform-cust.iml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-cust/pom.xml" afterPath="$PROJECT_DIR$/cloudplatform-cust/pom.xml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-cust/src/main/java/net/northking/cloudplatform/CloudPlatFormCustApplication.java" afterPath="$PROJECT_DIR$/cloudplatform-cust/src/main/java/net/northking/cloudplatform/CloudPlatFormCustApplication.java" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-cust/src/main/java/net/northking/cloudplatform/config" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-cust/src/main/java/net/northking/cloudplatform/config/MyConfiguration.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-cust/src/main/java/net/northking/cloudplatform/interceptor" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-cust/src/main/java/net/northking/cloudplatform/interceptor/TxTransactionInterceptor.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-cust/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/cloudplatform-cust/src/main/resources/application.yml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-cust/src/main/resources/bootstrap.yml" afterPath="$PROJECT_DIR$/cloudplatform-cust/src/main/resources/bootstrap.yml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-cust/src/main/resources/tx.properties" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-dao/cloudplatform-dao.iml" afterPath="$PROJECT_DIR$/cloudplatform-dao/cloudplatform-dao.iml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-dao/src/main/resources/generatorConfig.xml" afterPath="$PROJECT_DIR$/cloudplatform-dao/src/main/resources/generatorConfig.xml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-dictionary/cloudplatform-dictionary.iml" afterPath="$PROJECT_DIR$/cloudplatform-dictionary/cloudplatform-dictionary.iml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-dictionary/pom.xml" afterPath="$PROJECT_DIR$/cloudplatform-dictionary/pom.xml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-dictionary/src/main/java/net/northking/cloudplatform/CloudplatformDictionaryApplication.java" afterPath="$PROJECT_DIR$/cloudplatform-dictionary/src/main/java/net/northking/cloudplatform/CloudplatformDictionaryApplication.java" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-dictionary/src/main/java/net/northking/cloudplatform/config" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-dictionary/src/main/java/net/northking/cloudplatform/config/MyConfiguration.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-dictionary/src/main/java/net/northking/cloudplatform/interceptor" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-dictionary/src/main/java/net/northking/cloudplatform/interceptor/TxTransactionInterceptor.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-dictionary/src/main/java/net/northking/cloudplatform/resources/bootstrap.yml" afterPath="$PROJECT_DIR$/cloudplatform-dictionary/src/main/java/net/northking/cloudplatform/resources/bootstrap.yml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-dictionary/src/main/java/net/northking/cloudplatform/resources/tx.properties" afterPath="$PROJECT_DIR$/cloudplatform-dictionary/src/main/java/net/northking/cloudplatform/resources/tx.properties" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-dictionary/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/cloudplatform-dictionary/src/main/resources/application.yml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-dictionary/src/main/resources/bootstrap.yml" afterPath="$PROJECT_DIR$/cloudplatform-dictionary/src/main/resources/bootstrap.yml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-dictionary/src/main/resources/tx.properties" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-eureka/cloudplatform-eureka.iml" afterPath="$PROJECT_DIR$/cloudplatform-eureka/cloudplatform-eureka.iml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-gateway/cloudplatform-gateway.iml" afterPath="$PROJECT_DIR$/cloudplatform-gateway/cloudplatform-gateway.iml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-gateway/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/cloudplatform-gateway/src/main/resources/application.yml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-gateway/src/main/resources/bootstrap.yml" afterPath="$PROJECT_DIR$/cloudplatform-gateway/src/main/resources/bootstrap.yml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-rabbitmq/cloudplatform-rabbitmq.iml" afterPath="$PROJECT_DIR$/cloudplatform-rabbitmq/cloudplatform-rabbitmq.iml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testbug/cloudplatform-testbug.iml" afterPath="$PROJECT_DIR$/cloudplatform-testbug/cloudplatform-testbug.iml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testbug/pom.xml" afterPath="$PROJECT_DIR$/cloudplatform-testbug/pom.xml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testbug/src/main/java/net/northking/cloudplatform/CloudplatformTestBugApplication.java" afterPath="$PROJECT_DIR$/cloudplatform-testbug/src/main/java/net/northking/cloudplatform/CloudplatformTestBugApplication.java" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testbug/src/main/java/net/northking/cloudplatform/config" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testbug/src/main/java/net/northking/cloudplatform/config/MyConfiguration.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testbug/src/main/java/net/northking/cloudplatform/interceptor" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testbug/src/main/java/net/northking/cloudplatform/interceptor/TxTransactionInterceptor.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testbug/src/main/java/net/northking/cloudplatform/service/impl/TestBugServiceImpl.java" afterPath="$PROJECT_DIR$/cloudplatform-testbug/src/main/java/net/northking/cloudplatform/service/impl/TestBugServiceImpl.java" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testbug/src/main/java/net/northking/cloudplatform/service/impl/TxManagerTxUrlServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testbug/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/cloudplatform-testbug/src/main/resources/application.yml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testbug/src/main/resources/bootstrap.yml" afterPath="$PROJECT_DIR$/cloudplatform-testbug/src/main/resources/bootstrap.yml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testexecute/cloudplatform-testexecute.iml" afterPath="$PROJECT_DIR$/cloudplatform-testexecute/cloudplatform-testexecute.iml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testexecute/pom.xml" afterPath="$PROJECT_DIR$/cloudplatform-testexecute/pom.xml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/CloudplatformTestexecuteApplication.java" afterPath="$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/CloudplatformTestexecuteApplication.java" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/config" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/config/MyConfiguration.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/interceptor" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/interceptor/TxTransactionInterceptor.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/service/impl/TxManagerTxUrlServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testexecute/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/cloudplatform-testexecute/src/main/resources/application.yml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testexecute/src/main/resources/bootstrap.yml" afterPath="$PROJECT_DIR$/cloudplatform-testexecute/src/main/resources/bootstrap.yml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testexecute/src/test" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testexecute/src/test/java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testexecute/src/test/java/net" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testexecute/src/test/java/net/northking" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testexecute/src/test/java/net/northking/cloudplatform" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-testexecute/src/test/java/net/northking/cloudplatform/CloudplatformTestexecuteApplicationTests.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/pom.xml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/build" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/build/package.xml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/Constants.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/CorsConfig.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/RestConfig.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/ServletInitializer.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/TxManagerApplication.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/api" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/api/controller" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/api/controller/AdminController.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/api/controller/TxManagerController.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/api/service" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/api/service/ApiAdminService.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/api/service/ApiModelService.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/api/service/ApiTxManagerService.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/api/service/impl" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/api/service/impl/ApiAdminServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/api/service/impl/ApiModelServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/api/service/impl/ApiTxManagerServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/compensate" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/compensate/dao" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/compensate/dao/CompensateDao.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/compensate/dao/impl" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/compensate/dao/impl/CompensateDaoImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/compensate/model" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/compensate/model/TransactionCompensateMsg.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/compensate/model/TxModel.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/compensate/service" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/compensate/service/CompensateService.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/compensate/service/impl" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/compensate/service/impl/CompensateServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/config" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/config/ConfigReader.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/listener" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/listener/ApplicationStartListener.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/listener/ServerListener.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/listener/service" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/listener/service/InitService.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/listener/service/impl" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/listener/service/impl/InitServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/manager" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/manager/ModelInfoManager.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/manager/service" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/manager/service/LoadBalanceService.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/manager/service/MicroService.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/manager/service/TxManagerSenderService.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/manager/service/TxManagerService.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/manager/service/impl" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/manager/service/impl/LoadBalanceServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/manager/service/impl/MicroServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/manager/service/impl/TxManagerSenderServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/manager/service/impl/TxManagerServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/model" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/model/ChannelSender.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/model/LoadBalanceInfo.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/model/ModelInfo.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/model/ModelName.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/model/TxServer.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/model/TxState.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/handler" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/handler/TxCoreServerHandler.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/model" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/model/TxGroup.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/model/TxInfo.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/IActionService.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/NettyServerService.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/NettyService.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/impl" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/impl/ActionATGServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/impl/ActionCGServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/impl/ActionCKGServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/impl/ActionCServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/impl/ActionCTGServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/impl/ActionGLBServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/impl/ActionHServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/impl/ActionPLBServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/impl/ActionRGServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/impl/ActionTServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/impl/ActionUMIServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/impl/BaseSignalTaskService.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/impl/NettyServerServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/netty/service/impl/NettyServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/redis" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/redis/JedisClusterConfig.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/redis/RedisConfig.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/redis/RedisProperties.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/redis/service" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/redis/service/RedisServerService.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/redis/service/impl" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/redis/service/impl/RedisServerServiceImpl.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/utils" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/utils/SocketManager.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/java/net/northking/cloudplatform/utils/SocketUtils.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/application.properties" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/bootstrap.yml" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/index.html" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/log.html" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/model.html" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/css/bootstrap-theme.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/css/bootstrap-theme.css.map" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/css/bootstrap-theme.min.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/css/bootstrap-theme.min.css.map" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/css/bootstrap.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/css/bootstrap.css.map" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/css/bootstrap.min.css" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/css/bootstrap.min.css.map" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/fonts" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/fonts/glyphicons-halflings-regular.eot" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/fonts/glyphicons-halflings-regular.svg" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/fonts/glyphicons-halflings-regular.ttf" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/fonts/glyphicons-halflings-regular.woff" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/fonts/glyphicons-halflings-regular.woff2" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/js/bootstrap.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/js/bootstrap.min.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/bootstrap/js/npm.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/common" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/common/common.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/common/http.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/common/jbase64.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/images" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/images/logo.png" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/index.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/jquery" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/jquery/jquery-2.2.3.min.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/jquery/jquery.blockUI-css.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/jquery/jquery.blockUI.min.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/jquery/jquery.form.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/jquery/jquery.min.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/log.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-txmanager/src/main/resources/static/static/model.js" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-web/cloudplatform-web.iml" afterPath="$PROJECT_DIR$/cloudplatform-web/cloudplatform-web.iml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-web/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/cloudplatform-web/src/main/resources/application.yml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform-web/src/main/resources/bootstrap.yml" afterPath="$PROJECT_DIR$/cloudplatform-web/src/main/resources/bootstrap.yml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform_project/cloudplatform_project.iml" afterPath="$PROJECT_DIR$/cloudplatform_project/cloudplatform_project.iml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform_project/pom.xml" afterPath="$PROJECT_DIR$/cloudplatform_project/pom.xml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform_project/src/main/java/net/northking/cloudplatform/CloudplatformProjectApplication.java" afterPath="$PROJECT_DIR$/cloudplatform_project/src/main/java/net/northking/cloudplatform/CloudplatformProjectApplication.java" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform_project/src/main/java/net/northking/cloudplatform/config" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform_project/src/main/java/net/northking/cloudplatform/config/MyConfiguration.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform_project/src/main/java/net/northking/cloudplatform/interceptor" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform_project/src/main/java/net/northking/cloudplatform/interceptor/TxTransactionInterceptor.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform_project/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/cloudplatform_project/src/main/resources/application.yml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform_project/src/main/resources/bootstrap.yml" afterPath="$PROJECT_DIR$/cloudplatform_project/src/main/resources/bootstrap.yml" />
+      <change beforePath="$PROJECT_DIR$/cloudplatform_project/src/main/resources/tx.properties" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/clouplatform-user/clouplatform-user.iml" afterPath="$PROJECT_DIR$/clouplatform-user/clouplatform-user.iml" />
+      <change beforePath="$PROJECT_DIR$/clouplatform-user/pom.xml" afterPath="$PROJECT_DIR$/clouplatform-user/pom.xml" />
+      <change beforePath="$PROJECT_DIR$/clouplatform-user/src/main/java/net/northking/cloudplatform/CloudPlatFormUserApplication.java" afterPath="$PROJECT_DIR$/clouplatform-user/src/main/java/net/northking/cloudplatform/CloudPlatFormUserApplication.java" />
+      <change beforePath="$PROJECT_DIR$/clouplatform-user/src/main/java/net/northking/cloudplatform/config" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/clouplatform-user/src/main/java/net/northking/cloudplatform/config/MyConfiguration.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/clouplatform-user/src/main/java/net/northking/cloudplatform/controller/RoleController.java" afterPath="$PROJECT_DIR$/clouplatform-user/src/main/java/net/northking/cloudplatform/controller/RoleController.java" />
+      <change beforePath="$PROJECT_DIR$/clouplatform-user/src/main/java/net/northking/cloudplatform/interceptor" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/clouplatform-user/src/main/java/net/northking/cloudplatform/interceptor/TxTransactionInterceptor.java" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/clouplatform-user/src/main/resources/application.yml" afterPath="$PROJECT_DIR$/clouplatform-user/src/main/resources/application.yml" />
+      <change beforePath="$PROJECT_DIR$/clouplatform-user/src/main/resources/bootstrap.yml" afterPath="$PROJECT_DIR$/clouplatform-user/src/main/resources/bootstrap.yml" />
+      <change beforePath="$PROJECT_DIR$/clouplatform-user/src/main/resources/tx.properties" afterPath="" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+    </list>
+    <ignored path="$PROJECT_DIR$/out/" />
+    <ignored path="$PROJECT_DIR$/target/" />
+    <ignored path="$PROJECT_DIR$/cloudplatform-api/target/" />
+    <ignored path="$PROJECT_DIR$/cloudplatform-dao/target/" />
+    <ignored path="$PROJECT_DIR$/cloudplatform-gateway/target/" />
+    <ignored path="$PROJECT_DIR$/cloudplatform-auth/target/" />
+    <ignored path="$PROJECT_DIR$/cloudplatform-eureka/target/" />
+    <ignored path="$PROJECT_DIR$/cloudplatform-assist/target/" />
+    <ignored path="$PROJECT_DIR$/clouplatform-user/target/" />
+    <ignored path="$PROJECT_DIR$/cloudplatform-web/target/" />
+    <ignored path="$PROJECT_DIR$/cloudplatform-cust/target/" />
+    <ignored path="$PROJECT_DIR$/cloudplatformtest-case/target/" />
+    <ignored path="$PROJECT_DIR$/cloudplatform-testcase/target/" />
+    <ignored path="$PROJECT_DIR$/cloudplatform-testexecute/target/" />
+    <ignored path="$PROJECT_DIR$/cloudplatform_project/target/" />
+    <ignored path="$PROJECT_DIR$/cloudplatform-workjob/target/" />
+    <ignored path="$PROJECT_DIR$/cloudplatform-testbug/target/" />
+    <ignored path="$PROJECT_DIR$/cloudplatform-dictionary/target/" />
+    <ignored path="$PROJECT_DIR$/cloudplatform-txmanager/target/" />
+    <ignored path="$PROJECT_DIR$/cloudplatform-rabbitmq/target/" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CreatePatchCommitExecutor">
+    <option name="PATCH_PATH" value="" />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="cloud_platform" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file leaf-file-name="application.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cloudplatform-web/src/main/resources/application.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="75">
+              <caret line="3" column="8" lean-forward="false" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="bootstrap.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cloudplatform-web/src/main/resources/bootstrap.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1250">
+              <caret line="50" column="49" lean-forward="false" selection-start-line="50" selection-start-column="49" selection-end-line="50" selection-end-column="49" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BatchController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/controller/BatchController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="BatchServiceImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/service/impl/BatchServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserServiceImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/clouplatform-user/src/main/java/net/northking/cloudplatform/service/impl/UserServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="425">
+              <caret line="42" column="44" lean-forward="false" selection-start-line="42" selection-start-column="44" selection-end-line="42" selection-end-column="44" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="application.yml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cloudplatform-testexecute/src/main/resources/application.yml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="425">
+              <caret line="17" column="14" lean-forward="false" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="pom.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/pom.xml">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="FanoutReceiverA.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/utils/FanoutReceiverA.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="425">
+              <caret line="27" column="24" lean-forward="false" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserServiceImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/service/impl/user/UserServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="3450">
+              <caret line="153" column="0" lean-forward="false" selection-start-line="153" selection-start-column="0" selection-end-line="153" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="UserController.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/controller/user/UserController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="598">
+              <caret line="94" column="7" lean-forward="true" selection-start-line="94" selection-start-column="7" selection-end-line="94" selection-end-column="7" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="FxmlFile" />
+        <option value="JUnit4 Test Class" />
+        <option value="Enum" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>timeout</find>
+      <find>Thread.sleep()</find>
+      <find>addTestBug start paramData</find>
+      <find>addTestBug</find>
+      <find>return</find>
+      <find>feignOptions</find>
+      <find>feignRetryer</find>
+      <find>Thread</find>
+      <find>Cla</find>
+      <find>Calendar</find>
+      <find>queryTestCaseSetByCaseId</find>
+      <find>con</find>
+      <find>queryTestStepDataById</find>
+      <find>currentCase</find>
+      <find>currentStepId</find>
+      <find>stepId</find>
+      <find>CLT021300009</find>
+      <find>name</find>
+      <find>#datasource_url#</find>
+      <find>#datasource_username#</find>
+      <find>#datasource_password#</find>
+      <find>#hostIP_eureka#</find>
+      <find>#hostIP#</find>
+      <find>queryTestBugByBathId</find>
+      <find>8088</find>
+      <find>http://localhost:8888</find>
+      <find>808</find>
+      <find>8888</find>
+      <find>code</find>
+      <find>All</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>cloudplatform</replace>
+    </replaceStrings>
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/controller/testbug/TestBugController.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/controller/testexecute/TestTeamContrller.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/controller/user/FuncRoleController.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/controller/user/OrgController.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/controller/user/RoleController.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/controller/user/UserController.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/controller/user/UserRoleController.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/service/impl/disctionary/DictionaryServiceImpl.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/service/impl/testbug/TestBugServiceImpl.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/service/impl/testexecute/TestTeamServiceImpl.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/service/impl/user/UserRoleServiceImpl.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-dictionary/src/main/java/net/northking/cloudplatform/CloudplatformDictionaryApplication.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/controller/customer/CustomerController.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-dao/src/main/java/net/northking/cloudplatform/dao/user/CltRoleMapper.java" />
+        <option value="$PROJECT_DIR$/clouplatform-user/src/main/java/net/northking/cloudplatform/service/impl/RoleServiceImpl.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/query/cust/CustomerQuery.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-api/pom.xml" />
+        <option value="$PROJECT_DIR$/cloudplatform-gateway/src/main/resources/application.yml" />
+        <option value="$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/config/FeignConfig.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/domain/testexecute/CltCaseExecute.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-dao/src/main/resources/mapper/extend/testexecute/CltCaseExecuteMapper.xml" />
+        <option value="$PROJECT_DIR$/cloudplatform-dao/src/main/java/net/northking/cloudplatform/dao/testexecute/CltCaseExecuteMapper.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/domain/testexecute/CltTestStepData.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-dao/src/main/java/net/northking/cloudplatform/dao/testexecute/CltTestStepDataMapper.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-dao/src/main/resources/mapper/extend/testexecute/CltTestStepDataMapper.xml" />
+        <option value="$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/dto/testexecute/StepDataInfo.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/service/TestCaseStepService.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/feign/testexecute/JobFeignClient.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/service/testexecute/JobService.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/service/impl/testexecute/JobServiceImpl.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-testexecute/src/main/resources/application.yml" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/CloudPlatFormWebApplication.java" />
+        <option value="$PROJECT_DIR$/cloudplatform_project/src/main/resources/bootstrap.yml" />
+        <option value="$PROJECT_DIR$/clouplatform-user/src/main/resources/bootstrap.yml" />
+        <option value="$PROJECT_DIR$/cloudplatform-dictionary/src/main/resources/bootstrap.yml" />
+        <option value="$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/query/testbug/TestBugQuery.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-testbug/src/main/java/net/northking/cloudplatform/service/impl/TestBugServiceImpl.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-testexecute/src/main/resources/bootstrap.yml" />
+        <option value="$PROJECT_DIR$/cloudplatform-gateway/src/main/resources/bootstrap.yml" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/resources/bootstrap.yml" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/resources/application.yml" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/controller/testexecute/JobController.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/dto/testexecute/TestCaseStepData.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/controller/TestCaseStepController.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/service/impl/JobServiceImpl.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/query/testexecute/TestCaseStepQuery.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/service/impl/TestCaseStepServiceImpl.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/security/CltFilterInvocationSecurityMetadataSource.java" />
+        <option value="$PROJECT_DIR$/clouplatform-user/src/main/java/net/northking/cloudplatform/controller/RoleController.java" />
+        <option value="$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/utils/FanoutReceiverA.java" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="mavenHome" value="D:/java/apache-maven-3.5.0" />
+      </MavenGeneralSettings>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="cloud_platform" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="cloudplatform-auth" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="cloudplatform-auth" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
+        </path>
+      </expand>
+      <select />
+    </treeState>
+  </component>
+  <component name="ProjectFrameBounds" extendedState="6">
+    <option name="x" value="-181" />
+    <option name="y" value="174" />
+    <option name="width" value="1936" />
+    <option name="height" value="1056" />
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <OptionsSetting value="false" id="Update" />
+    <ConfirmationsSetting value="2" id="Add" />
+    <ConfirmationsSetting value="2" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages ProjectPane="true" />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="Scope" />
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="plat6" type="b2602c69:ProjectViewProjectNode" />
+              <item name="plat6" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="PackagesPane" />
+      <pane id="Scratches" />
+      <pane id="AndroidView" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth2" value="75" />
+    <property name="RequestMappingsPanelOrder2" value="2" />
+    <property name="settings.editor.selected.configurable" value="vcs.Subversion" />
+    <property name="SearchEverywhereHistoryKey" value="queryTestBugByBathId&#9;null&#9;null&#10;List&#9;FILE&#9;jar://D:/java/jdk8/jre/lib/rt.jar!/java/util/List.class&#10;cltcaseset&#9;FILE&#9;file://D:/yunce/plat6/cloudplatform-dao/src/main/resources/mapper/base/testexecute/CltCaseSetMapper.xml&#10;feignRetryer&#9;PSI&#9;JAVA://org.springframework.cloud.netflix.feign.FeignClientsConfiguration#feignRetryer&#10;Request&#9;FILE&#9;jar://D:/software/respon/io/github/openfeign/feign-core/9.5.0/feign-core-9.5.0.jar!/feign/Request.class&#10;Retryer&#9;PSI&#9;JAVA://feign.Retryer&#10;saveUser&#9;PSI&#9;JAVA://net.northking.cloudplatform.service.UserService#saveUser&#10;funcPathId&#9;PSI&#9;JAVA://net.northking.cloudplatform.domain.user.CltFunc#funcPathId&#10;findOneWithRolesAndFuncsByLoginNo&#9;PSI&#9;JAVA://net.northking.cloudplatform.dao.user.CltUserLoginMapper#findOneWithRolesAndFuncsByLoginNo&#10;CltUserLogin&#9;FILE&#9;file://D:/yunce/plat6/cloudplatform-api/src/main/java/net/northking/cloudplatform/domain/user/CltUserLogin.java&#10;queryUserInfoByUserId&#9;PSI&#9;JAVA://net.northking.cloudplatform.controller.UserController#queryUserInfoByUserId&#10;queryBugByBatchId&#9;PSI&#9;JAVA://net.northking.cloudplatform.controller.JobController#queryBugByBatchId&#10;Pre&#9;FILE&#9;jar://D:/java/jdk8/src.zip!/java/util/function/Predicate.java&#10;queryTestBugByCaseId&#9;PSI&#9;JAVA://net.northking.cloudplatform.dao.testbug.CltTestBugMapper#queryTestBugByCaseId&#10;queryAllTestBugs&#9;PSI&#9;JAVA://net.northking.cloudplatform.controller.testbug.TestBugController#queryAllTestBugs&#10;Predic&#9;PSI&#9;JAVA://java.util.function.Predicate&#10;queryTestCaseById&#9;PSI&#9;JAVA://net.northking.cloudplatform.dao.testexecute.CltTestCaseMapper#queryTestCaseById&#10;Date&#9;FILE&#9;jar://D:/java/jdk8/src.zip!/java/util/Date.java&#10;getUserFuncList&#9;PSI&#9;JAVA://net.northking.cloudplatform.controller.user.UserLoginController#getUserFuncList&#10;queryUserListByRoleCode&#9;PSI&#9;JAVA://net.northking.cloudplatform.controller.UserController#queryUserListByRoleCode&#10;queryTestManagersList&#9;PSI&#9;JAVA://net.northking.cloudplatform.feign.user.UserFeignClient#queryTestManagersList&#10;queryALlTestMangerList&#9;PSI&#9;JAVA://net.northking.cloudplatform.controller.user.UserController#queryALlTestMangerList&#10;queryCustomerByCustCode&#9;PSI&#9;JAVA://net.northking.cloudplatform.dao.project.CltCustomerMapper#queryCustomerByCustCode&#10;ProjectService&#9;PSI&#9;JAVA://net.northking.cloudplatform.service.ProjectService" />
+    <property name="com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary" value="JUnit4" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateTestDialog.RecentsKey">
+      <recent name="net.northking.cloudplatform.service.impl" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="net.northking.cloudplatform.dao.testcase" />
+      <recent name="net.northking.cloudplatform.dao.project" />
+      <recent name="net.northking.cloudplatform.query.cust" />
+      <recent name="net.northking.cloudplatform.utils.jwt" />
+      <recent name="net.northking.cloudplatform.endpoint" />
+    </key>
+    <key name="CreateTestDialog.Recents.Supers">
+      <recent name="" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\yunce\plat6\cloudplatform-dao\src\main\resources\mapper\extend\testexecute" />
+      <recent name="D:\yunce\plat6\cloudplatform-api\src\main\java\net\northking\cloudplatform\domain\testexecute" />
+      <recent name="D:\yunce\plat2\cloudplatform-api\src\main\java\net\northking\cloudplatform\dto\testexecute" />
+      <recent name="D:\yunce\plat2\cloudplatform-api\src\main\java\net\northking\cloudplatform\query\testexecute" />
+      <recent name="D:\workspace\yunce\cloud_platform\cloudplatform-gateway\src\main\resources" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Spring Boot.CloudPlatFormWebApplication">
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <module />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType" factoryName="Kotlin">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="cloudplatform-assist" />
+      <envs />
+    </configuration>
+    <configuration name="Unnamed" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list />
+            </option>
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
+    <configuration name="CloudPlatFormAuthApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="net.northking.cloudplatform.CloudPlatFormAuthApplication" />
+      <option name="VM_PARAMETERS" value="-mx48m -XX:MaxPermSize=48m" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <module name="cloudplatform-auth" />
+      <envs />
+    </configuration>
+    <configuration name="CloudPlatFormCustApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="net.northking.cloudplatform.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="net.northking.cloudplatform.CloudPlatFormCustApplication" />
+      <option name="VM_PARAMETERS" value="-mx48m -XX:MaxPermSize=48m" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <module name="cloudplatform-cust" />
+      <envs />
+    </configuration>
+    <configuration name="CloudPlatFormEurekaApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="net.northking.cloudplatform.CloudPlatFormEurekaApplication" />
+      <option name="VM_PARAMETERS" value="-mx48m -XX:MaxPermSize=48m" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <module name="cloudplatform-eureka" />
+      <envs />
+    </configuration>
+    <configuration name="CloudPlatFormUserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="net.northking.cloudplatform.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="net.northking.cloudplatform.CloudPlatFormUserApplication" />
+      <option name="VM_PARAMETERS" value="-mx48m -XX:MaxPermSize=48m" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <module name="clouplatform-user" />
+      <envs />
+    </configuration>
+    <configuration name="CloudPlatFormWebApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="net.northking.cloudplatform.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="SPRING_BOOT_MAIN_CLASS" value="net.northking.cloudplatform.CloudPlatFormWebApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <module name="cloudplatform-web" />
+      <envs />
+    </configuration>
+    <configuration name="CloudplatFormGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="net.northking.cloudplatform.CloudplatFormGatewayApplication" />
+      <option name="VM_PARAMETERS" value="-mx48m -XX:MaxPermSize=48m" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <module name="cloudplatform-gateway" />
+      <envs />
+    </configuration>
+    <configuration name="CloudplatformDictionaryApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="net.northking.cloudplatform.CloudplatformDictionaryApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <module name="cloudplatform-dictionary" />
+      <envs />
+    </configuration>
+    <configuration name="CloudplatformGatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="net.northking.cloudplatform.CloudplatFormGatewayApplication" />
+      <option name="VM_PARAMETERS" value="-mx48m -XX:MaxPermSize=48m" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <module name="cloudplatform-gateway" />
+      <envs />
+      <method>
+        <option name="Maven.BeforeRunTask" enabled="true" file="$PROJECT_DIR$/pom.xml" goal="compiler:compile" />
+      </method>
+    </configuration>
+    <configuration name="CloudplatformProjectApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="net.northking.cloudplatform.CloudplatformProjectApplication" />
+      <module name="cloudplatform_project" />
+      <envs />
+    </configuration>
+    <configuration name="CloudplatformTestBugApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="net.northking.cloudplatform.CloudplatformTestBugApplication" />
+      <module name="cloudplatform-testbug" />
+      <envs />
+    </configuration>
+    <configuration name="CloudplatformTestexecuteApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="net.northking.cloudplatform.CloudplatformTestexecuteApplication" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <module name="cloudplatform-testexecute" />
+      <envs />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+    </configuration>
+    <configuration default="true" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <envs />
+      <method />
+    </configuration>
+    <list size="12">
+      <item index="0" class="java.lang.String" itemvalue="Maven.Unnamed" />
+      <item index="1" class="java.lang.String" itemvalue="Spring Boot.CloudplatformTestexecuteApplication" />
+      <item index="2" class="java.lang.String" itemvalue="Spring Boot.CloudplatformGatewayApplication" />
+      <item index="3" class="java.lang.String" itemvalue="Spring Boot.CloudPlatFormAuthApplication" />
+      <item index="4" class="java.lang.String" itemvalue="Spring Boot.CloudPlatFormEurekaApplication" />
+      <item index="5" class="java.lang.String" itemvalue="Spring Boot.CloudplatFormGatewayApplication" />
+      <item index="6" class="java.lang.String" itemvalue="Spring Boot.CloudplatformProjectApplication" />
+      <item index="7" class="java.lang.String" itemvalue="Spring Boot.CloudplatformTestBugApplication" />
+      <item index="8" class="java.lang.String" itemvalue="Spring Boot.CloudplatformDictionaryApplication" />
+      <item index="9" class="java.lang.String" itemvalue="Spring Boot.CloudPlatFormUserApplication" />
+      <item index="10" class="java.lang.String" itemvalue="Spring Boot.CloudPlatFormWebApplication" />
+      <item index="11" class="java.lang.String" itemvalue="Spring Boot.CloudPlatFormCustApplication" />
+    </list>
+    <recent_temporary>
+      <list size="3">
+        <item index="0" class="java.lang.String" itemvalue="Spring Boot.CloudPlatFormWebApplication" />
+        <item index="1" class="java.lang.String" itemvalue="Spring Boot.CloudPlatFormUserApplication" />
+        <item index="2" class="java.lang.String" itemvalue="Spring Boot.CloudPlatFormCustApplication" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\--------\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\yunce\plat6" />
+          <option name="myCopyRoot" value="D:\yunce\plat6" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\yunce\plat6\.idea" />
+          <option name="myCopyRoot" value="D:\yunce\plat6\.idea" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\yunce\plat6\cloudplatform-api" />
+          <option name="myCopyRoot" value="D:\yunce\plat6\cloudplatform-api" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\yunce\plat6\cloudplatform-assist" />
+          <option name="myCopyRoot" value="D:\yunce\plat6\cloudplatform-assist" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\yunce\plat6\cloudplatform-auth" />
+          <option name="myCopyRoot" value="D:\yunce\plat6\cloudplatform-auth" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\yunce\plat6\cloudplatform-cust" />
+          <option name="myCopyRoot" value="D:\yunce\plat6\cloudplatform-cust" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\yunce\plat6\cloudplatform-dao" />
+          <option name="myCopyRoot" value="D:\yunce\plat6\cloudplatform-dao" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\yunce\plat6\cloudplatform-dictionary" />
+          <option name="myCopyRoot" value="D:\yunce\plat6\cloudplatform-dictionary" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\yunce\plat6\cloudplatform-eureka" />
+          <option name="myCopyRoot" value="D:\yunce\plat6\cloudplatform-eureka" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\yunce\plat6\cloudplatform-gateway" />
+          <option name="myCopyRoot" value="D:\yunce\plat6\cloudplatform-gateway" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\yunce\plat6\cloudplatform-rabbitmq" />
+          <option name="myCopyRoot" value="D:\yunce\plat6\cloudplatform-rabbitmq" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\yunce\plat6\cloudplatform-testbug" />
+          <option name="myCopyRoot" value="D:\yunce\plat6\cloudplatform-testbug" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\yunce\plat6\cloudplatform-testexecute" />
+          <option name="myCopyRoot" value="D:\yunce\plat6\cloudplatform-testexecute" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\yunce\plat6\cloudplatform-web" />
+          <option name="myCopyRoot" value="D:\yunce\plat6\cloudplatform-web" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\yunce\plat6\cloudplatform_project" />
+          <option name="myCopyRoot" value="D:\yunce\plat6\cloudplatform_project" />
+        </SvnCopyRootSimple>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\yunce\plat6\clouplatform-user" />
+          <option name="myCopyRoot" value="D:\yunce\plat6\clouplatform-user" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\yunce\plat6" />
+          <option name="myCopyRoot" value="D:\yunce\plat6" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9ed1d59e-ac8b-434b-8f9e-5c971963cc68" name="Default" comment="" />
+      <created>1512982941500</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1512982941500</updated>
+      <workItem from="1512982945474" duration="13229000" />
+      <workItem from="1513041272639" duration="22136000" />
+      <workItem from="1513078647485" duration="4303000" />
+      <workItem from="1513853974138" duration="9798000" />
+      <workItem from="1513904921651" duration="10353000" />
+      <workItem from="1515377212987" duration="19280000" />
+      <workItem from="1515406020126" duration="9352000" />
+      <workItem from="1515460676567" duration="34769000" />
+      <workItem from="1515546658646" duration="15249000" />
+      <workItem from="1515568872401" duration="11309000" />
+      <workItem from="1515632916789" duration="28249000" />
+      <workItem from="1515719336534" duration="30266000" />
+      <workItem from="1515805799456" duration="2824000" />
+      <workItem from="1515809056599" duration="25188000" />
+      <workItem from="1515978287037" duration="30910000" />
+      <workItem from="1516064839111" duration="2341000" />
+      <workItem from="1516068026443" duration="29185000" />
+      <workItem from="1516151257073" duration="23181000" />
+      <workItem from="1516237957111" duration="25493000" />
+      <workItem from="1516324203599" duration="34418000" />
+      <workItem from="1516583029064" duration="22167000" />
+      <workItem from="1516669985788" duration="15609000" />
+      <workItem from="1516756427244" duration="11208000" />
+      <workItem from="1516959990874" duration="90000" />
+    </task>
+    <task id="LOCAL-00076" summary="zwy">
+      <created>1515979346770</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1515979346771</updated>
+    </task>
+    <task id="LOCAL-00077" summary="zwy">
+      <created>1515981599645</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1515981599645</updated>
+    </task>
+    <task id="LOCAL-00078" summary="zwy">
+      <created>1515981615325</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1515981615325</updated>
+    </task>
+    <task id="LOCAL-00079" summary="zwy">
+      <created>1515996180459</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1515996180459</updated>
+    </task>
+    <task id="LOCAL-00080" summary="zwy">
+      <created>1515996212420</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1515996212420</updated>
+    </task>
+    <task id="LOCAL-00081" summary="zwy">
+      <created>1515997747646</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1515997747646</updated>
+    </task>
+    <task id="LOCAL-00082" summary="zwy">
+      <created>1515997759234</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1515997759234</updated>
+    </task>
+    <task id="LOCAL-00083" summary="zwy">
+      <created>1516004845068</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1516004845068</updated>
+    </task>
+    <task id="LOCAL-00084" summary="zwy">
+      <created>1516004887429</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1516004887429</updated>
+    </task>
+    <task id="LOCAL-00085" summary="zwy">
+      <created>1516004912660</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1516004912661</updated>
+    </task>
+    <task id="LOCAL-00086" summary="zwy">
+      <created>1516006599437</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1516006599437</updated>
+    </task>
+    <task id="LOCAL-00087" summary="zwy">
+      <created>1516006612600</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1516006612600</updated>
+    </task>
+    <task id="LOCAL-00088" summary="zwy">
+      <created>1516006854180</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1516006854180</updated>
+    </task>
+    <task id="LOCAL-00089" summary="zwy">
+      <created>1516008614690</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1516008614690</updated>
+    </task>
+    <task id="LOCAL-00090" summary="zwy">
+      <created>1516008637214</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1516008637214</updated>
+    </task>
+    <task id="LOCAL-00091" summary="zwy">
+      <created>1516008658563</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1516008658563</updated>
+    </task>
+    <task id="LOCAL-00092" summary="zwy">
+      <created>1516008785390</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1516008785390</updated>
+    </task>
+    <task id="LOCAL-00093" summary="zwy">
+      <created>1516017300207</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1516017300207</updated>
+    </task>
+    <task id="LOCAL-00094" summary="zwy">
+      <created>1516067054557</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1516067054558</updated>
+    </task>
+    <task id="LOCAL-00095" summary="zwy">
+      <created>1516068121097</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1516068121098</updated>
+    </task>
+    <task id="LOCAL-00096" summary="zwy">
+      <created>1516068860251</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1516068860251</updated>
+    </task>
+    <task id="LOCAL-00097" summary="zwy">
+      <created>1516153895291</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1516153895291</updated>
+    </task>
+    <task id="LOCAL-00098" summary="zwy">
+      <created>1516156648348</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1516156648348</updated>
+    </task>
+    <task id="LOCAL-00099" summary="zwy">
+      <created>1516176038738</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1516176038738</updated>
+    </task>
+    <task id="LOCAL-00100" summary="zwy">
+      <created>1516177025280</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1516177025280</updated>
+    </task>
+    <task id="LOCAL-00101" summary="zwy">
+      <created>1516177240580</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1516177240580</updated>
+    </task>
+    <task id="LOCAL-00102" summary="zwy">
+      <created>1516177248225</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1516177248225</updated>
+    </task>
+    <task id="LOCAL-00103" summary="zwy">
+      <created>1516177423237</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1516177423237</updated>
+    </task>
+    <task id="LOCAL-00104" summary="zwy">
+      <created>1516255785223</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1516255785224</updated>
+    </task>
+    <task id="LOCAL-00105" summary="zwy">
+      <created>1516278119477</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1516278119477</updated>
+    </task>
+    <task id="LOCAL-00106" summary="zwy">
+      <created>1516600889221</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1516600889222</updated>
+    </task>
+    <task id="LOCAL-00107" summary="zwy">
+      <created>1516603416740</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1516603416740</updated>
+    </task>
+    <task id="LOCAL-00108" summary="zwy">
+      <created>1516603494547</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1516603494547</updated>
+    </task>
+    <task id="LOCAL-00109" summary="zwy">
+      <created>1516603523515</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1516603523515</updated>
+    </task>
+    <task id="LOCAL-00110" summary="zwy">
+      <created>1516611858913</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1516611858913</updated>
+    </task>
+    <task id="LOCAL-00111" summary="zwy">
+      <created>1516611956806</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1516611956806</updated>
+    </task>
+    <task id="LOCAL-00112" summary="zwy">
+      <created>1516611967431</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1516611967431</updated>
+    </task>
+    <task id="LOCAL-00113" summary="zwy">
+      <created>1516611995117</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1516611995117</updated>
+    </task>
+    <task id="LOCAL-00114" summary="zwy">
+      <created>1516612016797</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1516612016797</updated>
+    </task>
+    <task id="LOCAL-00115" summary="zwy">
+      <created>1516612562406</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1516612562406</updated>
+    </task>
+    <task id="LOCAL-00116" summary="zwy">
+      <created>1516612574308</created>
+      <option name="number" value="00116" />
+      <option name="presentableId" value="LOCAL-00116" />
+      <option name="project" value="LOCAL" />
+      <updated>1516612574308</updated>
+    </task>
+    <task id="LOCAL-00117" summary="zwy">
+      <created>1516612612285</created>
+      <option name="number" value="00117" />
+      <option name="presentableId" value="LOCAL-00117" />
+      <option name="project" value="LOCAL" />
+      <updated>1516612612285</updated>
+    </task>
+    <task id="LOCAL-00118" summary="zwy">
+      <created>1516677265767</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1516677265768</updated>
+    </task>
+    <task id="LOCAL-00119" summary="zwy">
+      <created>1516679071366</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1516679071367</updated>
+    </task>
+    <task id="LOCAL-00120" summary="zwy">
+      <created>1516688209214</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1516688209214</updated>
+    </task>
+    <task id="LOCAL-00121" summary="zwy">
+      <created>1516688568770</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1516688568770</updated>
+    </task>
+    <task id="LOCAL-00122" summary="zwy">
+      <created>1516689663576</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1516689663576</updated>
+    </task>
+    <task id="LOCAL-00123" summary="zwy">
+      <created>1516689855191</created>
+      <option name="number" value="00123" />
+      <option name="presentableId" value="LOCAL-00123" />
+      <option name="project" value="LOCAL" />
+      <updated>1516689855191</updated>
+    </task>
+    <task id="LOCAL-00124" summary="zwy">
+      <created>1516702765933</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1516702765933</updated>
+    </task>
+    <option name="localTasksCounter" value="125" />
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="CloudplatformTestexecuteApplicationTests_contextLoads - 2018.01.09 at 11h 03m 24s.xml">
+      <configuration name="CloudplatformTestexecuteApplicationTests.contextLoads" configurationId="JUnit" />
+    </history-entry>
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="430907000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
+    <layout>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35930735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6147186" sideWeight="0.38326225" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21801706" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.29545453" sideWeight="0.4978678" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.48701298" sideWeight="0.6167377" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32792208" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22441365" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.30194804" sideWeight="0.4978678" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="JRebel Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="JRebel Executor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.52056277" sideWeight="0.49413645" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="JRebel" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6147186" sideWeight="0.38326225" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="JRebel Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21801706" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="JRebel Executor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24962178" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22147651" sideWeight="0.4978678" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35930735" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.45525727" sideWeight="0.49413645" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.22294372" sideWeight="0.4978678" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.5183983" sideWeight="0.6167377" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.22781232" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32995737" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="JRebel" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="true" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="zwy" />
+    <option name="LAST_COMMIT_MESSAGE" value="zwy" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <option name="time" value="106" />
+    </breakpoint-manager>
+    <watches-manager />
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="file://$PROJECT_DIR$/cloudplatform-testexecute/src/main/resources/bootstrap.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="17" column="22" lean-forward="true" selection-start-line="17" selection-start-column="22" selection-end-line="17" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/service/impl/TestExecuteServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="149">
+          <caret line="69" column="83" lean-forward="false" selection-start-line="69" selection-start-column="62" selection-end-line="69" selection-end-column="83" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-gateway/src/main/docker/Dockerfile">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="146">
+          <caret line="8" column="7" lean-forward="false" selection-start-line="8" selection-start-column="7" selection-end-line="8" selection-end-column="7" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/org/springframework/spring-core/4.3.12.RELEASE/spring-core-4.3.12.RELEASE.jar!/org/springframework/cglib/proxy/MethodProxy.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="104" column="0" lean-forward="false" selection-start-line="104" selection-start-column="0" selection-end-line="104" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/result/ResultCode.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="13" column="12" lean-forward="false" selection-start-line="13" selection-start-column="12" selection-end-line="13" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/config/FeignConfig.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="6" column="13" lean-forward="false" selection-start-line="6" selection-start-column="13" selection-end-line="6" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/controller/JobController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5425">
+          <caret line="237" column="5" lean-forward="false" selection-start-line="237" selection-start-column="5" selection-end-line="237" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/controller/testexecute/JobController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3800">
+          <caret line="186" column="29" lean-forward="false" selection-start-line="186" selection-start-column="15" selection-end-line="186" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/service/impl/testexecute/JobServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="5725">
+          <caret line="259" column="5" lean-forward="false" selection-start-line="259" selection-start-column="5" selection-end-line="259" selection-end-column="5" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/controller/TestCaseStepController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="875">
+          <caret line="54" column="73" lean-forward="false" selection-start-line="54" selection-start-column="73" selection-end-line="54" selection-end-column="73" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/service/TestCaseStepService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="13" column="21" lean-forward="false" selection-start-line="13" selection-start-column="21" selection-end-line="13" selection-end-column="21" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/enums/CltBatchStatus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="575">
+          <caret line="23" column="23" lean-forward="false" selection-start-line="23" selection-start-column="23" selection-end-line="23" selection-end-column="23" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/enums/CltJobStatus.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="313">
+          <caret line="19" column="24" lean-forward="true" selection-start-line="19" selection-start-column="24" selection-end-line="19" selection-end-column="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/query/testexecute/TestCaseStepQuery.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1600">
+          <caret line="100" column="32" lean-forward="false" selection-start-line="100" selection-start-column="32" selection-end-line="100" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clouplatform-user/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="375">
+          <caret line="15" column="7" lean-forward="false" selection-start-line="15" selection-start-column="7" selection-end-line="15" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/service/user/RoleService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="20" column="19" lean-forward="false" selection-start-line="20" selection-start-column="15" selection-end-line="20" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/controller/user/RoleController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1325">
+          <caret line="73" column="57" lean-forward="false" selection-start-line="73" selection-start-column="37" selection-end-line="73" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/security/CltFilterInvocationSecurityMetadataSource.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="73" column="39" lean-forward="false" selection-start-line="73" selection-start-column="39" selection-end-line="73" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/feign/user/RoleFeignClient.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="496">
+          <caret line="68" column="60" lean-forward="false" selection-start-line="68" selection-start-column="35" selection-end-line="68" selection-end-column="60" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/service/impl/user/RoleServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="86">
+          <caret line="89" column="34" lean-forward="false" selection-start-line="89" selection-start-column="27" selection-end-line="89" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clouplatform-user/src/main/java/net/northking/cloudplatform/controller/RoleController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="417">
+          <caret line="191" column="43" lean-forward="false" selection-start-line="191" selection-start-column="43" selection-end-line="191" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/dto/testexecute/EcharsData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="13" column="54" lean-forward="true" selection-start-line="13" selection-start-column="54" selection-end-line="13" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/dto/testexecute/JobPlan.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2340">
+          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/dto/testexecute/QueueData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-39">
+          <caret line="13" column="13" lean-forward="false" selection-start-line="13" selection-start-column="13" selection-end-line="13" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/dto/testexecute/StepDataInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/dto/testexecute/TestBugParam.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="2" column="13" lean-forward="false" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/dto/testexecute/TestCaseColum.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/dto/testexecute/TestCaseDTO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-50">
+          <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/dto/testexecute/TestCaseStepData.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1025">
+          <caret line="69" column="27" lean-forward="false" selection-start-line="69" selection-start-column="27" selection-end-line="69" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/dto/testexecute/CltCaseItemSetupDTO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-275">
+          <caret line="10" column="13" lean-forward="false" selection-start-line="10" selection-start-column="13" selection-end-line="10" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/dto/testexecute/CltCaseSetDTO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/service/impl/TestCaseServcieImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="150">
+          <caret line="34" column="13" lean-forward="false" selection-start-line="34" selection-start-column="13" selection-end-line="34" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/service/impl/TestCaseStepServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-241">
+          <caret line="247" column="51" lean-forward="false" selection-start-line="247" selection-start-column="41" selection-end-line="247" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/service/impl/JobServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="178">
+          <caret line="455" column="25" lean-forward="false" selection-start-line="455" selection-start-column="25" selection-end-line="455" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/domain/testexecute/CltJob.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="207" column="17" lean-forward="false" selection-start-line="207" selection-start-column="17" selection-end-line="207" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://D:/java/jdk8/src.zip!/java/math/BigDecimal.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2961">
+          <caret line="947" column="72" lean-forward="false" selection-start-line="947" selection-start-column="72" selection-end-line="947" selection-end-column="72" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-api/src/main/java/net/northking/cloudplatform/domain/user/CltRole.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2175">
+          <caret line="149" column="0" lean-forward="false" selection-start-line="149" selection-start-column="0" selection-end-line="149" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clouplatform-user/src/main/java/net/northking/cloudplatform/controller/UserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="100" column="0" lean-forward="false" selection-start-line="100" selection-start-column="0" selection-end-line="100" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-gateway/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="13" column="16" lean-forward="false" selection-start-line="13" selection-start-column="16" selection-end-line="13" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-gateway/src/main/resources/bootstrap.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="171">
+          <caret line="65" column="9" lean-forward="false" selection-start-line="65" selection-start-column="9" selection-end-line="65" selection-end-column="9" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-web/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="3" column="8" lean-forward="false" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-web/src/main/resources/bootstrap.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1250">
+          <caret line="50" column="49" lean-forward="false" selection-start-line="50" selection-start-column="49" selection-end-line="50" selection-end-column="49" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/service/impl/BatchServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/clouplatform-user/src/main/java/net/northking/cloudplatform/service/impl/UserServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="42" column="44" lean-forward="false" selection-start-line="42" selection-start-column="44" selection-end-line="42" selection-end-column="44" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-testexecute/src/main/resources/application.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="17" column="14" lean-forward="false" selection-start-line="17" selection-start-column="14" selection-end-line="17" selection-end-column="14" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/service/BatchService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="140">
+          <caret line="14" column="17" lean-forward="false" selection-start-line="14" selection-start-column="17" selection-end-line="14" selection-end-column="17" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/controller/BatchController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-testexecute/src/main/java/net/northking/cloudplatform/utils/FanoutReceiverA.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="425">
+          <caret line="27" column="24" lean-forward="false" selection-start-line="27" selection-start-column="24" selection-end-line="27" selection-end-column="24" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/service/impl/user/UserServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3450">
+          <caret line="153" column="0" lean-forward="false" selection-start-line="153" selection-start-column="0" selection-end-line="153" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cloudplatform-web/src/main/java/net/northking/cloudplatform/controller/user/UserController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="598">
+          <caret line="94" column="7" lean-forward="true" selection-start-line="94" selection-start-column="7" selection-end-line="94" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Spring</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.8</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>cloud_platform</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: antlr:antlr:2.7.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+</project>

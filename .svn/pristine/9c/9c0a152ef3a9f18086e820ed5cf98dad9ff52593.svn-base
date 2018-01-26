@@ -1,0 +1,45 @@
+package net.northking.cloudplatform.controller;
+
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.domain.testcase.User;
+
+import net.northking.cloudplatform.query.testcase.UserQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.UserService;
+import net.northking.cloudplatform.utils.BeanUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * @Title: 测试用例控制类
+ * @Description:
+ * @Company: Northking
+ * @Author: chuangsheng.huang
+ * @CreateDate: 2017/11/2
+ * @UpdateUser:
+ * @Version:0.1
+ */
+@RestController
+public class TestCaseController {
+    @Autowired
+    private UserService userService;
+
+    @PostMapping("/user")
+    public ResultInfo<Page<User>> readUserInfo(@RequestBody UserQuery userQuery) throws Exception{
+        User user = userService.findObject(userQuery.getId());
+        Page<User> page = userService.findAll(userQuery);
+        return new ResultInfo<Page<User>>(ResultCode.SUCCESS, page);
+    }
+
+    @PostMapping("/addUser")
+    public ResultInfo<Integer> addUser(@RequestBody UserQuery userQuery) throws Exception{
+        User user = new User();
+        BeanUtil.copyProperties(userQuery, user);
+        Integer index = userService.addUser(user);
+        return new ResultInfo<Integer>(ResultCode.SUCCESS, index);
+    }
+}

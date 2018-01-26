@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.user.CltUserRoleMapper" >
+    <!--根据角色ID和用户ID删除角色用户表 -->
+
+    <delete id="deleteByRoleIdAndUserId" parameterType="java.lang.String">
+
+        DELETE FROM CLT_USER_ROLE WHERE ROLE_ID = #{roleId,jdbcType=VARCHAR} AND USER_ID=#{userId,jdbcType=VARCHAR}
+
+    </delete>
+    <!-- 根据角色ID和用户ID查询用户列表-->
+    <select id="selectByRoleIdAndUserId" parameterType="java.lang.String" resultType="net.northking.cloudplatform.domain.user.CltUserRole" >
+
+        SELECT * FROM CLT_USER_ROLE WHERE ROLE_ID = #{roleId,jdbcType=VARCHAR} AND USER_ID=#{userId,jdbcType=VARCHAR}
+
+    </select>
+
+    <!-- 根据角色和用户id查询记录数-->
+    <select id="countByRoleAndUserId" parameterType="java.lang.String" resultType="java.lang.Integer" >
+
+        SELECT count(*) FROM CLT_USER_ROLE WHERE ROLE_ID = #{roleId,jdbcType=VARCHAR} AND USER_ID=#{userId,jdbcType=VARCHAR}
+
+    </select>
+
+    <!--根据userId和roleId查询用户角色 -->
+    <select id="queryByRoleAndUserId" parameterType="java.lang.String" resultType="net.northking.cloudplatform.domain.user.CltUserRole">
+
+
+           SELECT * FROM CLT_USER_ROLE WHERE ROLE_ID = #{roleId,jdbcType=VARCHAR} AND USER_ID=#{userId,jdbcType=VARCHAR}
+    </select>
+
+
+
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        a.USER_ROLE_ID,
+        a.USER_ID,
+        b.USER_CHN_NAME,
+        a.ROLE_ID,
+        c.ROLE_NAME
+        from CLT_USER_ROLE as a ,CLT_USER_LOGIN as b,CLT_ROLE as c
+        where  a.USER_ID= b.USER_ID
+        and  a.ROLE_ID =c.ROLE_ID
+        and  a.USER_ID = #{userId,jdbcType=VARCHAR}
+    </select>
+    <select id="queryUserRoleByRoleId"  resultType="net.northking.cloudplatform.domain.user.CltUserRole">
+        select c.USER_ROLE_ID,c.ROLE_ID,c.USER_ID,r.ROLE_NAME
+        from CLT_USER_ROLE as c
+        join CLT_ROLE as r
+        on c.ROLE_ID = r.ROLE_ID
+        where r.ROLE_ID IN
+        (
+        <foreach collection="array" separator="," item="id">
+            #{id}
+        </foreach>
+
+        )
+
+    </select>
+    <!-- 删除用户下的所有角色-->
+    <delete id="deleteRoleListByUserId" parameterType="string">
+
+     DELETE FROM CLT_USER_ROLE WHERE USER_ID=#{userId}
+
+
+    </delete>
+
+
+
+
+</mapper>

@@ -1,0 +1,18 @@
+package net.northking.cloudplatform.utils;
+
+import org.springframework.amqp.core.Queue;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+
+/**
+ * Created by Administrator on 2018/1/3 0003.
+ */
+@Configuration
+public class AmqpConfig {
+
+    @Bean
+    public Queue helloQueue() {
+        return new Queue("receiveBatch");
+    }
+}

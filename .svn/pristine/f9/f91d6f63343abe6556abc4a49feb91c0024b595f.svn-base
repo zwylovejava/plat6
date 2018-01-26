@@ -1,0 +1,222 @@
+package net.northking.cloudplatform.controller.user;
+
+
+
+
+import net.northking.cloudplatform.domain.user.CltRole;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.query.user.RoleQuery;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.user.RoleService;
+import net.northking.cloudplatform.utils.CltUtils;
+import net.northking.cloudplatform.utils.ParamVerifyUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by laodeng on 2017/11/21.
+ */
+@RestController
+//@RequestMapping("/cltRole")
+public class RoleController {
+
+    private final static Logger logger = LoggerFactory.getLogger(RoleController.class);
+
+
+    @Autowired
+    RoleService roleService;
+
+    /**
+     * 添加角色
+     *
+     * @param roleQuery
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/addCltRoleInfo")
+    public ResultInfo<Integer> addCltRoleInfo(@RequestBody @Validated RoleQuery roleQuery) throws Exception {
+
+        CltUtils.printStartInfo(roleQuery, "addCltRoleInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+        init(roleQuery, "A");//待优化
+
+        ResultInfo<Integer> result =  roleService.addCltRoleInfo(roleQuery);
+
+        CltUtils.printEndInfo(result, "addCltRoleInfo", startTime);
+
+        return result;
+
+    }
+
+
+    /**
+     * 查询所有
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/queryAllCltRolesList")
+    public ResultInfo<List<CltRole>> queryAllCltRolesList()throws Exception {
+
+        logger.info("\n*********************************** queryAllCltRolesList invoke  start******************************\n");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<List<CltRole>> result = roleService.queryAllCltRolesList();
+
+        CltUtils.printEndInfo(result, "queryAllCltRolesList", startTime);
+
+        return result;
+    }
+
+    /**
+     * 更新角色信息
+     *
+     * @param roleQuery
+     * @return
+     */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/updateCltRoleInfo")
+    public ResultInfo<Integer> updateCltRoleInfo(@RequestBody RoleQuery roleQuery)throws Exception {
+
+        CltUtils.printStartInfo(roleQuery, "updateCltRoleInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+        init(roleQuery, "U");//待优化
+
+        ResultInfo<Integer> result = roleService.updateCltRoleInfo(roleQuery);
+
+        CltUtils.printEndInfo(result, "updateCltRoleInfo", startTime);
+
+        return result;
+
+    }
+
+    /**
+     * 根据角色ID查询出角色详情
+     *
+     * @param roleQuery
+     * @return
+     */
+    @PostMapping("/queryCltRoleByRoleId")
+    public ResultInfo<CltRole> queryCltRoleByRoleId(@RequestBody RoleQuery roleQuery)throws Exception {
+
+        CltUtils.printStartInfo(roleQuery, "queryCltRoleByRoleId");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+        init(roleQuery, "Q_I");//待优化
+
+        ResultInfo<CltRole> result = roleService.queryCltRoleByRoleId(roleQuery);
+
+        CltUtils.printEndInfo(result, "queryCltRoleByRoleId", startTime);
+
+        return result;
+
+    }
+
+    //批量删除角色
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/deleteCltRoleInfo")
+    public ResultInfo<String> deleteCltRoleInfo(@RequestBody RoleQuery roleQuery)throws Exception {
+
+        CltUtils.printStartInfo(roleQuery, "deleteCltRoleInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+        init(roleQuery, "D");//待优化
+
+        ResultInfo<String> result = roleService.deleteCltRoleInfo(roleQuery);
+
+        CltUtils.printEndInfo(result, "deleteCltRoleInfo", startTime);
+
+        return result;
+
+    }
+
+    /**
+     * 查询所有  (管理员除外)
+     *
+     * @param
+     * @return
+     */
+    @PostMapping("/queryAllCltRolesListWithoutSuper")
+    public ResultInfo<List<CltRole>> queryAllCltRolesListWithoutSuper(@RequestBody RoleQuery roleQuery)throws Exception {
+
+        CltUtils.printStartInfo(roleQuery, "queryAllCltRolesListWithoutSuper ");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<List<CltRole>> result = roleService.queryAllCltRolesListWithoutSuper(roleQuery);
+
+        CltUtils.printEndInfo(result, "queryAllCltRolesListWithoutSuper", startTime);
+
+        return result;
+    }
+
+
+    /**
+     * 导入角色execl
+     */
+    //遇到的问题：如何用restful风格实现带/的参数
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/importRoleExcelInfo")
+    public ResultInfo<Object> importRoleExcelInfo(@RequestBody RoleQuery roleQuery){
+
+        CltUtils.printStartInfo(roleQuery, "deleteCltRoleInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+
+        ResultInfo<Object> result = roleService.importRoleExcelInfo(roleQuery);
+
+        CltUtils.printEndInfo(result, "deleteCltRoleInfo", startTime);
+
+        return result;
+    }
+
+
+    public static void init(RoleQuery roleQuery, String funcCode) throws Exception {
+
+        ParamVerifyUtil paramVerifyUtil = new ParamVerifyUtil();
+
+        Map<String,Object> dataMap = CltUtils.beanToMap(roleQuery);
+
+        if ("A".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "roleName", "roleCode", "roleLevel");
+
+        } else if ("U".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "roleId", "roleCode","roleName", "roleLevel","status");
+
+        } else if ("D".equals(funcCode)) {
+           String ids[] = roleQuery.getIds();
+           if(ids==null||ids.length<0){
+               throw  new GlobalException("GLT00000001","角色ID数组不能为空");
+           }
+        } else if ("Q_I".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "roleId");
+        }
+    }
+}

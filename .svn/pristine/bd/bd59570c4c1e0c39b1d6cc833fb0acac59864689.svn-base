@@ -1,0 +1,13 @@
+package net.northking.cloudplatform.netty.service;
+
+/**
+ *create by zwy on 2017/12/18
+ */
+public interface NettyServerService {
+
+    void start();
+
+    void close();
+
+
+}

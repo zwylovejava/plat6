@@ -1,0 +1,33 @@
+package net.northking.cloudplatform.utils;
+
+import net.northking.cloudplatform.constants.MQConstants;
+import net.northking.cloudplatform.service.BatchService;
+import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.annotation.RabbitHandler;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+/**
+ * Created by Administrator on 2018/1/11 0011.
+ */
+@Component
+
+public class FanoutReceiverA {
+    @Autowired
+    private BatchService batchService;
+    private final static org.slf4j.Logger logger = LoggerFactory.getLogger(FanoutReceiverA.class);
+
+
+    @RabbitHandler
+    @RabbitListener(queues = MQConstants.batchQueueC)
+    public void process(String batchId) {
+        try {
+            batchService.receiveBatch(batchId);
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.info("接收到客户端同步过来的批次为:"+batchId+"后加载出现错误："+e);
+
+        }
+    }
+}

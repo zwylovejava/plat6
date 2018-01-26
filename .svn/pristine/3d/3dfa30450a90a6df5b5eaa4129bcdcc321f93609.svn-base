@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="cloudplatform-api" />
+        <module name="cloudplatform-assist" />
+        <module name="cloudplatform-auth" />
+        <module name="cloudplatform-cust" />
+        <module name="cloudplatform-dao" />
+        <module name="cloudplatform-eureka" />
+        <module name="cloudplatform-gateway" />
+        <module name="cloudplatform-testcase" />
+        <module name="cloudplatform-testexecute" />
+        <module name="cloudplatform-web" />
+        <module name="cloudplatform-workjob" />
+        <module name="cloudplatform_project" />
+        <module name="cloudplatformtest-case" />
+        <module name="clouplatform-user" />
+      </profile>
+    </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="cloud_platform" target="1.8" />
+      <module name="cloudplatform-api" target="1.8" />
+      <module name="cloudplatform-assist" target="1.5" />
+      <module name="cloudplatform-auth" target="1.8" />
+      <module name="cloudplatform-cust" target="1.8" />
+      <module name="cloudplatform-dao" target="1.8" />
+      <module name="cloudplatform-eureka" target="1.8" />
+      <module name="cloudplatform-gateway" target="1.8" />
+      <module name="cloudplatform-testcase" target="1.8" />
+      <module name="cloudplatform-testexecute" target="1.8" />
+      <module name="cloudplatform-web" target="1.8" />
+      <module name="cloudplatform-workjob" target="1.8" />
+      <module name="cloudplatform_project" target="1.8" />
+      <module name="cloudplatformtest-case" target="1.8" />
+      <module name="clouplatform-user" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

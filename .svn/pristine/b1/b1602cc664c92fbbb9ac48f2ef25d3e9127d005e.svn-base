@@ -1,0 +1,249 @@
+package net.northking.cloudplatform.domain.testexecute;
+
+import java.util.Date;
+
+public class CltJob {
+    private String jobId;
+
+    private String custemCode;
+
+    private String custemName;
+
+    private String projectName;
+
+    private String projectId;
+
+    private String batchId;
+
+    private String jobName;
+
+    private String jobDesc;
+
+    private Date createDate;
+
+    private String managerId;
+
+    private String status;
+    //待处理
+    private Integer readyNum;
+
+    //已完成
+    private Integer completeNum;
+
+    //用例数量
+    private Integer caseNum;
+
+    //成功数量
+    private Integer successNum;
+
+    //终止数量
+    private Integer overNum;
+
+    //失败数量
+    private Integer failNum;
+
+    //缺陷数量
+    private Integer bugSize;
+
+    private double percentFail;
+
+    private double percentOver;
+
+    private double percentSuccess;
+
+    private double percentComplete;
+
+    private double percentReady;
+
+    public String getJobId() {
+        return jobId;
+    }
+
+    public void setJobId(String jobId) {
+        this.jobId = jobId == null ? null : jobId.trim();
+    }
+
+    public String getCustemCode() {
+        return custemCode;
+    }
+
+    public void setCustemCode(String custemCode) {
+        this.custemCode = custemCode == null ? null : custemCode.trim();
+    }
+
+    public String getCustemName() {
+        return custemName;
+    }
+
+    public void setCustemName(String custemName) {
+        this.custemName = custemName == null ? null : custemName.trim();
+    }
+
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName == null ? null : projectName.trim();
+    }
+
+    public String getBatchId() {
+        return batchId;
+    }
+
+    public void setBatchId(String batchId) {
+        this.batchId = batchId == null ? null : batchId.trim();
+    }
+
+    public String getJobName() {
+        return jobName;
+    }
+
+    public void setJobName(String jobName) {
+        this.jobName = jobName == null ? null : jobName.trim();
+    }
+
+    public String getJobDesc() {
+        return jobDesc;
+    }
+
+    public void setJobDesc(String jobDesc) {
+        this.jobDesc = jobDesc == null ? null : jobDesc.trim();
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
+
+    public String getManagerId() {
+        return managerId;
+    }
+
+    public void setManagerId(String managerId) {
+        this.managerId = managerId == null ? null : managerId.trim();
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status == null ? null : status.trim();
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId == null ? null : projectId.trim();
+    }
+
+    public Integer getReadyNum() {
+        return readyNum;
+    }
+
+    public void setReadyNum(Integer readyNum) {
+        this.readyNum = readyNum;
+    }
+
+    public Integer getCompleteNum() {
+        return completeNum;
+    }
+
+    public void setCompleteNum(Integer completeNum) {
+        this.completeNum = completeNum;
+    }
+
+    public Integer getCaseNum() {
+        return caseNum;
+    }
+
+    public void setCaseNum(Integer caseNum) {
+        this.caseNum = caseNum;
+    }
+
+    public Integer getSuccessNum() {
+        return successNum;
+    }
+
+    public void setSuccessNum(Integer successNum) {
+        this.successNum = successNum;
+    }
+
+    public Integer getOverNum() {
+        return overNum;
+    }
+
+    public void setOverNum(Integer overNum) {
+        this.overNum = overNum;
+    }
+
+    public Integer getFailNum() {
+        return failNum;
+    }
+
+    public void setFailNum(Integer failNum) {
+        this.failNum = failNum;
+    }
+
+    public Integer getBugSize() {
+        return bugSize;
+    }
+
+    public void setBugSize(Integer bugSize) {
+        this.bugSize = bugSize;
+    }
+
+    public double getPercentFail() {
+        if(caseNum!=0){
+            this.percentFail=failNum*1.0/caseNum;
+            return this.percentFail;
+        }
+        return 0;
+    }
+
+
+    public double getPercentOver() {
+        if(caseNum!=0){
+            this.percentFail=overNum*1.0/caseNum;
+            return this.percentFail;
+        }
+        return 0;
+    }
+
+
+
+    public double getPercentSuccess() {
+        if(caseNum!=0){
+            this.percentFail=successNum*1.0/caseNum;
+            return this.percentFail;
+        }
+        return 0;
+    }
+
+
+    public double getPercentComplete() {
+        if(caseNum!=0){
+            this.percentFail=completeNum*1.0/caseNum;
+            return this.percentFail;
+        }
+        return 0;
+    }
+
+
+
+    public double getPercentReady() {
+        if(caseNum!=0){
+            this.percentFail=readyNum*1.0/caseNum;
+            return this.percentFail;
+        }
+        return 0;
+    }
+
+
+}

@@ -1,0 +1,25 @@
+package net.northking.cloudplatform.api.service.impl;
+
+
+
+import net.northking.cloudplatform.api.service.ApiModelService;
+import net.northking.cloudplatform.manager.ModelInfoManager;
+import net.northking.cloudplatform.model.ModelInfo;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ * create by zwy on 2017/12/18
+ */
+@Service
+public class ApiModelServiceImpl implements ApiModelService {
+
+
+    @Override
+    public List<ModelInfo> onlines() {
+        return ModelInfoManager.getInstance().getOnlines();
+    }
+
+
+}

@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.testbug.CltTestBugMapper" >
+  <resultMap id="BaseResultMap" type="net.northking.cloudplatform.domain.testbug.CltTestBug" >
+    <id column="BUG_ID" property="bugId" jdbcType="VARCHAR" />
+    <result column="CASE_ID" property="caseId" jdbcType="VARCHAR" />
+    <result column="STEP_ID" property="stepId" jdbcType="VARCHAR" />
+    <result column="BUG_TITLE" property="bugTitle" jdbcType="VARCHAR" />
+    <result column="BUG_GRADE" property="bugGrade" jdbcType="VARCHAR" />
+    <result column="BUG_TYPE" property="bugType" jdbcType="VARCHAR" />
+    <result column="EMERGENCY" property="emergency" jdbcType="VARCHAR" />
+    <result column="IS_REAPPEAR" property="isReappear" jdbcType="CHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ATTACH" property="attach" jdbcType="VARCHAR" />
+    <result column="ERROR_DESC" property="errorDesc" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="BACK_REASON" property="backReason" jdbcType="VARCHAR" />
+    <result column="HANDLE_USER" property="handleUser" jdbcType="VARCHAR" />
+    <result column="HANDLE_DATE" property="handleDate" jdbcType="TIMESTAMP" />
+    <result column="BATCH_ID" property="batchId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    BUG_ID, CASE_ID, STEP_ID, BUG_TITLE, BUG_GRADE, BUG_TYPE, EMERGENCY, IS_REAPPEAR, 
+    STATUS, ATTACH, ERROR_DESC, CREATE_USER, CREATE_DATE, BACK_REASON, HANDLE_USER, HANDLE_DATE, 
+    BATCH_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.northking.cloudplatform.domain.testbug.CltTestBugExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CLT_TEST_BUG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CLT_TEST_BUG
+    where BUG_ID = #{bugId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CLT_TEST_BUG
+    where BUG_ID = #{bugId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.northking.cloudplatform.domain.testbug.CltTestBugExample" >
+    delete from CLT_TEST_BUG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.northking.cloudplatform.domain.testbug.CltTestBug" >
+    insert into CLT_TEST_BUG (BUG_ID, CASE_ID, STEP_ID, 
+      BUG_TITLE, BUG_GRADE, BUG_TYPE, 
+      EMERGENCY, IS_REAPPEAR, STATUS, 
+      ATTACH, ERROR_DESC, CREATE_USER, 
+      CREATE_DATE, BACK_REASON, HANDLE_USER, 
+      HANDLE_DATE, BATCH_ID)
+    values (#{bugId,jdbcType=VARCHAR}, #{caseId,jdbcType=VARCHAR}, #{stepId,jdbcType=VARCHAR}, 
+      #{bugTitle,jdbcType=VARCHAR}, #{bugGrade,jdbcType=VARCHAR}, #{bugType,jdbcType=VARCHAR}, 
+      #{emergency,jdbcType=VARCHAR}, #{isReappear,jdbcType=CHAR}, #{status,jdbcType=VARCHAR}, 
+      #{attach,jdbcType=VARCHAR}, #{errorDesc,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, 
+      #{createDate,jdbcType=TIMESTAMP}, #{backReason,jdbcType=VARCHAR}, #{handleUser,jdbcType=VARCHAR}, 
+      #{handleDate,jdbcType=TIMESTAMP}, #{batchId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.northking.cloudplatform.domain.testbug.CltTestBug" >
+    insert into CLT_TEST_BUG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="bugId != null" >
+        BUG_ID,
+      </if>
+      <if test="caseId != null" >
+        CASE_ID,
+      </if>
+      <if test="stepId != null" >
+        STEP_ID,
+      </if>
+      <if test="bugTitle != null" >
+        BUG_TITLE,
+      </if>
+      <if test="bugGrade != null" >
+        BUG_GRADE,
+      </if>
+      <if test="bugType != null" >
+        BUG_TYPE,
+      </if>
+      <if test="emergency != null" >
+        EMERGENCY,
+      </if>
+      <if test="isReappear != null" >
+        IS_REAPPEAR,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="attach != null" >
+        ATTACH,
+      </if>
+      <if test="errorDesc != null" >
+        ERROR_DESC,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="backReason != null" >
+        BACK_REASON,
+      </if>
+      <if test="handleUser != null" >
+        HANDLE_USER,
+      </if>
+      <if test="handleDate != null" >
+        HANDLE_DATE,
+      </if>
+      <if test="batchId != null" >
+        BATCH_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="bugId != null" >
+        #{bugId,jdbcType=VARCHAR},
+      </if>
+      <if test="caseId != null" >
+        #{caseId,jdbcType=VARCHAR},
+      </if>
+      <if test="stepId != null" >
+        #{stepId,jdbcType=VARCHAR},
+      </if>
+      <if test="bugTitle != null" >
+        #{bugTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="bugGrade != null" >
+        #{bugGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="bugType != null" >
+        #{bugType,jdbcType=VARCHAR},
+      </if>
+      <if test="emergency != null" >
+        #{emergency,jdbcType=VARCHAR},
+      </if>
+      <if test="isReappear != null" >
+        #{isReappear,jdbcType=CHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="attach != null" >
+        #{attach,jdbcType=VARCHAR},
+      </if>
+      <if test="errorDesc != null" >
+        #{errorDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backReason != null" >
+        #{backReason,jdbcType=VARCHAR},
+      </if>
+      <if test="handleUser != null" >
+        #{handleUser,jdbcType=VARCHAR},
+      </if>
+      <if test="handleDate != null" >
+        #{handleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="batchId != null" >
+        #{batchId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.northking.cloudplatform.domain.testbug.CltTestBugExample" resultType="java.lang.Integer" >
+    select count(*) from CLT_TEST_BUG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CLT_TEST_BUG
+    <set >
+      <if test="record.bugId != null" >
+        BUG_ID = #{record.bugId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caseId != null" >
+        CASE_ID = #{record.caseId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stepId != null" >
+        STEP_ID = #{record.stepId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bugTitle != null" >
+        BUG_TITLE = #{record.bugTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bugGrade != null" >
+        BUG_GRADE = #{record.bugGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bugType != null" >
+        BUG_TYPE = #{record.bugType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.emergency != null" >
+        EMERGENCY = #{record.emergency,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isReappear != null" >
+        IS_REAPPEAR = #{record.isReappear,jdbcType=CHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attach != null" >
+        ATTACH = #{record.attach,jdbcType=VARCHAR},
+      </if>
+      <if test="record.errorDesc != null" >
+        ERROR_DESC = #{record.errorDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null" >
+        CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.backReason != null" >
+        BACK_REASON = #{record.backReason,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handleUser != null" >
+        HANDLE_USER = #{record.handleUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.handleDate != null" >
+        HANDLE_DATE = #{record.handleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.batchId != null" >
+        BATCH_ID = #{record.batchId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CLT_TEST_BUG
+    set BUG_ID = #{record.bugId,jdbcType=VARCHAR},
+      CASE_ID = #{record.caseId,jdbcType=VARCHAR},
+      STEP_ID = #{record.stepId,jdbcType=VARCHAR},
+      BUG_TITLE = #{record.bugTitle,jdbcType=VARCHAR},
+      BUG_GRADE = #{record.bugGrade,jdbcType=VARCHAR},
+      BUG_TYPE = #{record.bugType,jdbcType=VARCHAR},
+      EMERGENCY = #{record.emergency,jdbcType=VARCHAR},
+      IS_REAPPEAR = #{record.isReappear,jdbcType=CHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      ATTACH = #{record.attach,jdbcType=VARCHAR},
+      ERROR_DESC = #{record.errorDesc,jdbcType=VARCHAR},
+      CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      BACK_REASON = #{record.backReason,jdbcType=VARCHAR},
+      HANDLE_USER = #{record.handleUser,jdbcType=VARCHAR},
+      HANDLE_DATE = #{record.handleDate,jdbcType=TIMESTAMP},
+      BATCH_ID = #{record.batchId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.northking.cloudplatform.domain.testbug.CltTestBug" >
+    update CLT_TEST_BUG
+    <set >
+      <if test="caseId != null" >
+        CASE_ID = #{caseId,jdbcType=VARCHAR},
+      </if>
+      <if test="stepId != null" >
+        STEP_ID = #{stepId,jdbcType=VARCHAR},
+      </if>
+      <if test="bugTitle != null" >
+        BUG_TITLE = #{bugTitle,jdbcType=VARCHAR},
+      </if>
+      <if test="bugGrade != null" >
+        BUG_GRADE = #{bugGrade,jdbcType=VARCHAR},
+      </if>
+      <if test="bugType != null" >
+        BUG_TYPE = #{bugType,jdbcType=VARCHAR},
+      </if>
+      <if test="emergency != null" >
+        EMERGENCY = #{emergency,jdbcType=VARCHAR},
+      </if>
+      <if test="isReappear != null" >
+        IS_REAPPEAR = #{isReappear,jdbcType=CHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="attach != null" >
+        ATTACH = #{attach,jdbcType=VARCHAR},
+      </if>
+      <if test="errorDesc != null" >
+        ERROR_DESC = #{errorDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="backReason != null" >
+        BACK_REASON = #{backReason,jdbcType=VARCHAR},
+      </if>
+      <if test="handleUser != null" >
+        HANDLE_USER = #{handleUser,jdbcType=VARCHAR},
+      </if>
+      <if test="handleDate != null" >
+        HANDLE_DATE = #{handleDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="batchId != null" >
+        BATCH_ID = #{batchId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where BUG_ID = #{bugId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.northking.cloudplatform.domain.testbug.CltTestBug" >
+    update CLT_TEST_BUG
+    set CASE_ID = #{caseId,jdbcType=VARCHAR},
+      STEP_ID = #{stepId,jdbcType=VARCHAR},
+      BUG_TITLE = #{bugTitle,jdbcType=VARCHAR},
+      BUG_GRADE = #{bugGrade,jdbcType=VARCHAR},
+      BUG_TYPE = #{bugType,jdbcType=VARCHAR},
+      EMERGENCY = #{emergency,jdbcType=VARCHAR},
+      IS_REAPPEAR = #{isReappear,jdbcType=CHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      ATTACH = #{attach,jdbcType=VARCHAR},
+      ERROR_DESC = #{errorDesc,jdbcType=VARCHAR},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      BACK_REASON = #{backReason,jdbcType=VARCHAR},
+      HANDLE_USER = #{handleUser,jdbcType=VARCHAR},
+      HANDLE_DATE = #{handleDate,jdbcType=TIMESTAMP},
+      BATCH_ID = #{batchId,jdbcType=VARCHAR}
+    where BUG_ID = #{bugId,jdbcType=VARCHAR}
+  </update>
+</mapper>

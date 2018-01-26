@@ -1,0 +1,401 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.user.CltOrgMapper" >
+  <resultMap id="BaseResultMap" type="net.northking.cloudplatform.domain.user.CltOrg" >
+    <id column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="PARENT_ORG_ID" property="parentOrgId" jdbcType="VARCHAR" />
+    <result column="ORG_NAME" property="orgName" jdbcType="VARCHAR" />
+    <result column="CUST_ID" property="custId" jdbcType="VARCHAR" />
+    <result column="ORG_SEQ" property="orgSeq" jdbcType="INTEGER" />
+    <result column="ORG_DESC" property="orgDesc" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="DATE" />
+    <result column="IS_LEAF" property="isLeaf" jdbcType="CHAR" />
+    <result column="ORG_LEVEL" property="orgLevel" jdbcType="INTEGER" />
+    <result column="ORG_GRADATION" property="orgGradation" jdbcType="VARCHAR" />
+    <result column="MANAGER_NAME" property="managerName" jdbcType="VARCHAR" />
+    <result column="MANAGER_EMAIL" property="managerEmail" jdbcType="VARCHAR" />
+    <result column="MANAGER_PHONE" property="managerPhone" jdbcType="VARCHAR" />
+    <result column="EXPANDS" property="expands" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ORG_ID, PARENT_ORG_ID, ORG_NAME, CUST_ID, ORG_SEQ, ORG_DESC, CREATE_USER, CREATE_DATE, 
+    UPDATE_USER, UPDATE_DATE, IS_LEAF, ORG_LEVEL, ORG_GRADATION, MANAGER_NAME, MANAGER_EMAIL, 
+    MANAGER_PHONE, EXPANDS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.northking.cloudplatform.domain.user.CltOrgExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CLT_ORG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CLT_ORG
+    where ORG_ID = #{orgId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CLT_ORG
+    where ORG_ID = #{orgId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.northking.cloudplatform.domain.user.CltOrgExample" >
+    delete from CLT_ORG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.northking.cloudplatform.domain.user.CltOrg" >
+    insert into CLT_ORG (ORG_ID, PARENT_ORG_ID, ORG_NAME, 
+      CUST_ID, ORG_SEQ, ORG_DESC, 
+      CREATE_USER, CREATE_DATE, UPDATE_USER, 
+      UPDATE_DATE, IS_LEAF, ORG_LEVEL, 
+      ORG_GRADATION, MANAGER_NAME, MANAGER_EMAIL, 
+      MANAGER_PHONE, EXPANDS)
+    values (#{orgId,jdbcType=VARCHAR}, #{parentOrgId,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, 
+      #{custId,jdbcType=VARCHAR}, #{orgSeq,jdbcType=INTEGER}, #{orgDesc,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=DATE}, #{isLeaf,jdbcType=CHAR}, #{orgLevel,jdbcType=INTEGER}, 
+      #{orgGradation,jdbcType=VARCHAR}, #{managerName,jdbcType=VARCHAR}, #{managerEmail,jdbcType=VARCHAR}, 
+      #{managerPhone,jdbcType=VARCHAR}, #{expands,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.northking.cloudplatform.domain.user.CltOrg" >
+    insert into CLT_ORG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="parentOrgId != null" >
+        PARENT_ORG_ID,
+      </if>
+      <if test="orgName != null" >
+        ORG_NAME,
+      </if>
+      <if test="custId != null" >
+        CUST_ID,
+      </if>
+      <if test="orgSeq != null" >
+        ORG_SEQ,
+      </if>
+      <if test="orgDesc != null" >
+        ORG_DESC,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="isLeaf != null" >
+        IS_LEAF,
+      </if>
+      <if test="orgLevel != null" >
+        ORG_LEVEL,
+      </if>
+      <if test="orgGradation != null" >
+        ORG_GRADATION,
+      </if>
+      <if test="managerName != null" >
+        MANAGER_NAME,
+      </if>
+      <if test="managerEmail != null" >
+        MANAGER_EMAIL,
+      </if>
+      <if test="managerPhone != null" >
+        MANAGER_PHONE,
+      </if>
+      <if test="expands != null" >
+        EXPANDS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentOrgId != null" >
+        #{parentOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="custId != null" >
+        #{custId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgSeq != null" >
+        #{orgSeq,jdbcType=INTEGER},
+      </if>
+      <if test="orgDesc != null" >
+        #{orgDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=DATE},
+      </if>
+      <if test="isLeaf != null" >
+        #{isLeaf,jdbcType=CHAR},
+      </if>
+      <if test="orgLevel != null" >
+        #{orgLevel,jdbcType=INTEGER},
+      </if>
+      <if test="orgGradation != null" >
+        #{orgGradation,jdbcType=VARCHAR},
+      </if>
+      <if test="managerName != null" >
+        #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="managerEmail != null" >
+        #{managerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="managerPhone != null" >
+        #{managerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="expands != null" >
+        #{expands,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.northking.cloudplatform.domain.user.CltOrgExample" resultType="java.lang.Integer" >
+    select count(*) from CLT_ORG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CLT_ORG
+    <set >
+      <if test="record.orgId != null" >
+        ORG_ID = #{record.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentOrgId != null" >
+        PARENT_ORG_ID = #{record.parentOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgName != null" >
+        ORG_NAME = #{record.orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custId != null" >
+        CUST_ID = #{record.custId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgSeq != null" >
+        ORG_SEQ = #{record.orgSeq,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgDesc != null" >
+        ORG_DESC = #{record.orgDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null" >
+        CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=DATE},
+      </if>
+      <if test="record.updateUser != null" >
+        UPDATE_USER = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        UPDATE_DATE = #{record.updateDate,jdbcType=DATE},
+      </if>
+      <if test="record.isLeaf != null" >
+        IS_LEAF = #{record.isLeaf,jdbcType=CHAR},
+      </if>
+      <if test="record.orgLevel != null" >
+        ORG_LEVEL = #{record.orgLevel,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgGradation != null" >
+        ORG_GRADATION = #{record.orgGradation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerName != null" >
+        MANAGER_NAME = #{record.managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerEmail != null" >
+        MANAGER_EMAIL = #{record.managerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.managerPhone != null" >
+        MANAGER_PHONE = #{record.managerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expands != null" >
+        EXPANDS = #{record.expands,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CLT_ORG
+    set ORG_ID = #{record.orgId,jdbcType=VARCHAR},
+      PARENT_ORG_ID = #{record.parentOrgId,jdbcType=VARCHAR},
+      ORG_NAME = #{record.orgName,jdbcType=VARCHAR},
+      CUST_ID = #{record.custId,jdbcType=VARCHAR},
+      ORG_SEQ = #{record.orgSeq,jdbcType=INTEGER},
+      ORG_DESC = #{record.orgDesc,jdbcType=VARCHAR},
+      CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=DATE},
+      UPDATE_USER = #{record.updateUser,jdbcType=VARCHAR},
+      UPDATE_DATE = #{record.updateDate,jdbcType=DATE},
+      IS_LEAF = #{record.isLeaf,jdbcType=CHAR},
+      ORG_LEVEL = #{record.orgLevel,jdbcType=INTEGER},
+      ORG_GRADATION = #{record.orgGradation,jdbcType=VARCHAR},
+      MANAGER_NAME = #{record.managerName,jdbcType=VARCHAR},
+      MANAGER_EMAIL = #{record.managerEmail,jdbcType=VARCHAR},
+      MANAGER_PHONE = #{record.managerPhone,jdbcType=VARCHAR},
+      EXPANDS = #{record.expands,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.northking.cloudplatform.domain.user.CltOrg" >
+    update CLT_ORG
+    <set >
+      <if test="parentOrgId != null" >
+        PARENT_ORG_ID = #{parentOrgId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        ORG_NAME = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="custId != null" >
+        CUST_ID = #{custId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgSeq != null" >
+        ORG_SEQ = #{orgSeq,jdbcType=INTEGER},
+      </if>
+      <if test="orgDesc != null" >
+        ORG_DESC = #{orgDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=DATE},
+      </if>
+      <if test="isLeaf != null" >
+        IS_LEAF = #{isLeaf,jdbcType=CHAR},
+      </if>
+      <if test="orgLevel != null" >
+        ORG_LEVEL = #{orgLevel,jdbcType=INTEGER},
+      </if>
+      <if test="orgGradation != null" >
+        ORG_GRADATION = #{orgGradation,jdbcType=VARCHAR},
+      </if>
+      <if test="managerName != null" >
+        MANAGER_NAME = #{managerName,jdbcType=VARCHAR},
+      </if>
+      <if test="managerEmail != null" >
+        MANAGER_EMAIL = #{managerEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="managerPhone != null" >
+        MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="expands != null" >
+        EXPANDS = #{expands,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ORG_ID = #{orgId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.northking.cloudplatform.domain.user.CltOrg" >
+    update CLT_ORG
+    set PARENT_ORG_ID = #{parentOrgId,jdbcType=VARCHAR},
+      ORG_NAME = #{orgName,jdbcType=VARCHAR},
+      CUST_ID = #{custId,jdbcType=VARCHAR},
+      ORG_SEQ = #{orgSeq,jdbcType=INTEGER},
+      ORG_DESC = #{orgDesc,jdbcType=VARCHAR},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=DATE},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=DATE},
+      IS_LEAF = #{isLeaf,jdbcType=CHAR},
+      ORG_LEVEL = #{orgLevel,jdbcType=INTEGER},
+      ORG_GRADATION = #{orgGradation,jdbcType=VARCHAR},
+      MANAGER_NAME = #{managerName,jdbcType=VARCHAR},
+      MANAGER_EMAIL = #{managerEmail,jdbcType=VARCHAR},
+      MANAGER_PHONE = #{managerPhone,jdbcType=VARCHAR},
+      EXPANDS = #{expands,jdbcType=VARCHAR}
+    where ORG_ID = #{orgId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.testexecute.CltCaseSetRelMapper" >
+  <resultMap id="BaseResultMap" type="net.northking.cloudplatform.domain.testexecute.CltCaseSetRel" >
+    <id column="CASE_SET_REL_ID" property="caseSetRelId" jdbcType="VARCHAR" />
+    <result column="CASE_SET_ID" property="caseSetId" jdbcType="VARCHAR" />
+    <result column="CASE_ID" property="caseId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CASE_SET_REL_ID, CASE_SET_ID, CASE_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseSetRelExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CLT_CASE_SET_REL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CLT_CASE_SET_REL
+    where CASE_SET_REL_ID = #{caseSetRelId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CLT_CASE_SET_REL
+    where CASE_SET_REL_ID = #{caseSetRelId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseSetRelExample" >
+    delete from CLT_CASE_SET_REL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseSetRel" >
+    insert into CLT_CASE_SET_REL (CASE_SET_REL_ID, CASE_SET_ID, CASE_ID
+      )
+    values (#{caseSetRelId,jdbcType=VARCHAR}, #{caseSetId,jdbcType=VARCHAR}, #{caseId,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseSetRel" >
+    insert into CLT_CASE_SET_REL
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="caseSetRelId != null" >
+        CASE_SET_REL_ID,
+      </if>
+      <if test="caseSetId != null" >
+        CASE_SET_ID,
+      </if>
+      <if test="caseId != null" >
+        CASE_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="caseSetRelId != null" >
+        #{caseSetRelId,jdbcType=VARCHAR},
+      </if>
+      <if test="caseSetId != null" >
+        #{caseSetId,jdbcType=VARCHAR},
+      </if>
+      <if test="caseId != null" >
+        #{caseId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseSetRelExample" resultType="java.lang.Integer" >
+    select count(*) from CLT_CASE_SET_REL
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CLT_CASE_SET_REL
+    <set >
+      <if test="record.caseSetRelId != null" >
+        CASE_SET_REL_ID = #{record.caseSetRelId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caseSetId != null" >
+        CASE_SET_ID = #{record.caseSetId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caseId != null" >
+        CASE_ID = #{record.caseId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CLT_CASE_SET_REL
+    set CASE_SET_REL_ID = #{record.caseSetRelId,jdbcType=VARCHAR},
+      CASE_SET_ID = #{record.caseSetId,jdbcType=VARCHAR},
+      CASE_ID = #{record.caseId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseSetRel" >
+    update CLT_CASE_SET_REL
+    <set >
+      <if test="caseSetId != null" >
+        CASE_SET_ID = #{caseSetId,jdbcType=VARCHAR},
+      </if>
+      <if test="caseId != null" >
+        CASE_ID = #{caseId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where CASE_SET_REL_ID = #{caseSetRelId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseSetRel" >
+    update CLT_CASE_SET_REL
+    set CASE_SET_ID = #{caseSetId,jdbcType=VARCHAR},
+      CASE_ID = #{caseId,jdbcType=VARCHAR}
+    where CASE_SET_REL_ID = #{caseSetRelId,jdbcType=VARCHAR}
+  </update>
+</mapper>

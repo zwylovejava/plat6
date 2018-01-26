@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.project.CltCustomerMapper" >
+
+
+
+
+    <!-- 根据客户简称查询记录数-->
+    <select id="countCustomerByCustCode" resultType="java.lang.Integer" parameterType="java.lang.String">
+
+        SELECT COUNT(*) FROM CLT_CUSTOMER WHERE CUST_CODE = #{custCode,jdbcType=VARCHAR}
+
+
+    </select>
+    <!-- 根据客户简称查询客户详情-->
+    <select id="queryCustomerByCustCode" resultType="net.northking.cloudplatform.domain.project.CltCustomer" parameterType="java.lang.String">
+
+        SELECT * FROM CLT_CUSTOMER WHERE CUST_CODE = #{custCode,jdbcType=VARCHAR}
+
+    </select>
+
+
+
+
+</mapper>

@@ -1,0 +1,79 @@
+package net.northking.cloudplatform.feign.dictionary;
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.domain.dictionary.CltDictionaryItem;
+import net.northking.cloudplatform.domain.dictionary.CltDictionaryType;
+import net.northking.cloudplatform.query.dictionary.DictionaryItemQuery;
+import net.northking.cloudplatform.query.dictionary.DictionaryTypeQuery;
+import net.northking.cloudplatform.result.ResultInfo;
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.List;
+
+/**
+ * @Title:
+ * @Description: 数据字典feign客户端
+ * @Company: Northking
+ * @Author: HBH
+ * @CreateDate: 2017-12-13 14:01
+ * @UpdateUser:
+ * @Version:0.1
+ */
+@FeignClient(name = "cloudplatform-gateway")
+public interface DictionaryFeignClient {
+
+       //添加数据字典类型
+    @RequestMapping(value = "/dictionary/addDictionaryType", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<Integer> addDictionaryType(@RequestBody DictionaryTypeQuery dictionaryTypeQuery);
+
+       //添加数据字典明细
+    @RequestMapping(value = "/dictionary/addDictionaryItem", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<Integer> addDictionaryItem(@RequestBody DictionaryItemQuery dictionaryItemQuery);
+
+      //删除数据字典类型
+     @RequestMapping(value = "/dictionary/deleteDictionaryType", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<Integer>  deleteDictionaryType(@RequestBody DictionaryTypeQuery dictionaryTypeQuery);
+
+      //删除数据字典明细
+      @RequestMapping(value = "/dictionary/deleteDictionaryItem", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<Integer> deleteDictionaryItem(@RequestBody DictionaryItemQuery dictionaryItemQuery);
+
+     //更新数据字典类型
+       @RequestMapping(value = "/dictionary/updateDictionaryType", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<Integer> updateDictionaryType(@RequestBody DictionaryTypeQuery dictionaryTypeQuery);
+
+
+     //更新数据字典明细
+       @RequestMapping(value = "/dictionary/updateDictionaryItem", method = RequestMethod.POST, consumes="application/json")
+     ResultInfo<Integer> updateDictionaryItem(@RequestBody DictionaryItemQuery dictionaryItemQuery);
+
+    //查询所有字典类型列表
+      @RequestMapping(value = "/dictionary/queryDictionaryTypeList", method = RequestMethod.POST, consumes="application/json")
+     ResultInfo<Page<CltDictionaryType>> queryDictionaryTypeList(@RequestBody DictionaryTypeQuery dictionaryTypeQuery);
+
+    //根据typeId查询字典明细列表
+      @RequestMapping(value = "/dictionary/queryCltDictionaryItemsByTypeId", method = RequestMethod.POST, consumes="application/json")
+     ResultInfo<List<CltDictionaryItem>> queryCltDictionaryItemsByTypeId(@RequestBody DictionaryItemQuery dictionaryItemQuery);
+
+    //批量删除字典类型表
+      @RequestMapping(value = "/dictionary/deleteCltDictionaryTypeBatch", method = RequestMethod.POST, consumes="application/json")
+     ResultInfo<Integer> deleteCltDictionaryTypeBatch(@RequestBody DictionaryTypeQuery dictionaryTypeQuery);
+
+    //批量删除字典明细表
+      @RequestMapping(value = "/dictionary/deleteDictionaryItemBatch", method = RequestMethod.POST, consumes="application/json")
+     ResultInfo<Integer> deleteDictionaryItemBatch(@RequestBody DictionaryItemQuery dictionaryItemQuery);
+
+    //启用/禁用
+      @RequestMapping(value = "/dictionary/disEnableDictionary", method = RequestMethod.POST, consumes="application/json")
+     ResultInfo<Integer> disEnableDictionary(@RequestBody DictionaryTypeQuery dictionaryTypeQuery);
+
+
+    //调动顺序
+      @RequestMapping(value = "/dictionary/updateOrderSeq", method = RequestMethod.POST, consumes="application/json")
+     ResultInfo<Integer> updateOrderSeq(@RequestBody List<DictionaryItemQuery> dictionaryItemQueries);
+
+
+}

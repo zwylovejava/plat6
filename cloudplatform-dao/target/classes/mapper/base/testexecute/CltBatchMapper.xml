@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.testexecute.CltBatchMapper" >
+  <resultMap id="BaseResultMap" type="net.northking.cloudplatform.domain.testexecute.CltBatch" >
+    <id column="BATCH_ID" property="batchId" jdbcType="VARCHAR" />
+    <result column="BATCH_NAME" property="batchName" jdbcType="VARCHAR" />
+    <result column="ROUND_ID" property="roundId" jdbcType="VARCHAR" />
+    <result column="START_DATE" property="startDate" jdbcType="DATE" />
+    <result column="END_DATE" property="endDate" jdbcType="DATE" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="ORDER_SEQ" property="orderSeq" jdbcType="INTEGER" />
+    <result column="PRIORITY" property="priority" jdbcType="INTEGER" />
+    <result column="MEMO" property="memo" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="TIMESTAMP" />
+    <result column="LOGIC_DEL" property="logicDel" jdbcType="CHAR" />
+    <result column="INDEX_SET" property="indexSet" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    BATCH_ID, BATCH_NAME, ROUND_ID, START_DATE, END_DATE, STATUS, ORDER_SEQ, PRIORITY,
+    MEMO, CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE, LOGIC_DEL, INDEX_SET
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.northking.cloudplatform.domain.testexecute.CltBatchExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CLT_BATCH
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from CLT_BATCH
+    where BATCH_ID = #{batchId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CLT_BATCH
+    where BATCH_ID = #{batchId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.northking.cloudplatform.domain.testexecute.CltBatchExample" >
+    delete from CLT_BATCH
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.northking.cloudplatform.domain.testexecute.CltBatch" >
+    insert into CLT_BATCH (BATCH_ID, BATCH_NAME, ROUND_ID,
+    START_DATE, END_DATE, STATUS,
+    ORDER_SEQ, PRIORITY, MEMO,
+    CREATE_USER, CREATE_DATE, UPDATE_USER,
+    UPDATE_DATE, LOGIC_DEL, INDEX_SET
+    )
+    values (#{batchId,jdbcType=VARCHAR}, #{batchName,jdbcType=VARCHAR}, #{roundId,jdbcType=VARCHAR},
+    #{startDate,jdbcType=DATE}, #{endDate,jdbcType=DATE}, #{status,jdbcType=VARCHAR},
+    #{orderSeq,jdbcType=INTEGER}, #{priority,jdbcType=INTEGER}, #{memo,jdbcType=VARCHAR},
+    #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, #{updateUser,jdbcType=VARCHAR},
+    #{updateDate,jdbcType=TIMESTAMP}, #{logicDel,jdbcType=CHAR}, #{indexSet,jdbcType=VARCHAR}
+    )
+  </insert>
+  <insert id="insertSelective" parameterType="net.northking.cloudplatform.domain.testexecute.CltBatch" >
+    insert into CLT_BATCH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="batchId != null" >
+        BATCH_ID,
+      </if>
+      <if test="batchName != null" >
+        BATCH_NAME,
+      </if>
+      <if test="roundId != null" >
+        ROUND_ID,
+      </if>
+      <if test="startDate != null" >
+        START_DATE,
+      </if>
+      <if test="endDate != null" >
+        END_DATE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="orderSeq != null" >
+        ORDER_SEQ,
+      </if>
+      <if test="priority != null" >
+        PRIORITY,
+      </if>
+      <if test="memo != null" >
+        MEMO,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="logicDel != null" >
+        LOGIC_DEL,
+      </if>
+      <if test="indexSet != null" >
+        INDEX_SET,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="batchId != null" >
+        #{batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchName != null" >
+        #{batchName,jdbcType=VARCHAR},
+      </if>
+      <if test="roundId != null" >
+        #{roundId,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        #{endDate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSeq != null" >
+        #{orderSeq,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logicDel != null" >
+        #{logicDel,jdbcType=CHAR},
+      </if>
+      <if test="indexSet != null" >
+        #{indexSet,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.northking.cloudplatform.domain.testexecute.CltBatchExample" resultType="java.lang.Integer" >
+    select count(*) from CLT_BATCH
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CLT_BATCH
+    <set >
+      <if test="record.batchId != null" >
+        BATCH_ID = #{record.batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.batchName != null" >
+        BATCH_NAME = #{record.batchName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roundId != null" >
+        ROUND_ID = #{record.roundId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startDate != null" >
+        START_DATE = #{record.startDate,jdbcType=DATE},
+      </if>
+      <if test="record.endDate != null" >
+        END_DATE = #{record.endDate,jdbcType=DATE},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderSeq != null" >
+        ORDER_SEQ = #{record.orderSeq,jdbcType=INTEGER},
+      </if>
+      <if test="record.priority != null" >
+        PRIORITY = #{record.priority,jdbcType=INTEGER},
+      </if>
+      <if test="record.memo != null" >
+        MEMO = #{record.memo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null" >
+        CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUser != null" >
+        UPDATE_USER = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.logicDel != null" >
+        LOGIC_DEL = #{record.logicDel,jdbcType=CHAR},
+      </if>
+      <if test="record.indexSet != null" >
+        INDEX_SET = #{record.indexSet,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CLT_BATCH
+    set BATCH_ID = #{record.batchId,jdbcType=VARCHAR},
+    BATCH_NAME = #{record.batchName,jdbcType=VARCHAR},
+    ROUND_ID = #{record.roundId,jdbcType=VARCHAR},
+    START_DATE = #{record.startDate,jdbcType=DATE},
+    END_DATE = #{record.endDate,jdbcType=DATE},
+    STATUS = #{record.status,jdbcType=VARCHAR},
+    ORDER_SEQ = #{record.orderSeq,jdbcType=INTEGER},
+    PRIORITY = #{record.priority,jdbcType=INTEGER},
+    MEMO = #{record.memo,jdbcType=VARCHAR},
+    CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+    CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+    UPDATE_USER = #{record.updateUser,jdbcType=VARCHAR},
+    UPDATE_DATE = #{record.updateDate,jdbcType=TIMESTAMP},
+    LOGIC_DEL = #{record.logicDel,jdbcType=CHAR},
+    INDEX_SET = #{record.indexSet,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.northking.cloudplatform.domain.testexecute.CltBatch" >
+    update CLT_BATCH
+    <set >
+      <if test="batchName != null" >
+        BATCH_NAME = #{batchName,jdbcType=VARCHAR},
+      </if>
+      <if test="roundId != null" >
+        ROUND_ID = #{roundId,jdbcType=VARCHAR},
+      </if>
+      <if test="startDate != null" >
+        START_DATE = #{startDate,jdbcType=DATE},
+      </if>
+      <if test="endDate != null" >
+        END_DATE = #{endDate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSeq != null" >
+        ORDER_SEQ = #{orderSeq,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null" >
+        PRIORITY = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="memo != null" >
+        MEMO = #{memo,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logicDel != null" >
+        LOGIC_DEL = #{logicDel,jdbcType=CHAR},
+      </if>
+      <if test="indexSet != null" >
+        INDEX_SET = #{indexSet,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where BATCH_ID = #{batchId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.northking.cloudplatform.domain.testexecute.CltBatch" >
+    update CLT_BATCH
+    set BATCH_NAME = #{batchName,jdbcType=VARCHAR},
+      ROUND_ID = #{roundId,jdbcType=VARCHAR},
+      START_DATE = #{startDate,jdbcType=DATE},
+      END_DATE = #{endDate,jdbcType=DATE},
+      STATUS = #{status,jdbcType=VARCHAR},
+      ORDER_SEQ = #{orderSeq,jdbcType=INTEGER},
+      PRIORITY = #{priority,jdbcType=INTEGER},
+      MEMO = #{memo,jdbcType=VARCHAR},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=TIMESTAMP},
+      LOGIC_DEL = #{logicDel,jdbcType=CHAR},
+      INDEX_SET = #{indexSet,jdbcType=VARCHAR}
+    where BATCH_ID = #{batchId,jdbcType=VARCHAR}
+  </update>
+</mapper>

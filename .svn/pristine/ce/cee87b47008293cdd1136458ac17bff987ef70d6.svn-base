@@ -1,0 +1,106 @@
+package net.northking.cloudplatform.controller.user;
+
+
+import com.codingapi.tx.annotation.TxTransaction;
+import net.northking.cloudplatform.query.user.UserRoleQuery;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.user.UserRoleService;
+import net.northking.cloudplatform.utils.CltUtils;
+import net.northking.cloudplatform.utils.ParamVerifyUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
+
+/**
+ * @Title:
+ * @Description:用户角色关系控制层
+ * @Company: Northking
+ * @Author: suny
+ * @CreateDate: 2017-12-07 17:04
+ * @UpdateUser:
+ * @Version:0.1
+ */
+
+@RestController
+public class UserRoleController {
+    private final static Logger logger = LoggerFactory.getLogger(UserRoleController.class);
+    @Autowired
+    UserRoleService userRoleService;
+    /**
+     * 批量用户角色信息
+     * request userRoleQuery
+     * response 无
+     * @author suny
+     * @Created  2017-11-20
+     */
+    @TxTransaction
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/addCltUserRolesInfo")
+    public ResultInfo<Integer> addCltUserRolesInfo(@RequestBody UserRoleQuery userRoleQuery) throws Exception {
+
+        CltUtils.printStartInfo(userRoleQuery, "addCltUserRolesInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        //必输项校验
+        init(userRoleQuery, "A");
+
+        //调用微服务接口
+        ResultInfo<Integer>  resultInfo = userRoleService.addUserRoles(userRoleQuery);
+
+        CltUtils.printEndInfo(resultInfo, "addCltUserRolesInfo", startTime);
+
+        return resultInfo ;
+
+    }
+
+    /**
+     * 批量用户角色编号删除用户角色信息
+     * request  userRoleQuery
+     * response 无
+     * @author suny
+     * @Created  2017-11-20
+     */
+    @TxTransaction
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping ("/deleteCltUserRolesInfo")
+    public ResultInfo<String>  deleteCltUserRolesInfo(@RequestBody UserRoleQuery userRoleQuery) throws Exception {
+
+        CltUtils.printStartInfo(userRoleQuery, "deleteCltUserRolesInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<String> resultInfo = userRoleService.deleteUserRoles(userRoleQuery);
+
+        CltUtils.printEndInfo(resultInfo, "deleteCltUserRolesInfo", startTime);
+
+        return resultInfo ;
+
+    }
+
+    public static void init(UserRoleQuery userRoleQuery, String funcCode) throws Exception {
+
+        ParamVerifyUtil paramVerifyUtil = new ParamVerifyUtil();
+
+        Map<String,Object> dataMap = CltUtils.beanToMap(userRoleQuery);
+
+        if ("A".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "userId", "roleList");
+
+        } else if ("D".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "userRoleId");
+
+        }
+    }
+
+}

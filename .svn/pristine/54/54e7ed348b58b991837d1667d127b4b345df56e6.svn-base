@@ -1,0 +1,134 @@
+package net.northking.cloudplatform.controller.user;
+
+
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.domain.user.CltFuncRole;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.query.user.FuncRoleQuery;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.user.FuncRoleService;
+import net.northking.cloudplatform.utils.CltUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * 功能角色关系信息操作
+ * @author suny
+ * @Created  2017-11-20
+ */
+@RestController
+public class FuncRoleController {
+
+    private final static Logger logger = LoggerFactory.getLogger(FuncRoleController.class);
+
+    @Autowired
+    FuncRoleService funcRoleService;
+
+    //批量添加功能角色关系
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/addCltFuncRolesInfo")
+    public ResultInfo<Integer> addCltFuncRolesInfo(@RequestBody FuncRoleQuery funcRoleQuery) throws Exception {
+
+        CltUtils.printStartInfo(funcRoleQuery, "addCltFuncRolesInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+        //init(funcRoleQuery, "A");
+
+        //调用微服务controller接口
+        ResultInfo<Integer> result = funcRoleService.addCltFuncRolesInfo(funcRoleQuery);
+
+        CltUtils.printEndInfo(result, "addCltFuncRolesInfo", startTime);
+
+        return  result;
+
+    }
+
+    //批量删除功能角色关系
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/deleteFuncRoleByfunRoleIdsInfo")
+    public ResultInfo<Integer> deleteFuncRoleByfunRoleIdsInfo(@RequestBody FuncRoleQuery funcRoleQuery) throws Exception {
+
+        CltUtils.printStartInfo(funcRoleQuery, "deleteFuncRoleByfunRoleIdsInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+        init(funcRoleQuery, "D");
+
+        //调用微服务controller接口
+        ResultInfo<Integer> result = funcRoleService.deleteFuncRoleByfunRoleIdsInfo(funcRoleQuery);
+
+        CltUtils.printEndInfo(result, "deleteFuncRoleByfunRoleIdsInfo", startTime);
+
+        return  result;
+
+    }
+    //根据功能角色ID查询所属功能列表
+    @PostMapping ("/queryFuncListByRoleId")
+    public  ResultInfo<Page<CltFuncRole>>   queryFuncListByRoleId(@RequestBody FuncRoleQuery funcRoleQuery) throws Exception {
+
+        CltUtils.printStartInfo(funcRoleQuery, "queryFuncListByRoleId");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+        init(funcRoleQuery, "Q");
+
+        //调用数据库
+        ResultInfo<Page<CltFuncRole>>   result  =  funcRoleService.queryFuncListByRoleId(funcRoleQuery);
+
+        CltUtils.printEndInfo(result, "queryFuncListByRoleId", startTime);
+
+        return result ;
+    }
+
+    public static void init(FuncRoleQuery funcRoleQuery, String funcCode) throws Exception {
+
+        if ("A".equals(funcCode)) {
+            String roleId  = funcRoleQuery.getRoleId();
+            String[] funcIds = funcRoleQuery.getFuncIds();
+
+            if(roleId==null||"".equals(roleId)){
+
+                throw  new GlobalException("GLT0103000001","角色编号roleId不能为空");
+            }
+
+            if(funcIds==null||funcIds.length<1){
+
+                throw  new GlobalException("GLT0103000001","功能编号funcIds不能为空");
+            }
+
+
+        } else if ("D".equals(funcCode)) {
+
+            String[] funcRoleIds = funcRoleQuery.getFuncRoleIds();
+
+            if(funcRoleIds==null||funcRoleIds.length<1){
+
+                throw  new GlobalException("GLT0103000001","功能角色编号funcRoleIds不能为空");
+            }
+
+        }else if("D".equals(funcCode)) {
+
+            String roleId  = funcRoleQuery.getRoleId();
+
+            if(roleId==null||"".equals(roleId)){
+
+                throw  new GlobalException("GLT0103000001","角色编号roleId不能为空");
+            }
+
+        }
+    }
+
+
+}

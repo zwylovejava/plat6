@@ -1,0 +1,13 @@
+package net.northking.cloudplatform.netty.service;
+
+import com.alibaba.fastjson.JSONObject;
+
+/**
+ * create by zwy on 2017/12/18
+ */
+public interface IActionService {
+
+
+    String execute(String modelName, String key, JSONObject params);
+
+}

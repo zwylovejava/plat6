@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.testexecute.CltCaseExecuteMapper" >
+        <select id="queryCaseExecuteByCaseId" resultType="net.northking.cloudplatform.domain.testexecute.CltCaseExecute">
+
+            SELECT <include refid="Base_Column_List"/> FROM CLT_CASE_EXECUTE WHERE  CASE_ID=#{caseId}
+
+        </select>
+        <update id="updatStatusByCaseId">
+
+            UPDATE CLT_CASE_EXECUTE SET RESULT_STATUS=#{status},STATUS = '1' WHERE CASE_ID=#{caseId}
+
+        </update>
+
+</mapper>

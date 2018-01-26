@@ -1,0 +1,702 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.testexecute.CltTestCaseMapper" >
+  <resultMap id="BaseResultMap" type="net.northking.cloudplatform.domain.testexecute.CltTestCase" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="CODE" property="code" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="TYPE" property="type" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="CREATOR" property="creator" jdbcType="VARCHAR" />
+    <result column="LAST_MODIFY_TIME" property="lastModifyTime" jdbcType="TIMESTAMP" />
+    <result column="LAST_MODIFIER" property="lastModifier" jdbcType="VARCHAR" />
+    <result column="LOGIC_DEL" property="logicDel" jdbcType="CHAR" />
+    <result column="DEM_ID" property="demId" jdbcType="VARCHAR" />
+    <result column="PROJ_ID" property="projId" jdbcType="VARCHAR" />
+    <result column="TASK_ID" property="taskId" jdbcType="VARCHAR" />
+    <result column="MODULE" property="module" jdbcType="VARCHAR" />
+    <result column="FUNC" property="func" jdbcType="VARCHAR" />
+    <result column="SUB_FUNC" property="subFunc" jdbcType="VARCHAR" />
+    <result column="TEST_ITEM" property="testItem" jdbcType="VARCHAR" />
+    <result column="TEST_POINT" property="testPoint" jdbcType="VARCHAR" />
+    <result column="TEST_TYPE" property="testType" jdbcType="VARCHAR" />
+    <result column="WEIGHT" property="weight" jdbcType="INTEGER" />
+    <result column="PRIORITY" property="priority" jdbcType="INTEGER" />
+    <result column="ROUND" property="round" jdbcType="VARCHAR" />
+    <result column="PLAN_DATE" property="planDate" jdbcType="DATE" />
+    <result column="USE_ROBOT" property="useRobot" jdbcType="CHAR" />
+    <result column="USER_DEFINED_IDX1" property="userDefinedIdx1" jdbcType="VARCHAR" />
+    <result column="USER_DEFINED_IDX2" property="userDefinedIdx2" jdbcType="VARCHAR" />
+    <result column="USER_DEFINED_IDX3" property="userDefinedIdx3" jdbcType="VARCHAR" />
+    <result column="USER_DEFINED_IDX4" property="userDefinedIdx4" jdbcType="VARCHAR" />
+    <result column="USER_DEFINED_IDX5" property="userDefinedIdx5" jdbcType="VARCHAR" />
+    <result column="USER_DEFINED_IDX6" property="userDefinedIdx6" jdbcType="VARCHAR" />
+    <result column="USER_DEFINED_IDX7" property="userDefinedIdx7" jdbcType="VARCHAR" />
+    <result column="USER_DEFINED_IDX8" property="userDefinedIdx8" jdbcType="VARCHAR" />
+    <result column="USER_DEFINED_IDX9" property="userDefinedIdx9" jdbcType="VARCHAR" />
+    <result column="ALGOM" property="algom" jdbcType="VARCHAR" />
+    <result column="STEP" property="step" jdbcType="VARCHAR" />
+    <result column="PRE_RESULT" property="preResult" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, CODE, NAME, TYPE, STATUS, CREATE_TIME, CREATOR, LAST_MODIFY_TIME, LAST_MODIFIER, 
+    LOGIC_DEL, DEM_ID, PROJ_ID, TASK_ID, MODULE, FUNC, SUB_FUNC, TEST_ITEM, TEST_POINT, 
+    TEST_TYPE, WEIGHT, PRIORITY, ROUND, PLAN_DATE, USE_ROBOT, USER_DEFINED_IDX1, USER_DEFINED_IDX2, 
+    USER_DEFINED_IDX3, USER_DEFINED_IDX4, USER_DEFINED_IDX5, USER_DEFINED_IDX6, USER_DEFINED_IDX7, 
+    USER_DEFINED_IDX8, USER_DEFINED_IDX9, ALGOM, STEP, PRE_RESULT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.northking.cloudplatform.domain.testexecute.CltTestCaseExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CLT_TEST_CASE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CLT_TEST_CASE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CLT_TEST_CASE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.northking.cloudplatform.domain.testexecute.CltTestCaseExample" >
+    delete from CLT_TEST_CASE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.northking.cloudplatform.domain.testexecute.CltTestCase" >
+    insert into CLT_TEST_CASE (ID, CODE, NAME, 
+      TYPE, STATUS, CREATE_TIME, 
+      CREATOR, LAST_MODIFY_TIME, LAST_MODIFIER, 
+      LOGIC_DEL, DEM_ID, PROJ_ID, 
+      TASK_ID, MODULE, FUNC, 
+      SUB_FUNC, TEST_ITEM, TEST_POINT, 
+      TEST_TYPE, WEIGHT, PRIORITY, 
+      ROUND, PLAN_DATE, USE_ROBOT, 
+      USER_DEFINED_IDX1, USER_DEFINED_IDX2, USER_DEFINED_IDX3, 
+      USER_DEFINED_IDX4, USER_DEFINED_IDX5, USER_DEFINED_IDX6, 
+      USER_DEFINED_IDX7, USER_DEFINED_IDX8, USER_DEFINED_IDX9, 
+      ALGOM, STEP, PRE_RESULT
+      )
+    values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{creator,jdbcType=VARCHAR}, #{lastModifyTime,jdbcType=TIMESTAMP}, #{lastModifier,jdbcType=VARCHAR}, 
+      #{logicDel,jdbcType=CHAR}, #{demId,jdbcType=VARCHAR}, #{projId,jdbcType=VARCHAR}, 
+      #{taskId,jdbcType=VARCHAR}, #{module,jdbcType=VARCHAR}, #{func,jdbcType=VARCHAR}, 
+      #{subFunc,jdbcType=VARCHAR}, #{testItem,jdbcType=VARCHAR}, #{testPoint,jdbcType=VARCHAR}, 
+      #{testType,jdbcType=VARCHAR}, #{weight,jdbcType=INTEGER}, #{priority,jdbcType=INTEGER}, 
+      #{round,jdbcType=VARCHAR}, #{planDate,jdbcType=DATE}, #{useRobot,jdbcType=CHAR}, 
+      #{userDefinedIdx1,jdbcType=VARCHAR}, #{userDefinedIdx2,jdbcType=VARCHAR}, #{userDefinedIdx3,jdbcType=VARCHAR}, 
+      #{userDefinedIdx4,jdbcType=VARCHAR}, #{userDefinedIdx5,jdbcType=VARCHAR}, #{userDefinedIdx6,jdbcType=VARCHAR}, 
+      #{userDefinedIdx7,jdbcType=VARCHAR}, #{userDefinedIdx8,jdbcType=VARCHAR}, #{userDefinedIdx9,jdbcType=VARCHAR}, 
+      #{algom,jdbcType=VARCHAR}, #{step,jdbcType=VARCHAR}, #{preResult,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="net.northking.cloudplatform.domain.testexecute.CltTestCase" >
+    insert into CLT_TEST_CASE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="code != null" >
+        CODE,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="type != null" >
+        TYPE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+      <if test="creator != null" >
+        CREATOR,
+      </if>
+      <if test="lastModifyTime != null" >
+        LAST_MODIFY_TIME,
+      </if>
+      <if test="lastModifier != null" >
+        LAST_MODIFIER,
+      </if>
+      <if test="logicDel != null" >
+        LOGIC_DEL,
+      </if>
+      <if test="demId != null" >
+        DEM_ID,
+      </if>
+      <if test="projId != null" >
+        PROJ_ID,
+      </if>
+      <if test="taskId != null" >
+        TASK_ID,
+      </if>
+      <if test="module != null" >
+        MODULE,
+      </if>
+      <if test="func != null" >
+        FUNC,
+      </if>
+      <if test="subFunc != null" >
+        SUB_FUNC,
+      </if>
+      <if test="testItem != null" >
+        TEST_ITEM,
+      </if>
+      <if test="testPoint != null" >
+        TEST_POINT,
+      </if>
+      <if test="testType != null" >
+        TEST_TYPE,
+      </if>
+      <if test="weight != null" >
+        WEIGHT,
+      </if>
+      <if test="priority != null" >
+        PRIORITY,
+      </if>
+      <if test="round != null" >
+        ROUND,
+      </if>
+      <if test="planDate != null" >
+        PLAN_DATE,
+      </if>
+      <if test="useRobot != null" >
+        USE_ROBOT,
+      </if>
+      <if test="userDefinedIdx1 != null" >
+        USER_DEFINED_IDX1,
+      </if>
+      <if test="userDefinedIdx2 != null" >
+        USER_DEFINED_IDX2,
+      </if>
+      <if test="userDefinedIdx3 != null" >
+        USER_DEFINED_IDX3,
+      </if>
+      <if test="userDefinedIdx4 != null" >
+        USER_DEFINED_IDX4,
+      </if>
+      <if test="userDefinedIdx5 != null" >
+        USER_DEFINED_IDX5,
+      </if>
+      <if test="userDefinedIdx6 != null" >
+        USER_DEFINED_IDX6,
+      </if>
+      <if test="userDefinedIdx7 != null" >
+        USER_DEFINED_IDX7,
+      </if>
+      <if test="userDefinedIdx8 != null" >
+        USER_DEFINED_IDX8,
+      </if>
+      <if test="userDefinedIdx9 != null" >
+        USER_DEFINED_IDX9,
+      </if>
+      <if test="algom != null" >
+        ALGOM,
+      </if>
+      <if test="step != null" >
+        STEP,
+      </if>
+      <if test="preResult != null" >
+        PRE_RESULT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModifyTime != null" >
+        #{lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifier != null" >
+        #{lastModifier,jdbcType=VARCHAR},
+      </if>
+      <if test="logicDel != null" >
+        #{logicDel,jdbcType=CHAR},
+      </if>
+      <if test="demId != null" >
+        #{demId,jdbcType=VARCHAR},
+      </if>
+      <if test="projId != null" >
+        #{projId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="module != null" >
+        #{module,jdbcType=VARCHAR},
+      </if>
+      <if test="func != null" >
+        #{func,jdbcType=VARCHAR},
+      </if>
+      <if test="subFunc != null" >
+        #{subFunc,jdbcType=VARCHAR},
+      </if>
+      <if test="testItem != null" >
+        #{testItem,jdbcType=VARCHAR},
+      </if>
+      <if test="testPoint != null" >
+        #{testPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="testType != null" >
+        #{testType,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="round != null" >
+        #{round,jdbcType=VARCHAR},
+      </if>
+      <if test="planDate != null" >
+        #{planDate,jdbcType=DATE},
+      </if>
+      <if test="useRobot != null" >
+        #{useRobot,jdbcType=CHAR},
+      </if>
+      <if test="userDefinedIdx1 != null" >
+        #{userDefinedIdx1,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefinedIdx2 != null" >
+        #{userDefinedIdx2,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefinedIdx3 != null" >
+        #{userDefinedIdx3,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefinedIdx4 != null" >
+        #{userDefinedIdx4,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefinedIdx5 != null" >
+        #{userDefinedIdx5,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefinedIdx6 != null" >
+        #{userDefinedIdx6,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefinedIdx7 != null" >
+        #{userDefinedIdx7,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefinedIdx8 != null" >
+        #{userDefinedIdx8,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefinedIdx9 != null" >
+        #{userDefinedIdx9,jdbcType=VARCHAR},
+      </if>
+      <if test="algom != null" >
+        #{algom,jdbcType=VARCHAR},
+      </if>
+      <if test="step != null" >
+        #{step,jdbcType=VARCHAR},
+      </if>
+      <if test="preResult != null" >
+        #{preResult,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.northking.cloudplatform.domain.testexecute.CltTestCaseExample" resultType="java.lang.Integer" >
+    select count(*) from CLT_TEST_CASE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CLT_TEST_CASE
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null" >
+        CODE = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.type != null" >
+        TYPE = #{record.type,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.creator != null" >
+        CREATOR = #{record.creator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastModifyTime != null" >
+        LAST_MODIFY_TIME = #{record.lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.lastModifier != null" >
+        LAST_MODIFIER = #{record.lastModifier,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logicDel != null" >
+        LOGIC_DEL = #{record.logicDel,jdbcType=CHAR},
+      </if>
+      <if test="record.demId != null" >
+        DEM_ID = #{record.demId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projId != null" >
+        PROJ_ID = #{record.projId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskId != null" >
+        TASK_ID = #{record.taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.module != null" >
+        MODULE = #{record.module,jdbcType=VARCHAR},
+      </if>
+      <if test="record.func != null" >
+        FUNC = #{record.func,jdbcType=VARCHAR},
+      </if>
+      <if test="record.subFunc != null" >
+        SUB_FUNC = #{record.subFunc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.testItem != null" >
+        TEST_ITEM = #{record.testItem,jdbcType=VARCHAR},
+      </if>
+      <if test="record.testPoint != null" >
+        TEST_POINT = #{record.testPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="record.testType != null" >
+        TEST_TYPE = #{record.testType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.weight != null" >
+        WEIGHT = #{record.weight,jdbcType=INTEGER},
+      </if>
+      <if test="record.priority != null" >
+        PRIORITY = #{record.priority,jdbcType=INTEGER},
+      </if>
+      <if test="record.round != null" >
+        ROUND = #{record.round,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planDate != null" >
+        PLAN_DATE = #{record.planDate,jdbcType=DATE},
+      </if>
+      <if test="record.useRobot != null" >
+        USE_ROBOT = #{record.useRobot,jdbcType=CHAR},
+      </if>
+      <if test="record.userDefinedIdx1 != null" >
+        USER_DEFINED_IDX1 = #{record.userDefinedIdx1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userDefinedIdx2 != null" >
+        USER_DEFINED_IDX2 = #{record.userDefinedIdx2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userDefinedIdx3 != null" >
+        USER_DEFINED_IDX3 = #{record.userDefinedIdx3,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userDefinedIdx4 != null" >
+        USER_DEFINED_IDX4 = #{record.userDefinedIdx4,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userDefinedIdx5 != null" >
+        USER_DEFINED_IDX5 = #{record.userDefinedIdx5,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userDefinedIdx6 != null" >
+        USER_DEFINED_IDX6 = #{record.userDefinedIdx6,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userDefinedIdx7 != null" >
+        USER_DEFINED_IDX7 = #{record.userDefinedIdx7,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userDefinedIdx8 != null" >
+        USER_DEFINED_IDX8 = #{record.userDefinedIdx8,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userDefinedIdx9 != null" >
+        USER_DEFINED_IDX9 = #{record.userDefinedIdx9,jdbcType=VARCHAR},
+      </if>
+      <if test="record.algom != null" >
+        ALGOM = #{record.algom,jdbcType=VARCHAR},
+      </if>
+      <if test="record.step != null" >
+        STEP = #{record.step,jdbcType=VARCHAR},
+      </if>
+      <if test="record.preResult != null" >
+        PRE_RESULT = #{record.preResult,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CLT_TEST_CASE
+    set ID = #{record.id,jdbcType=VARCHAR},
+      CODE = #{record.code,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      TYPE = #{record.type,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{record.creator,jdbcType=VARCHAR},
+      LAST_MODIFY_TIME = #{record.lastModifyTime,jdbcType=TIMESTAMP},
+      LAST_MODIFIER = #{record.lastModifier,jdbcType=VARCHAR},
+      LOGIC_DEL = #{record.logicDel,jdbcType=CHAR},
+      DEM_ID = #{record.demId,jdbcType=VARCHAR},
+      PROJ_ID = #{record.projId,jdbcType=VARCHAR},
+      TASK_ID = #{record.taskId,jdbcType=VARCHAR},
+      MODULE = #{record.module,jdbcType=VARCHAR},
+      FUNC = #{record.func,jdbcType=VARCHAR},
+      SUB_FUNC = #{record.subFunc,jdbcType=VARCHAR},
+      TEST_ITEM = #{record.testItem,jdbcType=VARCHAR},
+      TEST_POINT = #{record.testPoint,jdbcType=VARCHAR},
+      TEST_TYPE = #{record.testType,jdbcType=VARCHAR},
+      WEIGHT = #{record.weight,jdbcType=INTEGER},
+      PRIORITY = #{record.priority,jdbcType=INTEGER},
+      ROUND = #{record.round,jdbcType=VARCHAR},
+      PLAN_DATE = #{record.planDate,jdbcType=DATE},
+      USE_ROBOT = #{record.useRobot,jdbcType=CHAR},
+      USER_DEFINED_IDX1 = #{record.userDefinedIdx1,jdbcType=VARCHAR},
+      USER_DEFINED_IDX2 = #{record.userDefinedIdx2,jdbcType=VARCHAR},
+      USER_DEFINED_IDX3 = #{record.userDefinedIdx3,jdbcType=VARCHAR},
+      USER_DEFINED_IDX4 = #{record.userDefinedIdx4,jdbcType=VARCHAR},
+      USER_DEFINED_IDX5 = #{record.userDefinedIdx5,jdbcType=VARCHAR},
+      USER_DEFINED_IDX6 = #{record.userDefinedIdx6,jdbcType=VARCHAR},
+      USER_DEFINED_IDX7 = #{record.userDefinedIdx7,jdbcType=VARCHAR},
+      USER_DEFINED_IDX8 = #{record.userDefinedIdx8,jdbcType=VARCHAR},
+      USER_DEFINED_IDX9 = #{record.userDefinedIdx9,jdbcType=VARCHAR},
+      ALGOM = #{record.algom,jdbcType=VARCHAR},
+      STEP = #{record.step,jdbcType=VARCHAR},
+      PRE_RESULT = #{record.preResult,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.northking.cloudplatform.domain.testexecute.CltTestCase" >
+    update CLT_TEST_CASE
+    <set >
+      <if test="code != null" >
+        CODE = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null" >
+        TYPE = #{type,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="creator != null" >
+        CREATOR = #{creator,jdbcType=VARCHAR},
+      </if>
+      <if test="lastModifyTime != null" >
+        LAST_MODIFY_TIME = #{lastModifyTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastModifier != null" >
+        LAST_MODIFIER = #{lastModifier,jdbcType=VARCHAR},
+      </if>
+      <if test="logicDel != null" >
+        LOGIC_DEL = #{logicDel,jdbcType=CHAR},
+      </if>
+      <if test="demId != null" >
+        DEM_ID = #{demId,jdbcType=VARCHAR},
+      </if>
+      <if test="projId != null" >
+        PROJ_ID = #{projId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        TASK_ID = #{taskId,jdbcType=VARCHAR},
+      </if>
+      <if test="module != null" >
+        MODULE = #{module,jdbcType=VARCHAR},
+      </if>
+      <if test="func != null" >
+        FUNC = #{func,jdbcType=VARCHAR},
+      </if>
+      <if test="subFunc != null" >
+        SUB_FUNC = #{subFunc,jdbcType=VARCHAR},
+      </if>
+      <if test="testItem != null" >
+        TEST_ITEM = #{testItem,jdbcType=VARCHAR},
+      </if>
+      <if test="testPoint != null" >
+        TEST_POINT = #{testPoint,jdbcType=VARCHAR},
+      </if>
+      <if test="testType != null" >
+        TEST_TYPE = #{testType,jdbcType=VARCHAR},
+      </if>
+      <if test="weight != null" >
+        WEIGHT = #{weight,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null" >
+        PRIORITY = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="round != null" >
+        ROUND = #{round,jdbcType=VARCHAR},
+      </if>
+      <if test="planDate != null" >
+        PLAN_DATE = #{planDate,jdbcType=DATE},
+      </if>
+      <if test="useRobot != null" >
+        USE_ROBOT = #{useRobot,jdbcType=CHAR},
+      </if>
+      <if test="userDefinedIdx1 != null" >
+        USER_DEFINED_IDX1 = #{userDefinedIdx1,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefinedIdx2 != null" >
+        USER_DEFINED_IDX2 = #{userDefinedIdx2,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefinedIdx3 != null" >
+        USER_DEFINED_IDX3 = #{userDefinedIdx3,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefinedIdx4 != null" >
+        USER_DEFINED_IDX4 = #{userDefinedIdx4,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefinedIdx5 != null" >
+        USER_DEFINED_IDX5 = #{userDefinedIdx5,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefinedIdx6 != null" >
+        USER_DEFINED_IDX6 = #{userDefinedIdx6,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefinedIdx7 != null" >
+        USER_DEFINED_IDX7 = #{userDefinedIdx7,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefinedIdx8 != null" >
+        USER_DEFINED_IDX8 = #{userDefinedIdx8,jdbcType=VARCHAR},
+      </if>
+      <if test="userDefinedIdx9 != null" >
+        USER_DEFINED_IDX9 = #{userDefinedIdx9,jdbcType=VARCHAR},
+      </if>
+      <if test="algom != null" >
+        ALGOM = #{algom,jdbcType=VARCHAR},
+      </if>
+      <if test="step != null" >
+        STEP = #{step,jdbcType=VARCHAR},
+      </if>
+      <if test="preResult != null" >
+        PRE_RESULT = #{preResult,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.northking.cloudplatform.domain.testexecute.CltTestCase" >
+    update CLT_TEST_CASE
+    set CODE = #{code,jdbcType=VARCHAR},
+      NAME = #{name,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      CREATOR = #{creator,jdbcType=VARCHAR},
+      LAST_MODIFY_TIME = #{lastModifyTime,jdbcType=TIMESTAMP},
+      LAST_MODIFIER = #{lastModifier,jdbcType=VARCHAR},
+      LOGIC_DEL = #{logicDel,jdbcType=CHAR},
+      DEM_ID = #{demId,jdbcType=VARCHAR},
+      PROJ_ID = #{projId,jdbcType=VARCHAR},
+      TASK_ID = #{taskId,jdbcType=VARCHAR},
+      MODULE = #{module,jdbcType=VARCHAR},
+      FUNC = #{func,jdbcType=VARCHAR},
+      SUB_FUNC = #{subFunc,jdbcType=VARCHAR},
+      TEST_ITEM = #{testItem,jdbcType=VARCHAR},
+      TEST_POINT = #{testPoint,jdbcType=VARCHAR},
+      TEST_TYPE = #{testType,jdbcType=VARCHAR},
+      WEIGHT = #{weight,jdbcType=INTEGER},
+      PRIORITY = #{priority,jdbcType=INTEGER},
+      ROUND = #{round,jdbcType=VARCHAR},
+      PLAN_DATE = #{planDate,jdbcType=DATE},
+      USE_ROBOT = #{useRobot,jdbcType=CHAR},
+      USER_DEFINED_IDX1 = #{userDefinedIdx1,jdbcType=VARCHAR},
+      USER_DEFINED_IDX2 = #{userDefinedIdx2,jdbcType=VARCHAR},
+      USER_DEFINED_IDX3 = #{userDefinedIdx3,jdbcType=VARCHAR},
+      USER_DEFINED_IDX4 = #{userDefinedIdx4,jdbcType=VARCHAR},
+      USER_DEFINED_IDX5 = #{userDefinedIdx5,jdbcType=VARCHAR},
+      USER_DEFINED_IDX6 = #{userDefinedIdx6,jdbcType=VARCHAR},
+      USER_DEFINED_IDX7 = #{userDefinedIdx7,jdbcType=VARCHAR},
+      USER_DEFINED_IDX8 = #{userDefinedIdx8,jdbcType=VARCHAR},
+      USER_DEFINED_IDX9 = #{userDefinedIdx9,jdbcType=VARCHAR},
+      ALGOM = #{algom,jdbcType=VARCHAR},
+      STEP = #{step,jdbcType=VARCHAR},
+      PRE_RESULT = #{preResult,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

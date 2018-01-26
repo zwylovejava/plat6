@@ -1,0 +1,106 @@
+package net.northking.cloudplatform.service.impl;
+
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.dao.base.BaseServiceImpl;
+import net.northking.cloudplatform.dao.testcase.UserMapper;
+import net.northking.cloudplatform.domain.testcase.User;
+import net.northking.cloudplatform.domain.testcase.UserExample;
+import net.northking.cloudplatform.query.testcase.UserQuery;
+import net.northking.cloudplatform.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import java.util.List;
+
+/**
+ * @Title: 用户逻辑类
+ * @Description:
+ * @Company: Northking
+ * @Author: chuangsheng.huang
+ * @CreateDate: 2017/11/4
+ * @UpdateUser:
+ * @Version:0.1
+ */
+@Service
+
+public class UserServiceImpl extends BaseServiceImpl<User, UserExample, String> implements UserService {
+
+    @Autowired
+    private UserMapper userMapper;
+
+    /**
+     * 查询所有用户
+     * @param query
+     * @return
+     */
+    @Override
+    public Page<User> findAll(UserQuery query) throws Exception{
+        UserExample userExample = assemblyExample(query); //组装请求参数
+        List<User> users = super.findList(userExample);
+        return super.findPage(query, userExample);
+    }
+
+    /**
+     * 添加用户
+     * @param user
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
+    public int addUser(User user){
+        return userMapper.insertSelective(user);
+    }
+
+    /**
+     * 更新用户
+     * @param user
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
+    public int updateUser(User user){
+        return userMapper.updateByPrimaryKeySelective(user);
+    }
+
+    /**
+     * 删除用户
+     * @param user
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
+    public int deleteUser(User user){
+        return userMapper.updateByPrimaryKey(user);
+    }
+
+    /**
+     * 删除批量用户
+     * @param ids
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
+    public void deleteUserByIds(String[] ids){
+        for(String id : ids){
+            userMapper.deleteByPrimaryKey(id);
+        }
+    }
+
+    /**
+     * 装配查询参数
+     *
+     * @param query 查询对像
+     * @return
+     */
+    private UserExample assemblyExample(UserQuery query) {
+        UserExample example = new UserExample();
+        example.setOrderByClause(query.getOrderByClause());
+        UserExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.hasText(query.getUsername())) {
+            criteria.andUsernameLike(query.getUsername());
+        }
+        return example;
+    }
+
+}

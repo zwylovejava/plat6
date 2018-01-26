@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.testexecute.CltAttachMapper" >
+  <resultMap id="BaseResultMap" type="net.northking.cloudplatform.domain.testexecute.CltAttach" >
+    <id column="ATTACH_ID" property="attachId" jdbcType="VARCHAR" />
+    <result column="ATTACH_MODULE" property="attachModule" jdbcType="VARCHAR" />
+    <result column="ATTACH_FUNC" property="attachFunc" jdbcType="VARCHAR" />
+    <result column="FUNC_ID" property="funcId" jdbcType="VARCHAR" />
+    <result column="ATTACH_TYPE" property="attachType" jdbcType="VARCHAR" />
+    <result column="ATTACH_NAME" property="attachName" jdbcType="VARCHAR" />
+    <result column="ATTACH_PATH" property="attachPath" jdbcType="VARCHAR" />
+    <result column="ORDER_SEQ" property="orderSeq" jdbcType="INTEGER" />
+    <result column="ATTACH_SIZE" property="attachSize" jdbcType="REAL" />
+    <result column="ATTACH_WIDTH" property="attachWidth" jdbcType="INTEGER" />
+    <result column="ATTACH_HEIGHT" property="attachHeight" jdbcType="INTEGER" />
+    <result column="ATTACH_EXTENSION" property="attachExtension" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ATTACH_ID, ATTACH_MODULE, ATTACH_FUNC, FUNC_ID, ATTACH_TYPE, ATTACH_NAME, ATTACH_PATH, 
+    ORDER_SEQ, ATTACH_SIZE, ATTACH_WIDTH, ATTACH_HEIGHT, ATTACH_EXTENSION, CREATE_USER, 
+    CREATE_DATE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.northking.cloudplatform.domain.testexecute.CltAttachExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CLT_ATTACH
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CLT_ATTACH
+    where ATTACH_ID = #{attachId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CLT_ATTACH
+    where ATTACH_ID = #{attachId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.northking.cloudplatform.domain.testexecute.CltAttachExample" >
+    delete from CLT_ATTACH
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.northking.cloudplatform.domain.testexecute.CltAttach" >
+    insert into CLT_ATTACH (ATTACH_ID, ATTACH_MODULE, ATTACH_FUNC, 
+      FUNC_ID, ATTACH_TYPE, ATTACH_NAME, 
+      ATTACH_PATH, ORDER_SEQ, ATTACH_SIZE, 
+      ATTACH_WIDTH, ATTACH_HEIGHT, ATTACH_EXTENSION, 
+      CREATE_USER, CREATE_DATE)
+    values (#{attachId,jdbcType=VARCHAR}, #{attachModule,jdbcType=VARCHAR}, #{attachFunc,jdbcType=VARCHAR}, 
+      #{funcId,jdbcType=VARCHAR}, #{attachType,jdbcType=VARCHAR}, #{attachName,jdbcType=VARCHAR}, 
+      #{attachPath,jdbcType=VARCHAR}, #{orderSeq,jdbcType=INTEGER}, #{attachSize,jdbcType=REAL}, 
+      #{attachWidth,jdbcType=INTEGER}, #{attachHeight,jdbcType=INTEGER}, #{attachExtension,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="net.northking.cloudplatform.domain.testexecute.CltAttach" >
+    insert into CLT_ATTACH
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="attachId != null" >
+        ATTACH_ID,
+      </if>
+      <if test="attachModule != null" >
+        ATTACH_MODULE,
+      </if>
+      <if test="attachFunc != null" >
+        ATTACH_FUNC,
+      </if>
+      <if test="funcId != null" >
+        FUNC_ID,
+      </if>
+      <if test="attachType != null" >
+        ATTACH_TYPE,
+      </if>
+      <if test="attachName != null" >
+        ATTACH_NAME,
+      </if>
+      <if test="attachPath != null" >
+        ATTACH_PATH,
+      </if>
+      <if test="orderSeq != null" >
+        ORDER_SEQ,
+      </if>
+      <if test="attachSize != null" >
+        ATTACH_SIZE,
+      </if>
+      <if test="attachWidth != null" >
+        ATTACH_WIDTH,
+      </if>
+      <if test="attachHeight != null" >
+        ATTACH_HEIGHT,
+      </if>
+      <if test="attachExtension != null" >
+        ATTACH_EXTENSION,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="attachId != null" >
+        #{attachId,jdbcType=VARCHAR},
+      </if>
+      <if test="attachModule != null" >
+        #{attachModule,jdbcType=VARCHAR},
+      </if>
+      <if test="attachFunc != null" >
+        #{attachFunc,jdbcType=VARCHAR},
+      </if>
+      <if test="funcId != null" >
+        #{funcId,jdbcType=VARCHAR},
+      </if>
+      <if test="attachType != null" >
+        #{attachType,jdbcType=VARCHAR},
+      </if>
+      <if test="attachName != null" >
+        #{attachName,jdbcType=VARCHAR},
+      </if>
+      <if test="attachPath != null" >
+        #{attachPath,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSeq != null" >
+        #{orderSeq,jdbcType=INTEGER},
+      </if>
+      <if test="attachSize != null" >
+        #{attachSize,jdbcType=REAL},
+      </if>
+      <if test="attachWidth != null" >
+        #{attachWidth,jdbcType=INTEGER},
+      </if>
+      <if test="attachHeight != null" >
+        #{attachHeight,jdbcType=INTEGER},
+      </if>
+      <if test="attachExtension != null" >
+        #{attachExtension,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.northking.cloudplatform.domain.testexecute.CltAttachExample" resultType="java.lang.Integer" >
+    select count(*) from CLT_ATTACH
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CLT_ATTACH
+    <set >
+      <if test="record.attachId != null" >
+        ATTACH_ID = #{record.attachId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attachModule != null" >
+        ATTACH_MODULE = #{record.attachModule,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attachFunc != null" >
+        ATTACH_FUNC = #{record.attachFunc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.funcId != null" >
+        FUNC_ID = #{record.funcId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attachType != null" >
+        ATTACH_TYPE = #{record.attachType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attachName != null" >
+        ATTACH_NAME = #{record.attachName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attachPath != null" >
+        ATTACH_PATH = #{record.attachPath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orderSeq != null" >
+        ORDER_SEQ = #{record.orderSeq,jdbcType=INTEGER},
+      </if>
+      <if test="record.attachSize != null" >
+        ATTACH_SIZE = #{record.attachSize,jdbcType=REAL},
+      </if>
+      <if test="record.attachWidth != null" >
+        ATTACH_WIDTH = #{record.attachWidth,jdbcType=INTEGER},
+      </if>
+      <if test="record.attachHeight != null" >
+        ATTACH_HEIGHT = #{record.attachHeight,jdbcType=INTEGER},
+      </if>
+      <if test="record.attachExtension != null" >
+        ATTACH_EXTENSION = #{record.attachExtension,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null" >
+        CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CLT_ATTACH
+    set ATTACH_ID = #{record.attachId,jdbcType=VARCHAR},
+      ATTACH_MODULE = #{record.attachModule,jdbcType=VARCHAR},
+      ATTACH_FUNC = #{record.attachFunc,jdbcType=VARCHAR},
+      FUNC_ID = #{record.funcId,jdbcType=VARCHAR},
+      ATTACH_TYPE = #{record.attachType,jdbcType=VARCHAR},
+      ATTACH_NAME = #{record.attachName,jdbcType=VARCHAR},
+      ATTACH_PATH = #{record.attachPath,jdbcType=VARCHAR},
+      ORDER_SEQ = #{record.orderSeq,jdbcType=INTEGER},
+      ATTACH_SIZE = #{record.attachSize,jdbcType=REAL},
+      ATTACH_WIDTH = #{record.attachWidth,jdbcType=INTEGER},
+      ATTACH_HEIGHT = #{record.attachHeight,jdbcType=INTEGER},
+      ATTACH_EXTENSION = #{record.attachExtension,jdbcType=VARCHAR},
+      CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.northking.cloudplatform.domain.testexecute.CltAttach" >
+    update CLT_ATTACH
+    <set >
+      <if test="attachModule != null" >
+        ATTACH_MODULE = #{attachModule,jdbcType=VARCHAR},
+      </if>
+      <if test="attachFunc != null" >
+        ATTACH_FUNC = #{attachFunc,jdbcType=VARCHAR},
+      </if>
+      <if test="funcId != null" >
+        FUNC_ID = #{funcId,jdbcType=VARCHAR},
+      </if>
+      <if test="attachType != null" >
+        ATTACH_TYPE = #{attachType,jdbcType=VARCHAR},
+      </if>
+      <if test="attachName != null" >
+        ATTACH_NAME = #{attachName,jdbcType=VARCHAR},
+      </if>
+      <if test="attachPath != null" >
+        ATTACH_PATH = #{attachPath,jdbcType=VARCHAR},
+      </if>
+      <if test="orderSeq != null" >
+        ORDER_SEQ = #{orderSeq,jdbcType=INTEGER},
+      </if>
+      <if test="attachSize != null" >
+        ATTACH_SIZE = #{attachSize,jdbcType=REAL},
+      </if>
+      <if test="attachWidth != null" >
+        ATTACH_WIDTH = #{attachWidth,jdbcType=INTEGER},
+      </if>
+      <if test="attachHeight != null" >
+        ATTACH_HEIGHT = #{attachHeight,jdbcType=INTEGER},
+      </if>
+      <if test="attachExtension != null" >
+        ATTACH_EXTENSION = #{attachExtension,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ATTACH_ID = #{attachId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.northking.cloudplatform.domain.testexecute.CltAttach" >
+    update CLT_ATTACH
+    set ATTACH_MODULE = #{attachModule,jdbcType=VARCHAR},
+      ATTACH_FUNC = #{attachFunc,jdbcType=VARCHAR},
+      FUNC_ID = #{funcId,jdbcType=VARCHAR},
+      ATTACH_TYPE = #{attachType,jdbcType=VARCHAR},
+      ATTACH_NAME = #{attachName,jdbcType=VARCHAR},
+      ATTACH_PATH = #{attachPath,jdbcType=VARCHAR},
+      ORDER_SEQ = #{orderSeq,jdbcType=INTEGER},
+      ATTACH_SIZE = #{attachSize,jdbcType=REAL},
+      ATTACH_WIDTH = #{attachWidth,jdbcType=INTEGER},
+      ATTACH_HEIGHT = #{attachHeight,jdbcType=INTEGER},
+      ATTACH_EXTENSION = #{attachExtension,jdbcType=VARCHAR},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP}
+    where ATTACH_ID = #{attachId,jdbcType=VARCHAR}
+  </update>
+</mapper>

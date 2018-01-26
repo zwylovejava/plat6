@@ -1,0 +1,19 @@
+package net.northking.cloudplatform.utils;
+
+import org.springframework.amqp.core.AmqpTemplate;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+/**
+ * Created by Administrator on 2018/1/11 0011.
+ */
+@Component
+public class FanoutSender {
+    @Autowired
+    private AmqpTemplate rabbitTemplate;
+    public void send(String str) {
+        String context = str;
+        System.out.println("Sender : " + context);
+        this.rabbitTemplate.convertAndSend("platfromExchange","", context);
+    }
+}

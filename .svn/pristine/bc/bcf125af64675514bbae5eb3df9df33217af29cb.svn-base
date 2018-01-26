@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: cloudplatform-testcase
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/cloud_test
+    username: root
+    password: root
+    type: org.apache.tomcat.jdbc.pool.DataSource
+    tomcat:
+      initial-size: 20
+      max-wait: 20000
+      max-idle: 100
+      min-idle: 5
+
+
+
+  cloud:
+    config:
+      discovery:
+        enabled: true
+        service-id: config-server-eureka
+      profile: #spring.profiles.active#
+
+eureka:
+   client:
+     serviceUrl:
+       defaultZone: http://user:password123@localhost:8761/eureka
+   instance:
+     prefer-ip-address: true
+     instance-id: ${spring.application.name}:${spring.cloud.client.ipAddress}:${spring.application.instance_id:${server.port}}
+mybatis:
+  type-aliases-package: net.northking.cloudplatform.domain
+  config-location: classpath:config/mybatis-config.xml
+  mapper-locations: classpath:mapper/**/**/*Mapper.xml

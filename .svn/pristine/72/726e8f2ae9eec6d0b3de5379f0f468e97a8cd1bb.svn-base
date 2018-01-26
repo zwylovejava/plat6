@@ -1,0 +1,100 @@
+package net.northking.cloudplatform.service;
+
+
+import net.northking.cloudplatform.dao.base.BaseService;
+import net.northking.cloudplatform.domain.testbug.CltTestBug;
+import net.northking.cloudplatform.domain.testexecute.CltBatch;
+import net.northking.cloudplatform.domain.testexecute.CltJob;
+import net.northking.cloudplatform.domain.testexecute.CltJobExample;
+import net.northking.cloudplatform.dto.testexecute.EcharsData;
+import net.northking.cloudplatform.dto.testexecute.JobPlan;
+import net.northking.cloudplatform.dto.testexecute.JobPlanQuery;
+import net.northking.cloudplatform.query.testexecute.BatchQuery;
+import net.northking.cloudplatform.query.testexecute.JobQuery;
+
+import java.util.List;
+
+
+
+
+
+
+/**
+ * @Title:
+ * @Description: CltJob业务逻辑层
+ * @Company: Northking
+ * @Author: HBH
+ * @CreateDate: 2017-12-19 18:58
+ * @UpdateUser:
+ * @Version:0.1
+ */
+
+public interface JobService extends BaseService<CltJob,CltJobExample,String>{
+
+    List<JobPlan> queryPlanList(JobPlanQuery jobPlanQuery);
+
+    /**
+     * @Author:HBH
+     * @Description: 指定测试主管
+     * @Date:19:00 2017/12/19
+     * @param1:JobQuery
+     * @param2:
+     * @return:
+     */
+    Integer addTestManager(JobQuery jobQuery);
+
+   /**
+    * @Author:HBH
+    * @Description: 查询任务详情
+    * @Date:11:56 2017/12/20
+    * @param1:
+    * @param2:
+    * @return:
+    */
+
+   CltJob queryJobByJobId(JobQuery jobQuery);
+
+/**
+ * @Author:HBH
+ * @Description: 根据测试主管ID查询记录数
+ * @Date:14:08 2017/12/20
+ * @param1:
+ * @param2:
+ * @return:
+ */
+
+  Integer countJobByManagerId(JobQuery jobQuery);
+
+    /**
+     * 生成测试执行任务,压队列
+     * @param jobQuery
+     * @return
+     */
+  Integer genTestExecuteJob(JobQuery jobQuery) throws Exception;
+
+    /**
+     * 查询测试缺陷根据批次Id
+     * @param batchId
+     * @return
+     */
+    List<CltTestBug> queryBugByBatchId(String batchId);
+
+    /**
+     * 查询已压队列任务
+     * @param jobPlanQuery
+     * @return
+     */
+
+    List<CltJob> queryJobPlanAna(JobQuery jobQuery);
+
+    /**
+     * 查询已完成的项目
+     * @param jobQuery
+     * @return
+     */
+    List<CltJob> queryExecutedProject(JobQuery jobQuery);
+
+
+    //查询Echars数据
+    EcharsData getEcharsData(JobQuery jobQuery);
+}

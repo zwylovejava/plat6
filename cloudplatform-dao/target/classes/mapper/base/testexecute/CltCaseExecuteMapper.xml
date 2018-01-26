@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.testexecute.CltCaseExecuteMapper" >
+  <resultMap id="BaseResultMap" type="net.northking.cloudplatform.domain.testexecute.CltCaseExecute" >
+    <id column="EXECUTE_ID" property="executeId" jdbcType="VARCHAR" />
+    <result column="WORKITEM_ID" property="workitemId" jdbcType="CHAR" />
+    <result column="CASE_ID" property="caseId" jdbcType="VARCHAR" />
+    <result column="JOB_NAME" property="jobName" jdbcType="VARCHAR" />
+    <result column="PRIORITY" property="priority" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="RECEIVE_USER" property="receiveUser" jdbcType="VARCHAR" />
+    <result column="RECEIVE_TIME" property="receiveTime" jdbcType="TIMESTAMP" />
+    <result column="COMPLETE_TIME" property="completeTime" jdbcType="TIMESTAMP" />
+    <result column="RESULT_STATUS" property="resultStatus" jdbcType="VARCHAR" />
+    <result column="CUST_CODE" property="custCode" jdbcType="VARCHAR" />
+    <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+    <result column="PLAN_ID" property="planId" jdbcType="VARCHAR" />
+    <result column="ROUND_ID" property="roundId" jdbcType="VARCHAR" />
+    <result column="BATCH_ID" property="batchId" jdbcType="VARCHAR" />
+    <result column="CASE_SET_ID" property="caseSetId" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    EXECUTE_ID, WORKITEM_ID, CASE_ID, JOB_NAME, PRIORITY, STATUS, RECEIVE_USER, RECEIVE_TIME, 
+    COMPLETE_TIME, RESULT_STATUS, CUST_CODE, PROJECT_ID, PLAN_ID, ROUND_ID, BATCH_ID, 
+    CASE_SET_ID
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseExecuteExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CLT_CASE_EXECUTE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CLT_CASE_EXECUTE
+    where EXECUTE_ID = #{executeId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CLT_CASE_EXECUTE
+    where EXECUTE_ID = #{executeId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseExecuteExample" >
+    delete from CLT_CASE_EXECUTE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseExecute" >
+    insert into CLT_CASE_EXECUTE (EXECUTE_ID, WORKITEM_ID, CASE_ID, 
+      JOB_NAME, PRIORITY, STATUS, 
+      RECEIVE_USER, RECEIVE_TIME, COMPLETE_TIME, 
+      RESULT_STATUS, CUST_CODE, PROJECT_ID, 
+      PLAN_ID, ROUND_ID, BATCH_ID, 
+      CASE_SET_ID)
+    values (#{executeId,jdbcType=VARCHAR}, #{workitemId,jdbcType=CHAR}, #{caseId,jdbcType=VARCHAR}, 
+      #{jobName,jdbcType=VARCHAR}, #{priority,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 
+      #{receiveUser,jdbcType=VARCHAR}, #{receiveTime,jdbcType=TIMESTAMP}, #{completeTime,jdbcType=TIMESTAMP}, 
+      #{resultStatus,jdbcType=VARCHAR}, #{custCode,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
+      #{planId,jdbcType=VARCHAR}, #{roundId,jdbcType=VARCHAR}, #{batchId,jdbcType=VARCHAR}, 
+      #{caseSetId,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseExecute" >
+    insert into CLT_CASE_EXECUTE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="executeId != null" >
+        EXECUTE_ID,
+      </if>
+      <if test="workitemId != null" >
+        WORKITEM_ID,
+      </if>
+      <if test="caseId != null" >
+        CASE_ID,
+      </if>
+      <if test="jobName != null" >
+        JOB_NAME,
+      </if>
+      <if test="priority != null" >
+        PRIORITY,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="receiveUser != null" >
+        RECEIVE_USER,
+      </if>
+      <if test="receiveTime != null" >
+        RECEIVE_TIME,
+      </if>
+      <if test="completeTime != null" >
+        COMPLETE_TIME,
+      </if>
+      <if test="resultStatus != null" >
+        RESULT_STATUS,
+      </if>
+      <if test="custCode != null" >
+        CUST_CODE,
+      </if>
+      <if test="projectId != null" >
+        PROJECT_ID,
+      </if>
+      <if test="planId != null" >
+        PLAN_ID,
+      </if>
+      <if test="roundId != null" >
+        ROUND_ID,
+      </if>
+      <if test="batchId != null" >
+        BATCH_ID,
+      </if>
+      <if test="caseSetId != null" >
+        CASE_SET_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="executeId != null" >
+        #{executeId,jdbcType=VARCHAR},
+      </if>
+      <if test="workitemId != null" >
+        #{workitemId,jdbcType=CHAR},
+      </if>
+      <if test="caseId != null" >
+        #{caseId,jdbcType=VARCHAR},
+      </if>
+      <if test="jobName != null" >
+        #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUser != null" >
+        #{receiveUser,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveTime != null" >
+        #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completeTime != null" >
+        #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resultStatus != null" >
+        #{resultStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="custCode != null" >
+        #{custCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="planId != null" >
+        #{planId,jdbcType=VARCHAR},
+      </if>
+      <if test="roundId != null" >
+        #{roundId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchId != null" >
+        #{batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="caseSetId != null" >
+        #{caseSetId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseExecuteExample" resultType="java.lang.Integer" >
+    select count(*) from CLT_CASE_EXECUTE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CLT_CASE_EXECUTE
+    <set >
+      <if test="record.executeId != null" >
+        EXECUTE_ID = #{record.executeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workitemId != null" >
+        WORKITEM_ID = #{record.workitemId,jdbcType=CHAR},
+      </if>
+      <if test="record.caseId != null" >
+        CASE_ID = #{record.caseId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.jobName != null" >
+        JOB_NAME = #{record.jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.priority != null" >
+        PRIORITY = #{record.priority,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiveUser != null" >
+        RECEIVE_USER = #{record.receiveUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.receiveTime != null" >
+        RECEIVE_TIME = #{record.receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.completeTime != null" >
+        COMPLETE_TIME = #{record.completeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.resultStatus != null" >
+        RESULT_STATUS = #{record.resultStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custCode != null" >
+        CUST_CODE = #{record.custCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectId != null" >
+        PROJECT_ID = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.planId != null" >
+        PLAN_ID = #{record.planId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.roundId != null" >
+        ROUND_ID = #{record.roundId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.batchId != null" >
+        BATCH_ID = #{record.batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caseSetId != null" >
+        CASE_SET_ID = #{record.caseSetId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CLT_CASE_EXECUTE
+    set EXECUTE_ID = #{record.executeId,jdbcType=VARCHAR},
+      WORKITEM_ID = #{record.workitemId,jdbcType=CHAR},
+      CASE_ID = #{record.caseId,jdbcType=VARCHAR},
+      JOB_NAME = #{record.jobName,jdbcType=VARCHAR},
+      PRIORITY = #{record.priority,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      RECEIVE_USER = #{record.receiveUser,jdbcType=VARCHAR},
+      RECEIVE_TIME = #{record.receiveTime,jdbcType=TIMESTAMP},
+      COMPLETE_TIME = #{record.completeTime,jdbcType=TIMESTAMP},
+      RESULT_STATUS = #{record.resultStatus,jdbcType=VARCHAR},
+      CUST_CODE = #{record.custCode,jdbcType=VARCHAR},
+      PROJECT_ID = #{record.projectId,jdbcType=VARCHAR},
+      PLAN_ID = #{record.planId,jdbcType=VARCHAR},
+      ROUND_ID = #{record.roundId,jdbcType=VARCHAR},
+      BATCH_ID = #{record.batchId,jdbcType=VARCHAR},
+      CASE_SET_ID = #{record.caseSetId,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseExecute" >
+    update CLT_CASE_EXECUTE
+    <set >
+      <if test="workitemId != null" >
+        WORKITEM_ID = #{workitemId,jdbcType=CHAR},
+      </if>
+      <if test="caseId != null" >
+        CASE_ID = #{caseId,jdbcType=VARCHAR},
+      </if>
+      <if test="jobName != null" >
+        JOB_NAME = #{jobName,jdbcType=VARCHAR},
+      </if>
+      <if test="priority != null" >
+        PRIORITY = #{priority,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveUser != null" >
+        RECEIVE_USER = #{receiveUser,jdbcType=VARCHAR},
+      </if>
+      <if test="receiveTime != null" >
+        RECEIVE_TIME = #{receiveTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="completeTime != null" >
+        COMPLETE_TIME = #{completeTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="resultStatus != null" >
+        RESULT_STATUS = #{resultStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="custCode != null" >
+        CUST_CODE = #{custCode,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="planId != null" >
+        PLAN_ID = #{planId,jdbcType=VARCHAR},
+      </if>
+      <if test="roundId != null" >
+        ROUND_ID = #{roundId,jdbcType=VARCHAR},
+      </if>
+      <if test="batchId != null" >
+        BATCH_ID = #{batchId,jdbcType=VARCHAR},
+      </if>
+      <if test="caseSetId != null" >
+        CASE_SET_ID = #{caseSetId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where EXECUTE_ID = #{executeId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.northking.cloudplatform.domain.testexecute.CltCaseExecute" >
+    update CLT_CASE_EXECUTE
+    set WORKITEM_ID = #{workitemId,jdbcType=CHAR},
+      CASE_ID = #{caseId,jdbcType=VARCHAR},
+      JOB_NAME = #{jobName,jdbcType=VARCHAR},
+      PRIORITY = #{priority,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=VARCHAR},
+      RECEIVE_USER = #{receiveUser,jdbcType=VARCHAR},
+      RECEIVE_TIME = #{receiveTime,jdbcType=TIMESTAMP},
+      COMPLETE_TIME = #{completeTime,jdbcType=TIMESTAMP},
+      RESULT_STATUS = #{resultStatus,jdbcType=VARCHAR},
+      CUST_CODE = #{custCode,jdbcType=VARCHAR},
+      PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      PLAN_ID = #{planId,jdbcType=VARCHAR},
+      ROUND_ID = #{roundId,jdbcType=VARCHAR},
+      BATCH_ID = #{batchId,jdbcType=VARCHAR},
+      CASE_SET_ID = #{caseSetId,jdbcType=VARCHAR}
+    where EXECUTE_ID = #{executeId,jdbcType=VARCHAR}
+  </update>
+</mapper>

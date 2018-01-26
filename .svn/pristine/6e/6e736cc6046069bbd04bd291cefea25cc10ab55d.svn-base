@@ -1,0 +1,6 @@
+server:
+  port: 9991
+eureka:
+   client:
+     healthcheck:
+       enabled: true

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.user.CltFuncRoleMapper" >
+    <select id="selectByRoleId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        SELECT
+        b.*
+        FROM CLT_FUNC_ROLE AS a ,CLT_FUNC AS b,CLT_ROLE AS c
+        WHERE  a.FUNC_ID= b.FUNC_ID
+        AND  a.ROLE_ID =c.ROLE_ID
+        AND  a.ROLE_ID = #{roleId,jdbcType=VARCHAR}
+    </select>
+    <select id="queryFuncListByRoleId" parameterType="string" resultType="net.northking.cloudplatform.domain.user.CltFunc">
+        SELECT b.*
+        FROM  CLT_FUNC_ROLE AS a ,CLT_FUNC AS b
+        WHERE a.FUNC_ID = b.FUNC_ID AND a.ROLE_ID = #{roleId}  and b.IS_LEAF = 'Y'
+
+
+    </select>
+    <delete id="deleteFuncListByRoleIds" parameterType="string">
+        DELETE FROM CLT_FUNC_ROLE WHERE ROLE_ID=#{roleId}
+
+
+    </delete>
+</mapper>

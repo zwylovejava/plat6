@@ -1,0 +1,68 @@
+package net.northking.cloudplatform.feign.testexecute;
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.domain.testbug.CltTestBug;
+import net.northking.cloudplatform.domain.testexecute.CltBatch;
+import net.northking.cloudplatform.domain.testexecute.CltJob;
+import net.northking.cloudplatform.domain.testexecute.CltTestStepData;
+import net.northking.cloudplatform.dto.testexecute.JobPlanQuery;
+import net.northking.cloudplatform.dto.testexecute.JobPlan;
+import net.northking.cloudplatform.query.testexecute.BatchQuery;
+import net.northking.cloudplatform.query.testexecute.JobQuery;
+import net.northking.cloudplatform.query.testexecute.TestCaseStepQuery;
+import net.northking.cloudplatform.result.ResultInfo;
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.List;
+
+/**
+ * @Title:
+ * @Description: 任务表Feign客户端
+ * @Company: Northking
+ * @Author: HBH
+ * @CreateDate: 2017-12-20 11:45
+ * @UpdateUser:
+ * @Version:0.1
+ */
+@FeignClient(name = "cloudplatform-gateway")
+public interface JobFeignClient {
+
+     //指派测试主管
+    @RequestMapping(value = "/testexecute/addTestManager", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<Integer> addTestManager(@RequestBody JobQuery jobQuery);
+
+    //根据任务id查询任务详情
+    @RequestMapping(value = "/testexecute/queryJobByJobId", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<CltJob> queryCltJobInfoByJobId(@RequestBody JobQuery jobQuery);
+
+    //根据测试主管ID查询任务记录数
+    @RequestMapping(value = "/testexecute/countJobByManagerId", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<Integer> countJobByManagerId(@RequestBody JobQuery jobQuery);
+
+    @RequestMapping(value="/testexecute/queryPlanList", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<Page<JobPlan>> queryPlanList(@RequestBody JobPlanQuery jobPlanQuery);
+
+    //生成测试任务到队列
+    @RequestMapping(value="/testexecute/genTestExecuteJob", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<Integer> genTestExecuteJob(@RequestBody JobQuery jobQuery);
+
+    //执行测试步骤
+    @RequestMapping(value="/testexecute/quryStepDataByCaseId", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<List<CltTestStepData>> quryStepDataByCaseId(@RequestBody TestCaseStepQuery testCaseStepQuery);
+
+    //根据批次ID查询测试缺陷
+    @RequestMapping(value="/testexecute/queryBugByBatchId", method = RequestMethod.POST, consumes="application/json")
+    public ResultInfo<List<CltTestBug>> queryBugByBatchId(@RequestBody JobQuery jobQuery);
+
+    //查询已压队列的任务
+    @RequestMapping(value="/testexecute/queryExecuteing", method = RequestMethod.POST, consumes="application/json")
+    public ResultInfo<Page<CltJob>> queryJobPlanAna(@RequestBody JobQuery jobQuery);
+
+    //查询已完成的任务项目列表
+    @RequestMapping(value="/testexecute/queryExecutedProject", method = RequestMethod.POST, consumes="application/json")
+    public ResultInfo<Page<CltJob>> queryExecutedProject(@RequestBody JobQuery jobQuery);
+}

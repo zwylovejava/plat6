@@ -1,0 +1,6 @@
+server:
+  port: 18101
+eureka:
+   client:
+     healthcheck:
+       enabled: true

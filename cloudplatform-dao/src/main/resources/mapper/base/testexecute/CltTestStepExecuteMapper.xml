@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.testexecute.CltTestStepExecuteMapper" >
+  <resultMap id="BaseResultMap" type="net.northking.cloudplatform.domain.testexecute.CltTestStepExecute" >
+    <id column="STEP_EXECUTE_ID" property="stepExecuteId" jdbcType="VARCHAR" />
+    <result column="EXECUTE_ID" property="executeId" jdbcType="VARCHAR" />
+    <result column="CASE_ID" property="caseId" jdbcType="VARCHAR" />
+    <result column="STEP_ID" property="stepId" jdbcType="VARCHAR" />
+    <result column="EXECUTE_STATUS" property="executeStatus" jdbcType="VARCHAR" />
+    <result column="ACTUAL_RESULT" property="actualResult" jdbcType="VARCHAR" />
+    <result column="EXECUTE_RESULT" property="executeResult" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="TIMESTAMP" />
+    <result column="UPDATE_TIME" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    STEP_EXECUTE_ID, EXECUTE_ID, CASE_ID, STEP_ID, EXECUTE_STATUS, ACTUAL_RESULT, EXECUTE_RESULT, 
+    CREATE_USER, CREATE_DATE, UPDATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.northking.cloudplatform.domain.testexecute.CltTestStepExecuteExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CLT_TEST_STEP_EXECUTE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CLT_TEST_STEP_EXECUTE
+    where STEP_EXECUTE_ID = #{stepExecuteId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CLT_TEST_STEP_EXECUTE
+    where STEP_EXECUTE_ID = #{stepExecuteId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.northking.cloudplatform.domain.testexecute.CltTestStepExecuteExample" >
+    delete from CLT_TEST_STEP_EXECUTE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.northking.cloudplatform.domain.testexecute.CltTestStepExecute" >
+    insert into CLT_TEST_STEP_EXECUTE (STEP_EXECUTE_ID, EXECUTE_ID, CASE_ID, 
+      STEP_ID, EXECUTE_STATUS, ACTUAL_RESULT, 
+      EXECUTE_RESULT, CREATE_USER, CREATE_DATE, 
+      UPDATE_TIME)
+    values (#{stepExecuteId,jdbcType=VARCHAR}, #{executeId,jdbcType=VARCHAR}, #{caseId,jdbcType=VARCHAR}, 
+      #{stepId,jdbcType=VARCHAR}, #{executeStatus,jdbcType=VARCHAR}, #{actualResult,jdbcType=VARCHAR}, 
+      #{executeResult,jdbcType=VARCHAR}, #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="net.northking.cloudplatform.domain.testexecute.CltTestStepExecute" >
+    insert into CLT_TEST_STEP_EXECUTE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="stepExecuteId != null" >
+        STEP_EXECUTE_ID,
+      </if>
+      <if test="executeId != null" >
+        EXECUTE_ID,
+      </if>
+      <if test="caseId != null" >
+        CASE_ID,
+      </if>
+      <if test="stepId != null" >
+        STEP_ID,
+      </if>
+      <if test="executeStatus != null" >
+        EXECUTE_STATUS,
+      </if>
+      <if test="actualResult != null" >
+        ACTUAL_RESULT,
+      </if>
+      <if test="executeResult != null" >
+        EXECUTE_RESULT,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="stepExecuteId != null" >
+        #{stepExecuteId,jdbcType=VARCHAR},
+      </if>
+      <if test="executeId != null" >
+        #{executeId,jdbcType=VARCHAR},
+      </if>
+      <if test="caseId != null" >
+        #{caseId,jdbcType=VARCHAR},
+      </if>
+      <if test="stepId != null" >
+        #{stepId,jdbcType=VARCHAR},
+      </if>
+      <if test="executeStatus != null" >
+        #{executeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="actualResult != null" >
+        #{actualResult,jdbcType=VARCHAR},
+      </if>
+      <if test="executeResult != null" >
+        #{executeResult,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.northking.cloudplatform.domain.testexecute.CltTestStepExecuteExample" resultType="java.lang.Integer" >
+    select count(*) from CLT_TEST_STEP_EXECUTE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CLT_TEST_STEP_EXECUTE
+    <set >
+      <if test="record.stepExecuteId != null" >
+        STEP_EXECUTE_ID = #{record.stepExecuteId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.executeId != null" >
+        EXECUTE_ID = #{record.executeId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.caseId != null" >
+        CASE_ID = #{record.caseId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stepId != null" >
+        STEP_ID = #{record.stepId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.executeStatus != null" >
+        EXECUTE_STATUS = #{record.executeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actualResult != null" >
+        ACTUAL_RESULT = #{record.actualResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.executeResult != null" >
+        EXECUTE_RESULT = #{record.executeResult,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null" >
+        CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CLT_TEST_STEP_EXECUTE
+    set STEP_EXECUTE_ID = #{record.stepExecuteId,jdbcType=VARCHAR},
+      EXECUTE_ID = #{record.executeId,jdbcType=VARCHAR},
+      CASE_ID = #{record.caseId,jdbcType=VARCHAR},
+      STEP_ID = #{record.stepId,jdbcType=VARCHAR},
+      EXECUTE_STATUS = #{record.executeStatus,jdbcType=VARCHAR},
+      ACTUAL_RESULT = #{record.actualResult,jdbcType=VARCHAR},
+      EXECUTE_RESULT = #{record.executeResult,jdbcType=VARCHAR},
+      CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.northking.cloudplatform.domain.testexecute.CltTestStepExecute" >
+    update CLT_TEST_STEP_EXECUTE
+    <set >
+      <if test="executeId != null" >
+        EXECUTE_ID = #{executeId,jdbcType=VARCHAR},
+      </if>
+      <if test="caseId != null" >
+        CASE_ID = #{caseId,jdbcType=VARCHAR},
+      </if>
+      <if test="stepId != null" >
+        STEP_ID = #{stepId,jdbcType=VARCHAR},
+      </if>
+      <if test="executeStatus != null" >
+        EXECUTE_STATUS = #{executeStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="actualResult != null" >
+        ACTUAL_RESULT = #{actualResult,jdbcType=VARCHAR},
+      </if>
+      <if test="executeResult != null" >
+        EXECUTE_RESULT = #{executeResult,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where STEP_EXECUTE_ID = #{stepExecuteId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.northking.cloudplatform.domain.testexecute.CltTestStepExecute" >
+    update CLT_TEST_STEP_EXECUTE
+    set EXECUTE_ID = #{executeId,jdbcType=VARCHAR},
+      CASE_ID = #{caseId,jdbcType=VARCHAR},
+      STEP_ID = #{stepId,jdbcType=VARCHAR},
+      EXECUTE_STATUS = #{executeStatus,jdbcType=VARCHAR},
+      ACTUAL_RESULT = #{actualResult,jdbcType=VARCHAR},
+      EXECUTE_RESULT = #{executeResult,jdbcType=VARCHAR},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=TIMESTAMP},
+      UPDATE_TIME = #{updateTime,jdbcType=TIMESTAMP}
+    where STEP_EXECUTE_ID = #{stepExecuteId,jdbcType=VARCHAR}
+  </update>
+</mapper>

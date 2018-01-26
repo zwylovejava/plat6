@@ -1,0 +1,261 @@
+package net.northking.cloudplatform.controller;
+
+
+import net.northking.cloudplatform.assist.RedisUtil;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.constants.SuccessConstants;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.service.CustService;
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.domain.project.CltCustomer;
+import net.northking.cloudplatform.domain.user.CltUserLogin;
+import net.northking.cloudplatform.query.cust.CustomerQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.utils.BeanUtil;
+import net.northking.cloudplatform.utils.CltUtils;
+import net.northking.cloudplatform.utils.ParamVerifyUtil;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
+
+/**
+ * @Title:
+ * @Description: 客户表controller层
+ * @Company: Northking
+ * @Author: HBH
+ * @CreateDate: 2017-12-05 16:23
+ * @UpdateUser:
+ * @Version:0.1
+ */
+
+
+@RestController
+public class CustController {
+
+    //注入service层
+    @Autowired
+    private CustService custService;
+
+    @Autowired
+    RedisUtil redisUtil;
+
+
+    //日志
+    private final static Logger logger = LoggerFactory.getLogger(CustController.class);
+
+
+    //添加客户
+    @PostMapping("/addCustomer")
+    public ResultInfo<CltCustomer> addCustomer(@RequestBody @Validated CustomerQuery customerQuery) throws Exception {
+
+        logger.info(" addCustomer start paramData" + customerQuery.toString());
+
+
+        CltUserLogin cltUserLogin = (CltUserLogin) redisUtil.get(customerQuery.getAccess_token());
+
+        if(cltUserLogin!=null){
+            customerQuery.setCreateUser(cltUserLogin.getUserId());
+
+            customerQuery.setUpdateUser(cltUserLogin.getUserId());
+
+        }
+
+        CltCustomer customer = new CltCustomer();
+
+        BeanUtil.copyProperties(customerQuery, customer);
+
+            CltCustomer result = custService.addCustomer(customer);
+
+        logger.info(" addCustomer end paramData");
+
+        return  new ResultInfo<>(ResultCode.SUCCESS, SuccessConstants.ADD_CLT_CUSTOMER_INFO_SUCCESS, result);
+
+    }
+
+    //编辑客户详细信息
+    @PostMapping("/updateCustomer")
+    public ResultInfo<Integer> updateCltUser(@RequestBody @Validated CustomerQuery customerQuery) throws Exception {
+
+        logger.info(" updateCustomer start paramData" + customerQuery.toString());
+
+        //获取超级管理员的用户信息
+        CltUserLogin cltUserLogin = (CltUserLogin) redisUtil.get(customerQuery.getAccess_token());
+
+        if(cltUserLogin!=null){
+            customerQuery.setUpdateUser(cltUserLogin.getUserId());
+
+        }
+
+
+        //对参数进行验证
+        init(customerQuery, "updateCustomer");
+
+        CltCustomer cltCustomer = new CltCustomer();
+        //复制属性值给user
+        BeanUtil.copyProperties(customerQuery, cltCustomer);
+
+        Integer result = custService.updateCustomer(cltCustomer);
+
+        logger.info(" updateCustomer end paramData");
+
+        return new ResultInfo<Integer>(ResultCode.SUCCESS, SuccessConstants.UPDATE_CLT_CUSTOMER_INFO_SUCCESS, result);
+
+
+    }
+
+    //查询客户列表
+    @PostMapping("/queryAllCustomers")
+    public ResultInfo<Page<CltCustomer>> queryAllCustomers(@RequestBody CustomerQuery customerQuery) throws Exception {
+
+        logger.info(" queryAllCustomers start paramData" + customerQuery.toString());
+
+        Page<CltCustomer> page = custService.queryAllCustomers(customerQuery);
+
+        logger.info(" queryAllCustomers end paramData");
+
+        return new ResultInfo<>(ResultCode.SUCCESS.code(), SuccessConstants.QUERY_CUSTOMER_LIST_SUCCESS, page);
+
+    }
+
+
+    //查询用户的详细信息
+    @PostMapping("/queryByCustId")
+    public ResultInfo<CltCustomer> queryByCustId(@RequestBody CustomerQuery customerQuery) throws Exception {
+
+        logger.info(" queryByCustId start paramData" + customerQuery.toString());
+
+        //对参数进行校验
+        init(customerQuery, "queryByCustId");
+
+        CltCustomer customer = custService.queryByCustId(customerQuery.getCustId());
+
+        logger.info(" queryByCustId end paramData");
+
+        return new ResultInfo<>(ResultCode.SUCCESS.code(), SuccessConstants.QUERY_CLT_CUSTOMER_INFO_BY_CUST_ID_SUCCESS, customer);
+
+
+    }
+
+    //根据客户的简称查询客户的记录数
+    @PostMapping("/countCustomerByCustCode")
+    public ResultInfo<Integer> countCustomerByCustCode(@RequestBody  CustomerQuery customerQuery) throws Exception {
+
+        logger.info(" countCustomerByCustCode start paramData" + customerQuery.toString());
+
+        //对参数进行校验
+        init(customerQuery, "queryByCustCode");
+
+        Integer result=custService.countCustomerByCustCode(customerQuery.getCustCode());
+
+
+        logger.info(" countCustomerByCustCode end paramData");
+
+        return new ResultInfo<>(ResultCode.SUCCESS.code(), SuccessConstants.COUNT_CLT_CUSTOMER_INFO_BY_CUST_CODE_SUCCESS, result);
+
+    }
+    //根据客户的简称查询客户详情
+    @PostMapping("/queryCustomerByCustCode")
+    public ResultInfo<CltCustomer> queryCustomerByCustCode(@RequestBody  CustomerQuery customerQuery) throws Exception {
+
+        logger.info(" queryCustomerByCustCode start paramData" + customerQuery.toString());
+
+        //对参数进行校验
+        init(customerQuery, "queryByCustCode");
+
+        CltCustomer result=custService.queryCustomerByCustCode(customerQuery.getCustCode());
+
+        logger.info(" queryCustomerByCustCode end paramData");
+
+        return new ResultInfo<>(ResultCode.SUCCESS.code(), SuccessConstants.QUERY_CLT_CUSTOMER_INFO_BY_CUST_CODE_SUCCESS, result);
+
+    }
+
+
+    //根据客户id删除客户
+    @PostMapping("/deleteCustomerByCustId")
+    public ResultInfo<Integer> deleteCustomerByCustId(@RequestBody  CustomerQuery customerQuery) throws Exception {
+
+        logger.info(" deleteCustomerByCustId start paramData" + customerQuery.toString());
+        //对参数进行验证
+        init(customerQuery, "deleteCustomerByCustId");
+        Integer result=custService.deleteByPrimaryKey(customerQuery.getCustId());
+
+        logger.info(" deleteCustomerByCustId end paramData");
+        return new ResultInfo<Integer>(ResultCode.SUCCESS, SuccessConstants.DELETE_CLT_CUSTOMER_INFO_BY_CUST_ID_SUCCESS, result);
+    }
+
+
+    //启用/禁用客户
+    @PostMapping("/disEnableCustomer")
+    public ResultInfo<Integer> disEnableCustomer(@RequestBody CustomerQuery customerQuery)throws Exception{
+
+        logger.info("disEnableCustomer start paramData" + customerQuery.toString());
+
+        //设置更新人
+        CltUserLogin cltUserLogin = (CltUserLogin) redisUtil.get(customerQuery.getAccess_token());
+
+        if(cltUserLogin!=null){
+            customerQuery.setUpdateUser(cltUserLogin.getUserId());
+        }
+
+            //参数校验
+        init(customerQuery,"disEnableCustomer");
+
+        Integer result = custService.disEnableCustomer(customerQuery);
+
+        logger.info(" disEnableCustomer end paramData");
+
+        return new ResultInfo<>(ResultCode.SUCCESS ,SuccessConstants.UPDATE_CLT_CUSTOMER_STATUS_SUCCESS,result);
+    }
+
+
+    //参数校验的方法
+
+    public static void init(CustomerQuery customerQuery, String funcCode) throws Exception {
+
+        ParamVerifyUtil paramVerifyUtil = new ParamVerifyUtil();
+
+        Map<String, Object> dataMap = CltUtils.beanToMap(customerQuery);
+
+        if ("updateCustomer".equals(funcCode)) {
+
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "custId");
+        } else if ("queryByCustId".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "custId");
+
+        }else if ("deleteCustomerByCustId".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "custId");
+
+        }else if ("queryByCustCode".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "custCode");
+        }else if ("disEnableCustomer".equals(funcCode)) {
+
+            String custId=customerQuery.getCustId();
+
+            String status=customerQuery.getStatus();
+
+            if(StringUtils.isEmpty(custId)){
+                throw new GlobalException(ResultCode.INVALID_PARAM.code(), "custId不能为空");
+
+            }else  if("".equals(status) || status==null || !status.matches("[12]")){
+
+                throw new GlobalException(ErrorConstants.UPATE_STATUS_PARAM_NOTNULL_ERROR_CODEUSER_ERROR_CODE,ErrorConstants.UPATE_STATUS_PARAM_NOTNULL_ERROR_CODEUSER_ERROR_MESSAGE);
+            }
+
+
+        }
+    }
+
+}

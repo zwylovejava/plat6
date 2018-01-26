@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.project.CltProjectMapper" >
+  <resultMap id="BaseResultMap" type="net.northking.cloudplatform.domain.project.CltProject" >
+    <id column="PRO_ID" property="proId" jdbcType="VARCHAR" />
+    <result column="PRO_NAME" property="proName" jdbcType="VARCHAR" />
+    <result column="CUST_ID" property="custId" jdbcType="VARCHAR" />
+    <result column="TEST_MANAGER" property="testManager" jdbcType="VARCHAR" />
+    <result column="PRO_TYPE" property="proType" jdbcType="VARCHAR" />
+    <result column="TEST_TYPE" property="testType" jdbcType="VARCHAR" />
+    <result column="TEST_PLAN_START_TIME" property="testPlanStartTime" jdbcType="DATE" />
+    <result column="TEST_PLAN_END_TIME" property="testPlanEndTime" jdbcType="DATE" />
+    <result column="PRO_DESC" property="proDesc" jdbcType="VARCHAR" />
+    <result column="TEST_ENVI" property="testEnvi" jdbcType="VARCHAR" />
+    <result column="SYS_LINK_ADDR" property="sysLinkAddr" jdbcType="VARCHAR" />
+    <result column="NEED_ATTACH" property="needAttach" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="DATE" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    PRO_ID, PRO_NAME, CUST_ID, TEST_MANAGER, PRO_TYPE, TEST_TYPE, TEST_PLAN_START_TIME,
+    TEST_PLAN_END_TIME, PRO_DESC, TEST_ENVI, SYS_LINK_ADDR, NEED_ATTACH, STATUS, CREATE_USER,
+    CREATE_DATE, UPDATE_USER, UPDATE_DATE
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.northking.cloudplatform.domain.project.CltProjectExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CLT_PROJECT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from CLT_PROJECT
+    where PRO_ID = #{proId,jdbcType=VARCHAR}
+  </select>
+
+
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CLT_PROJECT
+    where PRO_ID = #{proId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.northking.cloudplatform.domain.project.CltProjectExample" >
+    delete from CLT_PROJECT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.northking.cloudplatform.domain.project.CltProject" >
+    insert into CLT_PROJECT (PRO_ID, PRO_NAME, CUST_ID,
+    TEST_MANAGER, PRO_TYPE, TEST_TYPE,
+    TEST_PLAN_START_TIME, TEST_PLAN_END_TIME, PRO_DESC,
+    TEST_ENVI, SYS_LINK_ADDR, NEED_ATTACH,
+    STATUS, CREATE_USER, CREATE_DATE,
+    UPDATE_USER, UPDATE_DATE)
+    values (#{proId,jdbcType=VARCHAR}, #{proName,jdbcType=VARCHAR}, #{custId,jdbcType=VARCHAR},
+    #{testManager,jdbcType=VARCHAR}, #{proType,jdbcType=VARCHAR}, #{testType,jdbcType=VARCHAR},
+    #{testPlanStartTime,jdbcType=DATE}, #{testPlanEndTime,jdbcType=DATE}, #{proDesc,jdbcType=VARCHAR},
+    #{testEnvi,jdbcType=VARCHAR}, #{sysLinkAddr,jdbcType=VARCHAR}, #{needAttach,jdbcType=VARCHAR},
+    #{status,jdbcType=CHAR}, #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE},
+    #{updateUser,jdbcType=VARCHAR}, #{updateDate,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="net.northking.cloudplatform.domain.project.CltProject" >
+    insert into CLT_PROJECT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="proId != null" >
+        PRO_ID,
+      </if>
+      <if test="proName != null" >
+        PRO_NAME,
+      </if>
+      <if test="custId != null" >
+        CUST_ID,
+      </if>
+      <if test="testManager != null" >
+        TEST_MANAGER,
+      </if>
+      <if test="proType != null" >
+        PRO_TYPE,
+      </if>
+      <if test="testType != null" >
+        TEST_TYPE,
+      </if>
+      <if test="testPlanStartTime != null" >
+        TEST_PLAN_START_TIME,
+      </if>
+      <if test="testPlanEndTime != null" >
+        TEST_PLAN_END_TIME,
+      </if>
+      <if test="proDesc != null" >
+        PRO_DESC,
+      </if>
+      <if test="testEnvi != null" >
+        TEST_ENVI,
+      </if>
+      <if test="sysLinkAddr != null" >
+        SYS_LINK_ADDR,
+      </if>
+      <if test="needAttach != null" >
+        NEED_ATTACH,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="proId != null" >
+        #{proId,jdbcType=VARCHAR},
+      </if>
+      <if test="proName != null" >
+        #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="custId != null" >
+        #{custId,jdbcType=VARCHAR},
+      </if>
+      <if test="testManager != null" >
+        #{testManager,jdbcType=VARCHAR},
+      </if>
+      <if test="proType != null" >
+        #{proType,jdbcType=VARCHAR},
+      </if>
+      <if test="testType != null" >
+        #{testType,jdbcType=VARCHAR},
+      </if>
+      <if test="testPlanStartTime != null" >
+        #{testPlanStartTime,jdbcType=DATE},
+      </if>
+      <if test="testPlanEndTime != null" >
+        #{testPlanEndTime,jdbcType=DATE},
+      </if>
+      <if test="proDesc != null" >
+        #{proDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="testEnvi != null" >
+        #{testEnvi,jdbcType=VARCHAR},
+      </if>
+      <if test="sysLinkAddr != null" >
+        #{sysLinkAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="needAttach != null" >
+        #{needAttach,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.northking.cloudplatform.domain.project.CltProjectExample" resultType="java.lang.Integer" >
+    select count(*) from CLT_PROJECT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CLT_PROJECT
+    <set >
+      <if test="record.proId != null" >
+        PRO_ID = #{record.proId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proName != null" >
+        PRO_NAME = #{record.proName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custId != null" >
+        CUST_ID = #{record.custId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.testManager != null" >
+        TEST_MANAGER = #{record.testManager,jdbcType=VARCHAR},
+      </if>
+      <if test="record.proType != null" >
+        PRO_TYPE = #{record.proType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.testType != null" >
+        TEST_TYPE = #{record.testType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.testPlanStartTime != null" >
+        TEST_PLAN_START_TIME = #{record.testPlanStartTime,jdbcType=DATE},
+      </if>
+      <if test="record.testPlanEndTime != null" >
+        TEST_PLAN_END_TIME = #{record.testPlanEndTime,jdbcType=DATE},
+      </if>
+      <if test="record.proDesc != null" >
+        PRO_DESC = #{record.proDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="record.testEnvi != null" >
+        TEST_ENVI = #{record.testEnvi,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sysLinkAddr != null" >
+        SYS_LINK_ADDR = #{record.sysLinkAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.needAttach != null" >
+        NEED_ATTACH = #{record.needAttach,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=CHAR},
+      </if>
+      <if test="record.createUser != null" >
+        CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=DATE},
+      </if>
+      <if test="record.updateUser != null" >
+        UPDATE_USER = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        UPDATE_DATE = #{record.updateDate,jdbcType=DATE},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CLT_PROJECT
+    set PRO_ID = #{record.proId,jdbcType=VARCHAR},
+    PRO_NAME = #{record.proName,jdbcType=VARCHAR},
+    CUST_ID = #{record.custId,jdbcType=VARCHAR},
+    TEST_MANAGER = #{record.testManager,jdbcType=VARCHAR},
+    PRO_TYPE = #{record.proType,jdbcType=VARCHAR},
+    TEST_TYPE = #{record.testType,jdbcType=VARCHAR},
+    TEST_PLAN_START_TIME = #{record.testPlanStartTime,jdbcType=DATE},
+    TEST_PLAN_END_TIME = #{record.testPlanEndTime,jdbcType=DATE},
+    PRO_DESC = #{record.proDesc,jdbcType=VARCHAR},
+    TEST_ENVI = #{record.testEnvi,jdbcType=VARCHAR},
+    SYS_LINK_ADDR = #{record.sysLinkAddr,jdbcType=VARCHAR},
+    NEED_ATTACH = #{record.needAttach,jdbcType=VARCHAR},
+    STATUS = #{record.status,jdbcType=CHAR},
+    CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+    CREATE_DATE = #{record.createDate,jdbcType=DATE},
+    UPDATE_USER = #{record.updateUser,jdbcType=VARCHAR},
+    UPDATE_DATE = #{record.updateDate,jdbcType=DATE}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.northking.cloudplatform.domain.project.CltProject" >
+    update CLT_PROJECT
+    <set >
+      <if test="proName != null" >
+        PRO_NAME = #{proName,jdbcType=VARCHAR},
+      </if>
+      <if test="custId != null" >
+        CUST_ID = #{custId,jdbcType=VARCHAR},
+      </if>
+      <if test="testManager != null" >
+        TEST_MANAGER = #{testManager,jdbcType=VARCHAR},
+      </if>
+      <if test="proType != null" >
+        PRO_TYPE = #{proType,jdbcType=VARCHAR},
+      </if>
+      <if test="testType != null" >
+        TEST_TYPE = #{testType,jdbcType=VARCHAR},
+      </if>
+      <if test="testPlanStartTime != null" >
+        TEST_PLAN_START_TIME = #{testPlanStartTime,jdbcType=DATE},
+      </if>
+      <if test="testPlanEndTime != null" >
+        TEST_PLAN_END_TIME = #{testPlanEndTime,jdbcType=DATE},
+      </if>
+      <if test="proDesc != null" >
+        PRO_DESC = #{proDesc,jdbcType=VARCHAR},
+      </if>
+      <if test="testEnvi != null" >
+        TEST_ENVI = #{testEnvi,jdbcType=VARCHAR},
+      </if>
+      <if test="sysLinkAddr != null" >
+        SYS_LINK_ADDR = #{sysLinkAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="needAttach != null" >
+        NEED_ATTACH = #{needAttach,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=DATE},
+      </if>
+    </set>
+    where PRO_ID = #{proId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.northking.cloudplatform.domain.project.CltProject" >
+    update CLT_PROJECT
+    set PRO_NAME = #{proName,jdbcType=VARCHAR},
+      CUST_ID = #{custId,jdbcType=VARCHAR},
+      TEST_MANAGER = #{testManager,jdbcType=VARCHAR},
+      PRO_TYPE = #{proType,jdbcType=VARCHAR},
+      TEST_TYPE = #{testType,jdbcType=VARCHAR},
+      TEST_PLAN_START_TIME = #{testPlanStartTime,jdbcType=DATE},
+      TEST_PLAN_END_TIME = #{testPlanEndTime,jdbcType=DATE},
+      PRO_DESC = #{proDesc,jdbcType=VARCHAR},
+      TEST_ENVI = #{testEnvi,jdbcType=VARCHAR},
+      SYS_LINK_ADDR = #{sysLinkAddr,jdbcType=VARCHAR},
+      NEED_ATTACH = #{needAttach,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=CHAR},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=DATE},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=DATE}
+    where PRO_ID = #{proId,jdbcType=VARCHAR}
+  </update>
+
+
+
+</mapper>

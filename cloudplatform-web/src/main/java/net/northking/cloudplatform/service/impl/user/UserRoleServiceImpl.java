@@ -1,0 +1,124 @@
+package net.northking.cloudplatform.service.impl.user;
+
+
+import net.northking.cloudplatform.Utils.ServiceUtil;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.domain.user.CltUserRole;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.feign.user.UserRoleFeignClient;
+import net.northking.cloudplatform.query.user.UserRoleQuery;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.user.UserRoleService;
+import net.northking.cloudplatform.utils.BeanUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * Created by Administrator on 2017/12/20 0020.
+ */
+@Service
+public class UserRoleServiceImpl implements UserRoleService {
+    @Autowired
+    UserRoleFeignClient userRoleFeignClient;
+
+    //新增用户角色
+    @Override
+    public ResultInfo<Integer> addUserRoles(List<UserRoleQuery> userRoleQueryList) throws Exception {
+
+        ResultInfo<Integer> resultInfo = null;
+
+        try{
+            //调用数据库
+            resultInfo = userRoleFeignClient.addUserRoles(userRoleQueryList);
+
+        }catch (Exception e){
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<String> deleteUserRoles(UserRoleQuery userRoleQuery) throws Exception {
+
+        CltUserRole cltUserRole = new CltUserRole();
+
+        ResultInfo<String>  resultInfo = null;
+
+        BeanUtil.copyProperties(userRoleQuery, cltUserRole);
+
+        try{
+            //调用数据库
+            resultInfo =  userRoleFeignClient.deleteUserRoleByUserRoleIds(userRoleQuery);
+
+        }catch (Exception e){
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<Integer> deleteUserRoleByUserIdAndRoleId(UserRoleQuery userRoleQuery) throws Exception {
+        CltUserRole cltUserRole = new CltUserRole();
+
+        ResultInfo<Integer>  resultInfo = null;
+
+        BeanUtil.copyProperties(userRoleQuery, cltUserRole);
+
+        try{
+            //调用数据库
+            resultInfo =  userRoleFeignClient.deleteByUserIdAndRoleId(userRoleQuery);
+
+        }catch (Exception e){
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<Integer> updateUserRoleInfo(UserRoleQuery userRoleQuery) throws Exception {
+        CltUserRole cltUserRole = new CltUserRole();
+
+        ResultInfo<Integer>  resultInfo = null;
+
+        BeanUtil.copyProperties(userRoleQuery, cltUserRole);
+
+        try{
+            //调用数据库
+            resultInfo =  userRoleFeignClient.updateUserRole(userRoleQuery);
+
+        }catch (Exception e){
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        return resultInfo;
+    }
+
+
+}

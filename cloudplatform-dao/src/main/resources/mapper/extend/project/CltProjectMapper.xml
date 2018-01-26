@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.project.CltProjectMapper" >
+  <!--根据用户id查询项目信息-->
+  <select id="selectProjectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String">
+    SELECT  DISTINCT cp.*
+    FROM CLT_PROJECT cp JOIN CLT_PROJECT_TEAM cpt
+    ON cp.PRO_ID = cpt.PRO_ID
+    WHERE cpt.USER_ID=#{userId}
+  </select>
+
+  <select id="queryCltProject" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from clt_project
+    where pro_id = #{proId}
+  </select>
+
+
+  <select id="queryAllProject" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from CLT_PROJECT WHERE  CUST_ID = #{custId,jdbcType=VARCHAR}
+  </select>
+  <select id="queryProjectUserInfoListByProId" resultType="net.northking.cloudplatform.domain.project.CltProjectUserInfo" >
+    SELECT c.USER_ID,c.USER_CHN_NAME,c.LOGIN_NO,d.ROLE_NAME,f.ORG_NAME,b.CELL_PHONE,b.EMAIL,d.ROLE_ID
+
+    FROM  CLT_PROJECT_TEAM AS a ,CLT_USER AS b ,CLT_USER_LOGIN AS c,CLT_ROLE AS d,CLT_ORG AS f
+
+    WHERE a.USER_ID = b.USER_ID AND a.USER_ID = c.USER_ID AND a.ROLE_ID = d.ROLE_ID AND b.ORG_ID = f.ORG_ID AND a.PRO_ID = #{proId}
+    <if test="loginNo !=null and loginNo != '' ">
+      AND c.LOGIN_NO like CONCAT('%',#{loginNo},'%')
+    </if>
+    <if test="userChnName !=null and userChnName != ''">
+    AND c.USER_CHN_NAME like CONCAT('%',#{userChnName},'%')
+  </if>
+    <if test="roleId !=null and roleId != ''">
+      AND d.ROLE_ID = #{roleId}
+    </if>
+  </select>
+
+  <!-- 查询客户下的所有项目-->
+  <select id="queryCltProjectByCustId" parameterType="java.lang.String" resultType="net.northking.cloudplatform.domain.project.CltProject">
+    SELECT * FROM CLT_PROJECT WHERE CUST_ID = #{custId,jdbcType=VARCHAR}
+  </select>
+
+</mapper>

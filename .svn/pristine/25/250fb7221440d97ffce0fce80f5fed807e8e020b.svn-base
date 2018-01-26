@@ -1,0 +1,13 @@
+server:
+  port: 18088
+spring:
+  rabbitmq:
+    host: #hostIP#
+    port: 5672
+    username: northking
+    password: 123456
+    virtual-host: /cloud
+defaultImage:
+  host: #hostIP#
+  port: 8180
+  path: /httpfiletrans/HttpFileTrans

@@ -1,0 +1,448 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.project.CltCustomerMapper" >
+  <resultMap id="BaseResultMap" type="net.northking.cloudplatform.domain.project.CltCustomer" >
+    <id column="CUST_ID" property="custId" jdbcType="VARCHAR" />
+    <result column="CUST_NAME" property="custName" jdbcType="VARCHAR" />
+    <result column="CUST_CODE" property="custCode" jdbcType="VARCHAR" />
+    <result column="PROVINCE" property="province" jdbcType="VARCHAR" />
+    <result column="CITY" property="city" jdbcType="VARCHAR" />
+    <result column="REGION" property="region" jdbcType="VARCHAR" />
+    <result column="ENTERPRISE_NATURE" property="enterpriseNature" jdbcType="VARCHAR" />
+    <result column="TRADE" property="trade" jdbcType="VARCHAR" />
+    <result column="ENTERPRISE_SCALE" property="enterpriseScale" jdbcType="VARCHAR" />
+    <result column="COR_SDATE" property="corSdate" jdbcType="DATE" />
+    <result column="CONTACTS_NAME" property="contactsName" jdbcType="VARCHAR" />
+    <result column="CONTACTS_TEL" property="contactsTel" jdbcType="VARCHAR" />
+    <result column="CONTACTS_MAIL" property="contactsMail" jdbcType="VARCHAR" />
+    <result column="COR_ADDRESS" property="corAddress" jdbcType="VARCHAR" />
+    <result column="COR_PRESENTATION" property="corPresentation" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="DATE" />
+    <result column="STATUS" property="status" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    CUST_ID, CUST_NAME, CUST_CODE, PROVINCE, CITY, REGION, ENTERPRISE_NATURE, TRADE, 
+    ENTERPRISE_SCALE, COR_SDATE, CONTACTS_NAME, CONTACTS_TEL, CONTACTS_MAIL, COR_ADDRESS, 
+    COR_PRESENTATION, CREATE_USER, CREATE_DATE, UPDATE_USER, UPDATE_DATE, STATUS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.northking.cloudplatform.domain.project.CltCustomerExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CLT_CUSTOMER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CLT_CUSTOMER
+    where CUST_ID = #{custId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CLT_CUSTOMER
+    where CUST_ID = #{custId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.northking.cloudplatform.domain.project.CltCustomerExample" >
+    delete from CLT_CUSTOMER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.northking.cloudplatform.domain.project.CltCustomer" >
+    insert into CLT_CUSTOMER (CUST_ID, CUST_NAME, CUST_CODE, 
+      PROVINCE, CITY, REGION, 
+      ENTERPRISE_NATURE, TRADE, ENTERPRISE_SCALE, 
+      COR_SDATE, CONTACTS_NAME, CONTACTS_TEL, 
+      CONTACTS_MAIL, COR_ADDRESS, COR_PRESENTATION, 
+      CREATE_USER, CREATE_DATE, UPDATE_USER, 
+      UPDATE_DATE, STATUS)
+    values (#{custId,jdbcType=VARCHAR}, #{custName,jdbcType=VARCHAR}, #{custCode,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{region,jdbcType=VARCHAR}, 
+      #{enterpriseNature,jdbcType=VARCHAR}, #{trade,jdbcType=VARCHAR}, #{enterpriseScale,jdbcType=VARCHAR}, 
+      #{corSdate,jdbcType=DATE}, #{contactsName,jdbcType=VARCHAR}, #{contactsTel,jdbcType=VARCHAR}, 
+      #{contactsMail,jdbcType=VARCHAR}, #{corAddress,jdbcType=VARCHAR}, #{corPresentation,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=DATE}, #{status,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.northking.cloudplatform.domain.project.CltCustomer" >
+    insert into CLT_CUSTOMER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="custId != null" >
+        CUST_ID,
+      </if>
+      <if test="custName != null" >
+        CUST_NAME,
+      </if>
+      <if test="custCode != null" >
+        CUST_CODE,
+      </if>
+      <if test="province != null" >
+        PROVINCE,
+      </if>
+      <if test="city != null" >
+        CITY,
+      </if>
+      <if test="region != null" >
+        REGION,
+      </if>
+      <if test="enterpriseNature != null" >
+        ENTERPRISE_NATURE,
+      </if>
+      <if test="trade != null" >
+        TRADE,
+      </if>
+      <if test="enterpriseScale != null" >
+        ENTERPRISE_SCALE,
+      </if>
+      <if test="corSdate != null" >
+        COR_SDATE,
+      </if>
+      <if test="contactsName != null" >
+        CONTACTS_NAME,
+      </if>
+      <if test="contactsTel != null" >
+        CONTACTS_TEL,
+      </if>
+      <if test="contactsMail != null" >
+        CONTACTS_MAIL,
+      </if>
+      <if test="corAddress != null" >
+        COR_ADDRESS,
+      </if>
+      <if test="corPresentation != null" >
+        COR_PRESENTATION,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="custId != null" >
+        #{custId,jdbcType=VARCHAR},
+      </if>
+      <if test="custName != null" >
+        #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="custCode != null" >
+        #{custCode,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null" >
+        #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseNature != null" >
+        #{enterpriseNature,jdbcType=VARCHAR},
+      </if>
+      <if test="trade != null" >
+        #{trade,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseScale != null" >
+        #{enterpriseScale,jdbcType=VARCHAR},
+      </if>
+      <if test="corSdate != null" >
+        #{corSdate,jdbcType=DATE},
+      </if>
+      <if test="contactsName != null" >
+        #{contactsName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsTel != null" >
+        #{contactsTel,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsMail != null" >
+        #{contactsMail,jdbcType=VARCHAR},
+      </if>
+      <if test="corAddress != null" >
+        #{corAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="corPresentation != null" >
+        #{corPresentation,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.northking.cloudplatform.domain.project.CltCustomerExample" resultType="java.lang.Integer" >
+    select count(*) from CLT_CUSTOMER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CLT_CUSTOMER
+    <set >
+      <if test="record.custId != null" >
+        CUST_ID = #{record.custId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custName != null" >
+        CUST_NAME = #{record.custName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custCode != null" >
+        CUST_CODE = #{record.custCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.province != null" >
+        PROVINCE = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null" >
+        CITY = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.region != null" >
+        REGION = #{record.region,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseNature != null" >
+        ENTERPRISE_NATURE = #{record.enterpriseNature,jdbcType=VARCHAR},
+      </if>
+      <if test="record.trade != null" >
+        TRADE = #{record.trade,jdbcType=VARCHAR},
+      </if>
+      <if test="record.enterpriseScale != null" >
+        ENTERPRISE_SCALE = #{record.enterpriseScale,jdbcType=VARCHAR},
+      </if>
+      <if test="record.corSdate != null" >
+        COR_SDATE = #{record.corSdate,jdbcType=DATE},
+      </if>
+      <if test="record.contactsName != null" >
+        CONTACTS_NAME = #{record.contactsName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactsTel != null" >
+        CONTACTS_TEL = #{record.contactsTel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactsMail != null" >
+        CONTACTS_MAIL = #{record.contactsMail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.corAddress != null" >
+        COR_ADDRESS = #{record.corAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.corPresentation != null" >
+        COR_PRESENTATION = #{record.corPresentation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null" >
+        CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=DATE},
+      </if>
+      <if test="record.updateUser != null" >
+        UPDATE_USER = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        UPDATE_DATE = #{record.updateDate,jdbcType=DATE},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CLT_CUSTOMER
+    set CUST_ID = #{record.custId,jdbcType=VARCHAR},
+      CUST_NAME = #{record.custName,jdbcType=VARCHAR},
+      CUST_CODE = #{record.custCode,jdbcType=VARCHAR},
+      PROVINCE = #{record.province,jdbcType=VARCHAR},
+      CITY = #{record.city,jdbcType=VARCHAR},
+      REGION = #{record.region,jdbcType=VARCHAR},
+      ENTERPRISE_NATURE = #{record.enterpriseNature,jdbcType=VARCHAR},
+      TRADE = #{record.trade,jdbcType=VARCHAR},
+      ENTERPRISE_SCALE = #{record.enterpriseScale,jdbcType=VARCHAR},
+      COR_SDATE = #{record.corSdate,jdbcType=DATE},
+      CONTACTS_NAME = #{record.contactsName,jdbcType=VARCHAR},
+      CONTACTS_TEL = #{record.contactsTel,jdbcType=VARCHAR},
+      CONTACTS_MAIL = #{record.contactsMail,jdbcType=VARCHAR},
+      COR_ADDRESS = #{record.corAddress,jdbcType=VARCHAR},
+      COR_PRESENTATION = #{record.corPresentation,jdbcType=VARCHAR},
+      CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=DATE},
+      UPDATE_USER = #{record.updateUser,jdbcType=VARCHAR},
+      UPDATE_DATE = #{record.updateDate,jdbcType=DATE},
+      STATUS = #{record.status,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.northking.cloudplatform.domain.project.CltCustomer" >
+    update CLT_CUSTOMER
+    <set >
+      <if test="custName != null" >
+        CUST_NAME = #{custName,jdbcType=VARCHAR},
+      </if>
+      <if test="custCode != null" >
+        CUST_CODE = #{custCode,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        PROVINCE = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        CITY = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="region != null" >
+        REGION = #{region,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseNature != null" >
+        ENTERPRISE_NATURE = #{enterpriseNature,jdbcType=VARCHAR},
+      </if>
+      <if test="trade != null" >
+        TRADE = #{trade,jdbcType=VARCHAR},
+      </if>
+      <if test="enterpriseScale != null" >
+        ENTERPRISE_SCALE = #{enterpriseScale,jdbcType=VARCHAR},
+      </if>
+      <if test="corSdate != null" >
+        COR_SDATE = #{corSdate,jdbcType=DATE},
+      </if>
+      <if test="contactsName != null" >
+        CONTACTS_NAME = #{contactsName,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsTel != null" >
+        CONTACTS_TEL = #{contactsTel,jdbcType=VARCHAR},
+      </if>
+      <if test="contactsMail != null" >
+        CONTACTS_MAIL = #{contactsMail,jdbcType=VARCHAR},
+      </if>
+      <if test="corAddress != null" >
+        COR_ADDRESS = #{corAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="corPresentation != null" >
+        COR_PRESENTATION = #{corPresentation,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=CHAR},
+      </if>
+    </set>
+    where CUST_ID = #{custId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.northking.cloudplatform.domain.project.CltCustomer" >
+    update CLT_CUSTOMER
+    set CUST_NAME = #{custName,jdbcType=VARCHAR},
+      CUST_CODE = #{custCode,jdbcType=VARCHAR},
+      PROVINCE = #{province,jdbcType=VARCHAR},
+      CITY = #{city,jdbcType=VARCHAR},
+      REGION = #{region,jdbcType=VARCHAR},
+      ENTERPRISE_NATURE = #{enterpriseNature,jdbcType=VARCHAR},
+      TRADE = #{trade,jdbcType=VARCHAR},
+      ENTERPRISE_SCALE = #{enterpriseScale,jdbcType=VARCHAR},
+      COR_SDATE = #{corSdate,jdbcType=DATE},
+      CONTACTS_NAME = #{contactsName,jdbcType=VARCHAR},
+      CONTACTS_TEL = #{contactsTel,jdbcType=VARCHAR},
+      CONTACTS_MAIL = #{contactsMail,jdbcType=VARCHAR},
+      COR_ADDRESS = #{corAddress,jdbcType=VARCHAR},
+      COR_PRESENTATION = #{corPresentation,jdbcType=VARCHAR},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=DATE},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=DATE},
+      STATUS = #{status,jdbcType=CHAR}
+    where CUST_ID = #{custId,jdbcType=VARCHAR}
+  </update>
+</mapper>

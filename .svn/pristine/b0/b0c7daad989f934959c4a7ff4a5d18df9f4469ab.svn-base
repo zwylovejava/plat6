@@ -1,0 +1,434 @@
+package net.northking.cloudplatform.service.impl;
+
+
+import net.northking.cloudplatform.assist.RedisUtil;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.dao.testexecute.*;
+import net.northking.cloudplatform.domain.testbug.CltTestBug;
+import net.northking.cloudplatform.domain.testbug.CltTestBugExample;
+import net.northking.cloudplatform.domain.testexecute.*;
+import net.northking.cloudplatform.domain.user.CltUserLogin;
+import net.northking.cloudplatform.dto.testexecute.StepDataInfo;
+import net.northking.cloudplatform.dto.testexecute.TestBugParam;
+import net.northking.cloudplatform.dto.testexecute.TestCaseStepData;
+import net.northking.cloudplatform.enums.CltBatchStatus;
+import net.northking.cloudplatform.enums.CltExecuteStatus;
+import net.northking.cloudplatform.enums.CltJobStatus;
+import net.northking.cloudplatform.enums.CorQueueStatus;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.feign.testbug.TestBugFeignClient;
+import net.northking.cloudplatform.query.testbug.TestBugQuery;
+import net.northking.cloudplatform.query.testexecute.TestCaseQuery;
+import net.northking.cloudplatform.query.testexecute.TestCaseStepQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.TestCaseStepService;
+import net.northking.cloudplatform.dao.base.BaseServiceImpl;
+import net.northking.cloudplatform.service.TestExecuteService;
+import net.northking.cloudplatform.utils.UUIDUtil;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+@Service
+public class TestCaseStepServiceImpl extends BaseServiceImpl<CltTestCaseStep,CltTestCaseStepExample,String> implements TestCaseStepService {
+    @Autowired
+    private  CltTestCaseStepMapper cltTestCaseStepMapper;
+
+    @Autowired
+    private CltTestStepExecuteMapper cltTestStepExecuteMapper;
+
+    @Autowired
+    private CltTestStepDataMapper cltTestStepDataMapper;
+
+    @Autowired
+    private CltAppBizParamMapper cltAppBizParamMapper;
+
+    @Autowired
+    private CltCaseExecuteMapper cltCaseExecuteMapper;
+
+    @Autowired
+    private TestExecuteService testExecuteService;
+
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @Autowired
+    private TestBugFeignClient testBugFeignClient;
+
+    @Autowired
+    private CltCaseSetMapper cltCaseSetMapper;
+
+
+    @Autowired
+    private CoreWfWorkitemMapper coreWfWorkitemMapper;
+
+    @Autowired
+    private CltJobMapper cltJobMapper;
+
+
+    @Autowired
+    private CltBatchMapper cltBatchMapper;
+
+    @Autowired
+    private CltAppAnalyseMapper cltAppAnalyseMapper;
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    @Override
+    @Transactional
+    public TestCaseStepData quryStepDataByCaseId(TestCaseStepQuery testCaseStepQuery) {
+        //根据token拿出用户信息
+        CltUserLogin cltUserLogin = null;
+        try {
+            cltUserLogin = (CltUserLogin) redisUtil.get(testCaseStepQuery.getAccess_token());
+            Integer nextIdx = testCaseStepQuery.getIdx();//下一步步骤序号
+            Integer currentIdx = nextIdx - 1;//当前步骤序号
+
+            String stepId = "";
+
+            String currentStepId = "";
+
+            CltTestCaseStepExample cltTestCaseStepExample = new CltTestCaseStepExample();
+
+            CltTestCaseStepExample.Criteria criteria = cltTestCaseStepExample.createCriteria();
+
+            String caseId = testCaseStepQuery.getCaseId();
+
+            criteria.andCaseIdEqualTo(caseId);
+
+            List<CltTestCaseStep> allStep = cltTestCaseStepMapper.selectByExample(cltTestCaseStepExample);
+
+
+            criteria.andIdxEqualTo(nextIdx);
+
+            //查询下一步步骤信息
+            List<CltTestCaseStep> nextCase = cltTestCaseStepMapper.selectByExample(cltTestCaseStepExample);
+
+            CltTestCaseStepExample cltTestCaseStepExample2 = new CltTestCaseStepExample();
+
+            CltTestCaseStepExample.Criteria criteria2 = cltTestCaseStepExample2.createCriteria();
+
+            criteria2.andCaseIdEqualTo(caseId);
+            criteria2.andIdxEqualTo(currentIdx);
+            List<CltTestCaseStep> currentCase = cltTestCaseStepMapper.selectByExample(cltTestCaseStepExample2);
+
+            List<CltCaseExecute> cltCaseExecutes = cltCaseExecuteMapper.queryCaseExecuteByCaseId(caseId);
+            String currentTransId = "";
+            if(currentCase!=null&&currentCase.size()>0){
+                currentStepId = currentCase.get(0).getId();
+                currentTransId = currentCase.get(0).getTransId();
+            }
+
+            //准备初始化数据
+            CltTestStepExecute cltTestStepExecute = new CltTestStepExecute();
+            if(cltCaseExecutes!=null){
+                CltCaseExecute cltCaseExecute = cltCaseExecutes.get(0);
+                cltTestStepExecute.setExecuteId(cltCaseExecute.getExecuteId());
+            }
+            cltTestStepExecute.setCaseId(caseId);
+            cltTestStepExecute.setExecuteStatus("0");
+            cltTestStepExecute.setCreateUser(cltUserLogin.getUserId());
+            cltTestStepExecute.setCreateDate(new Date());
+            String stepExecuteId=UUIDUtil.getUUID();
+            cltTestStepExecute.setStepExecuteId(stepExecuteId);
+
+
+            //如果list不为null则说明不是最大步骤
+            if(nextCase!=null&&nextCase.size()>0){
+                CltTestCaseStep cltTestCaseStep = nextCase.get(0);
+                stepId = cltTestCaseStep.getId();
+                cltTestStepExecute.setStepId(stepId);
+                String transId = cltTestCaseStep.getTransId();
+                String name = queryStepName(transId);
+                //判断当前是否是第一步骤 如果是就不需要保存当前执行步骤 直接返回回数据
+                //初始化步骤数据
+                String sid = initStepData(cltTestStepExecute, stepId, caseId);
+                if(!StringUtils.isEmpty(sid)){
+                    stepExecuteId = sid;
+                }
+                if(nextIdx==1){
+                    List<StepDataInfo> cltTestStepDatas = cltTestStepDataMapper.queryTestStepDataById(stepId, caseId);
+                    TestCaseStepData testCaseStepData = new TestCaseStepData();
+                    testCaseStepData.setStepName(name);
+                    testCaseStepData.setMaxIdx(allStep.size());
+                    testCaseStepData.setCaseId(caseId);
+                    testCaseStepData.setStepExecuteId(stepExecuteId);
+                    testCaseStepData.setStepDataInfoList(cltTestStepDatas);
+                    return testCaseStepData;
+                }else {
+                    String code = CltExecuteStatus.FAIL.getCode();//testBugFeignClient
+                    String over = CltExecuteStatus.OVER.getCode();
+                    //保存执行状态
+                    updateStatus(testCaseStepQuery,stepExecuteId,currentStepId,currentTransId);
+                    //返回下一个步骤数据信息根据StepId 查询状态为非中止状态
+                    if(!over.equals(testCaseStepQuery.getExecuteStatus())){
+                        List<StepDataInfo> cltTestStepDatas = cltTestStepDataMapper.queryTestStepDataById(stepId, caseId);
+                        TestCaseStepData testCaseStepData = new TestCaseStepData();
+                        testCaseStepData.setStepName(name);
+                        testCaseStepData.setMaxIdx(allStep.size());
+                        testCaseStepData.setCaseId(caseId);
+                        testCaseStepData.setStepExecuteId(stepExecuteId);
+                        testCaseStepData.setStepDataInfoList(cltTestStepDatas);
+                        return testCaseStepData;
+                    }else {
+                        cltCaseExecuteMapper.updatStatusByCaseId(caseId, over);
+                        ResultInfo<CltTestCase> cltTestCaseResultInfo = testExecuteService.loginGetTestCase(cltUserLogin.getUserId());
+                        TestCaseStepData testCaseStepData = new TestCaseStepData();
+                        if (cltTestCaseResultInfo.getResultData()!=null) {
+                            testCaseStepData.setMessage("请领取下一任务");
+                            return testCaseStepData;
+
+                        } else {
+                            testCaseStepData.setMessage("任务已完成");
+                            return testCaseStepData;
+                        }
+                    }
+                }
+        }
+        //如果list为null则说明是最大步骤
+        if(nextCase!=null&&nextCase.size()==0&&currentCase!=null&&currentCase.size()>0){
+            String code = CltExecuteStatus.FAIL.getCode();//testBugFeignClient
+            String over = CltExecuteStatus.OVER.getCode();
+            CltTestStepExecute testStepExecute = cltTestStepExecuteMapper.queryTestStepExecuteById(currentStepId,caseId);
+            if(testStepExecute!=null){
+                stepExecuteId=testStepExecute.getStepExecuteId();
+            }
+            //保存执行状态
+            updateStatus(testCaseStepQuery,stepExecuteId,currentStepId,currentTransId);
+            String status = CltExecuteStatus.SUCCESS.getCode();  //0为初始化,1为成功，2为失败，3为终止。用例状态和步骤状态保持一致：失败>成功
+            if(!over.equals(testCaseStepQuery.getExecuteStatus())){
+
+                //根据caseID查询所有的执行步骤结果
+                CltTestStepExecuteExample cltTestStepExecuteExample = new CltTestStepExecuteExample();
+                CltTestStepExecuteExample.Criteria criteria1 = cltTestStepExecuteExample.createCriteria();
+                criteria1.andCaseIdEqualTo(caseId);
+                List<CltTestStepExecute> cltTestStepExecutes = cltTestStepExecuteMapper.selectByExample(cltTestStepExecuteExample);
+                for (CltTestStepExecute cltStepExecute : cltTestStepExecutes) {
+                    if (CltExecuteStatus.FAIL.getCode().equals(cltStepExecute.getExecuteStatus())) {
+                        status = CltExecuteStatus.FAIL.getCode();
+                        break;
+                    }
+                }
+                //修改CORE_WF_WORKITEM状态
+                updateStatusByCaseId(caseId);
+                //System.out.println("~~~~~~~~~~~~~~~~~~~~~~~~~~执行了修改状态");
+
+            }else {
+                status=over;
+            }
+            //CLT_CASE_EXECUTE修改用例执行状态根据caseId
+            updateCltCaseExecuteStatus(caseId,status);
+
+            //当执行完当前用例步骤后继续去队列里取下一个任务
+            ResultInfo<CltTestCase> cltTestCaseResultInfo = testExecuteService.loginGetTestCase(cltUserLogin.getUserId());
+            TestCaseStepData testCaseStepData = new TestCaseStepData();
+            if (cltTestCaseResultInfo.getResultData()!=null) {
+                testCaseStepData.setMessage("请领取下一任务");
+                return testCaseStepData;
+
+            } else {
+                testCaseStepData.setCode(ResultCode.NOJOB.code());
+                testCaseStepData.setMessage("任务已完成");
+                return testCaseStepData;
+            }
+
+
+
+        }
+    } catch (Exception e) {
+                logger.error(ErrorConstants.QUERY_USER_MSG_FROM_REDIS_CODE,e);
+                throw new GlobalException(ErrorConstants.QUERY_USER_MSG_FROM_REDIS_CODE,e.getMessage());
+       }
+    return  null;
+
+
+}
+
+
+    ////修改'CORE_WF_WORKITEM'状态
+    public Integer updateStatusByCaseId(String caseId) throws Exception{
+        //修改'CORE_WF_WORKITEM'状态
+        CoreWfWorkitem coreWfWorkitem = new CoreWfWorkitem();
+        coreWfWorkitem.setState(Integer.parseInt(CorQueueStatus.COMPLETE.code()));
+        CoreWfWorkitemExample coreWfWorkitemExample = new CoreWfWorkitemExample();
+        CoreWfWorkitemExample.Criteria criteria2 = coreWfWorkitemExample.createCriteria();
+        criteria2.andProjectIdEqualTo(caseId);
+       int num = coreWfWorkitemMapper.updateByExampleSelective(coreWfWorkitem,coreWfWorkitemExample);
+       //根据caseId查询出JobId
+        // 判断是否当前任务下的所有用例是否已执行完成
+        List<CoreWfWorkitem> coreWfWorkitems = coreWfWorkitemMapper.selectByExample(coreWfWorkitemExample);
+        String jobId="";
+
+        if(coreWfWorkitems!=null&&coreWfWorkitems.size()>0){
+
+            jobId = coreWfWorkitems.get(0).getWorkqueue();
+        }
+        if(!StringUtils.isEmpty(jobId)){
+            Integer status = Integer.parseInt(CorQueueStatus.COMPLETE.code());
+            CoreWfWorkitemExample coreWfWorkitemExample2 = new CoreWfWorkitemExample();
+            CoreWfWorkitemExample.Criteria criteria = coreWfWorkitemExample2.createCriteria();
+            criteria.andWorkqueueEqualTo(jobId);
+            boolean flag=true;
+            List<CoreWfWorkitem> WfWorkitems = coreWfWorkitemMapper.selectByExample(coreWfWorkitemExample2);
+            for(CoreWfWorkitem wfWorkitem:WfWorkitems){
+                if(status!=wfWorkitem.getState()){
+                    flag=false;
+                    break;
+                }
+            }
+            if(flag){//如果为true则说明当前任务下所有的用例已执行完成 就去修改CLT_JOB的执行状态
+                CltJobExample cltJobExample = new CltJobExample();
+                CltJobExample.Criteria criteria1 = cltJobExample.createCriteria();
+                criteria1.andJobIdEqualTo(jobId);
+                CltJob cltJob = new CltJob();
+                cltJob.setStatus(CltJobStatus.COMPLETE.code());
+                cltJobMapper.updateByExampleSelective(cltJob,cltJobExample);
+
+                String batchId="";
+                //根据jobId查询出batchId
+                CltJob job = cltJobMapper.selectByPrimaryKey(jobId);
+                batchId = job.getBatchId();
+                //修改批次表的状态
+                CltBatchExample cltBatchExample = new CltBatchExample();
+                CltBatchExample.Criteria cri = cltBatchExample.createCriteria();
+                cri.andBatchIdEqualTo(batchId);
+                CltBatch cltBatch = new CltBatch();
+                cltBatch.setStatus(CltBatchStatus.EXECUTE_OK.getCode());
+                cltBatchMapper.updateByExampleSelective(cltBatch,cltBatchExample);
+            }
+        }
+        return num;
+
+    }
+
+    //添加缺陷信息
+    public ResultInfo<Integer> addTestBug(TestCaseStepQuery testCaseStepQuery,TestBugParam testBugParam,String transId) throws Exception{
+
+        String currentStepId = testBugParam.getCurrentStepId();
+        String caseId = testBugParam.getCaseId();
+        String code = testBugParam.getCode();
+        String stepExecuteId = testBugParam.getStepExecuteId();
+
+
+        TestBugQuery testBugQuery  = new TestBugQuery();
+        testBugQuery.setAccess_token(testCaseStepQuery.getAccess_token());
+        testBugQuery.setStepId(currentStepId);
+        //根据CaseId查询出BathId
+        CltCaseSet cltCaseSet = cltCaseSetMapper.queryTestCaseSetByCaseId(caseId);
+        if(cltCaseSet==null){
+            throw new GlobalException(ErrorConstants.QUERY_CLT_BATCH_BY_BATCHID_ERROR_CODE,ErrorConstants.QUERY_CLT_BATCH_BY_BATCHID_ERROR_MESSAGE);
+
+        }
+        if(StringUtils.isEmpty(cltCaseSet.getBatchId())){
+            throw new GlobalException(ErrorConstants.QUERY_CLT_BATCH_BY_BATCHID_ERROR_CODE,ErrorConstants.QUERY_CLT_BATCH_BY_BATCHID_ERROR_MESSAGE);
+        }
+        int idx = testCaseStepQuery.getIdx() - 1;
+
+        String name = queryStepName(transId);
+        testBugQuery.setBatchId(cltCaseSet.getBatchId());
+        testBugQuery.setStatus(code);
+        testBugQuery.setCaseId(caseId);
+        testBugQuery.setBugTitle(name);
+        testBugQuery.setErrorDesc(testCaseStepQuery.getExecuteResult());
+        testBugQuery.setBugGrade("a");
+        testBugQuery.setBugType("设计缺陷");
+        testBugQuery.setEmergency("3");
+        testBugQuery.setIsReappear("1");
+        testBugQuery.setAttach(stepExecuteId);
+        //判断缺陷是否已添加
+        ResultInfo<List<CltTestBug>> listResultInfo = testBugFeignClient.queryTestBugById(testBugQuery);
+        ResultInfo<Integer> resultInfo = null;
+
+        if(listResultInfo!=null&&listResultInfo.getResultData()!=null&&listResultInfo.getResultData().size()==0){
+            resultInfo  = testBugFeignClient.addTestBug(testBugQuery);
+        }
+        if(resultInfo!=null){
+
+            if(ErrorConstants.ADD_TEST_BUG_ERROR_CODE.equals(resultInfo.getResultCode())){
+                throw new GlobalException(ErrorConstants.ADD_TEST_BUG_ERROR_CODE,ErrorConstants.ADD_TEST_BUG_ERROR_ERROR_MESSAGE);
+            }
+        }
+        return resultInfo;
+    }
+    //更新CLT_CASE_EXECUTE表数据
+    public Integer updateCltCaseExecuteStatus(String caseId,String status){
+        CltCaseExecuteExample cltCaseExecuteExample = new CltCaseExecuteExample();
+        CltCaseExecuteExample.Criteria criteria = cltCaseExecuteExample.createCriteria();
+        criteria.andCaseIdEqualTo(caseId);
+        CltCaseExecute cltCaseExecute = new CltCaseExecute();
+        cltCaseExecute.setStatus("1");
+        cltCaseExecute.setResultStatus(status);
+        cltCaseExecute.setCompleteTime(new Date());
+        int i = cltCaseExecuteMapper.updateByExampleSelective(cltCaseExecute, cltCaseExecuteExample);
+        return i;
+    }
+    //根据caseId和idx查询出trans_id 和步骤名称
+    public String queryStepName(String transId){
+        CltAppAnalyse cltAppAnalyse=null;
+        String name="";
+        //跟据transId查询出标题名称
+        if(!"".equals(transId)){
+            cltAppAnalyse = cltAppAnalyseMapper.selectByPrimaryKey(transId);
+        }
+        if(cltAppAnalyse!=null){
+            name =  cltAppAnalyse.getName();
+        }
+        return name;
+    }
+
+    //初始化测试步骤数据
+    public String initStepData(CltTestStepExecute cltTestStepExecute,String stepId,String caseId){
+        String stepExecuteId ="";
+        //判断数据是否已经初始化
+        CltTestStepExecute cltTestStepExecute1 = cltTestStepExecuteMapper.queryTestStepExecuteById(stepId,caseId);
+
+        //初始化CltTestStepExecute测试步骤表数据
+        if(cltTestStepExecute1==null){
+            cltTestStepExecuteMapper.insertSelective(cltTestStepExecute);
+        }else {
+            stepExecuteId = cltTestStepExecute1.getStepExecuteId();
+        }
+        return  stepExecuteId;
+    }
+
+    //保存当前执行结果
+    public void updateStatus(TestCaseStepQuery testCaseStepQuery,String stepExecuteId,String currentStepId ,String currentTransId) throws Exception {
+        //保存当前步骤执行结果  要判断是否是缺陷
+        String code = CltExecuteStatus.FAIL.getCode();//testBugFeignClient
+        String over = CltExecuteStatus.OVER.getCode();
+        if(code.equals(testCaseStepQuery.getExecuteStatus())||over.equals(testCaseStepQuery.getExecuteStatus())){
+            TestBugParam testBugParam = new TestBugParam();
+            testBugParam.setCaseId(testCaseStepQuery.getCaseId());
+            testBugParam.setCurrentStepId(currentStepId);
+            testBugParam.setCode(code);
+            testBugParam.setStepExecuteId(stepExecuteId);
+            //添加缺陷
+            addTestBug(testCaseStepQuery,testBugParam,currentTransId);
+        }
+        // int n= 1/0;
+        CltTestStepExecute cltTest = new CltTestStepExecute();
+        if(over.equals(testCaseStepQuery.getExecuteStatus())){
+            cltTest.setExecuteStatus(code);
+        }else {
+            cltTest.setExecuteStatus(testCaseStepQuery.getExecuteStatus());
+        }
+        cltTest.setActualResult(testCaseStepQuery.getActualResult());
+        cltTest.setExecuteResult(testCaseStepQuery.getExecuteResult());
+        cltTest.setCaseId(testCaseStepQuery.getCaseId());
+        cltTest.setStepId(currentStepId);
+        cltTest.setUpdateTime(new Date());
+        cltTestStepExecuteMapper.updateByAndCaseID(cltTest);
+    }
+
+
+
+
+
+}

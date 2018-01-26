@@ -1,0 +1,241 @@
+package net.northking.cloudplatform.controller;
+
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.SuccessConstants;
+import net.northking.cloudplatform.domain.user.CltUserRole;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.query.user.UserRoleQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.UserRoleService;
+import net.northking.cloudplatform.utils.BeanUtil;
+import net.northking.cloudplatform.utils.CltUtils;
+import net.northking.cloudplatform.utils.ParamVerifyUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ *用户角色信息可控制层
+ *  Created by Administrator on 2017/11/16 0016.
+ */
+@RestController
+public class UserRoleController {
+
+    @Autowired
+    private UserRoleService userRoleService;
+
+    private final static Logger logger = LoggerFactory.getLogger(UserRoleController.class);
+
+
+    //添加用户角色表
+    @PostMapping("/addUserRole")
+    public ResultInfo<String>  addUserRole(@RequestBody UserRoleQuery userRoleQuery)throws Exception{
+
+        logger.info(" addUserRole start paramData" + userRoleQuery.toString());
+
+        CltUserRole cltUserRole=new CltUserRole();
+
+        BeanUtil.copyProperties(userRoleQuery,cltUserRole);
+
+        //参数校验
+        init(userRoleQuery,"addUserRole");
+
+
+        String result = userRoleService.addUserRole(cltUserRole);
+
+
+        logger.info(" addUserRole end paramData" + userRoleQuery.toString());
+
+        return new ResultInfo<>(ResultCode.SUCCESS.code(), SuccessConstants.ADD_CLT_USER_ROLE_SUCCESS,result);
+
+
+    }
+
+
+
+    //根据用户Id查询所有的角色
+    @PostMapping("/queryRoleByUserId")
+    public ResultInfo<Page<CltUserRole>> queryRoleByUserId(@RequestBody UserRoleQuery userRoleQuery) throws Exception {
+
+        CltUtils.printStartInfo(userRoleQuery, "queryRoleByUserId");
+
+        long startTime = System.currentTimeMillis();
+
+        CltUserRole cltUserRole = new CltUserRole();
+
+        BeanUtil.copyProperties(userRoleQuery, cltUserRole);
+
+        //参数校验
+        init(userRoleQuery, "queryRoleByUserId");
+
+        //调用数据库
+        Page<CltUserRole> page = userRoleService.queryByUserId(userRoleQuery.getUserId());
+
+        CltUtils.printEndInfo(page, "queryRoleByUserId", startTime);
+
+        return new ResultInfo<>(ResultCode.SUCCESS,SuccessConstants.QUERY_ROLE_LIST_BY_USER_ID_SUCCESS, page);
+
+    }
+
+
+    //批量删除用户角色
+    @PostMapping("/deleteUserRoleByUserRoleIds")
+    public ResultInfo<String> deleteUserRoleByUserRoleIds(@RequestBody UserRoleQuery userRoleQuery) throws Exception {
+
+        logger.info(" deleteFuncRoleByfunRoleIds start paramData" + userRoleQuery.toString());
+
+        //参数校验
+
+        init(userRoleQuery,"deleteUserRoleByUserRoleIds");
+
+        String msg = userRoleService.deleteUserRoleByUserRoleIds(userRoleQuery);
+
+        logger.info(" deleteUserRoleByUserRoleIds end paramData");
+
+        return new ResultInfo<String>(ResultCode.SUCCESS, SuccessConstants.DELETE_CLT_USER_ROLE_BATCH_BY_USER_ROLE_IDS_SUCCESS, msg);
+    }
+
+
+    //批量添加用户角色表
+    @PostMapping("/addUserRoles")
+    public ResultInfo<Integer> addUserRoles(@RequestBody List<UserRoleQuery> userRoleQueries) throws Exception {
+        logger.info(" addUserRoles start paramData" + userRoleQueries.toString());
+
+        for (int i = 0; i < userRoleQueries.size(); i++) {
+
+            UserRoleQuery userRoleQuery =  userRoleQueries.get(i);
+            //参数校验
+            init(userRoleQuery,"addUserRoles");
+
+        }
+
+        Integer result = userRoleService.addUserRoles(userRoleQueries);
+
+        logger.info(" addUserRoles end paramData");
+        return new ResultInfo<>(ResultCode.SUCCESS, SuccessConstants.ADD_CLT_USER_ROLE_BATCH_SUCCESS, result);
+
+    }
+
+
+    //更新用户角色
+    @PostMapping("/updateUserRole")
+    public ResultInfo<Integer> updateUserRole(@RequestBody UserRoleQuery userRoleQuery) throws Exception {
+
+        logger.info(" updateUserRole start paramData" + userRoleQuery.toString());
+
+        //参数检验
+
+        init(userRoleQuery, "F");
+
+        String funcCode = userRoleQuery.getFuncCode();
+
+        if ("1".equals(funcCode)) {
+            init(userRoleQuery, "U1");
+
+        }
+        if ("2".equals(funcCode)) {
+            init(userRoleQuery, "U2");
+
+        } else if ("3".equals(funcCode)) {
+            init(userRoleQuery, "U3");
+        }
+
+        Integer result = userRoleService.updateUserRoles(userRoleQuery);
+
+
+        logger.info(" updateUserRole end paramData");
+
+        return new ResultInfo<>(ResultCode.SUCCESS, SuccessConstants.UPDATE_CLT_USER_ROLE_SUCCESS, result);
+
+    }
+
+    //根据用户ID 和角色ID 删除用户角色表
+
+    @PostMapping("/deleteByUserIdAndRoleId")
+    public ResultInfo<Integer>  deleteByUserIdAndRoleId(@RequestBody UserRoleQuery userRoleQuery)throws Exception{
+
+        CltUtils.printStartInfo(userRoleQuery, "deleteByUserIdAndRoleId");
+
+        long startTime = System.currentTimeMillis();
+
+        CltUserRole cltUserRole = new CltUserRole();
+
+        BeanUtil.copyProperties(userRoleQuery, cltUserRole);
+
+        //参数校验
+        init(userRoleQuery, "deleteByUserIdAndRoleId");
+
+        Integer result=userRoleService.deleteByRoleIdAndUserId(userRoleQuery);
+
+        CltUtils.printEndInfo(result, "deleteByUserIdAndRoleId", startTime);
+
+        return new ResultInfo<>(ResultCode.SUCCESS,SuccessConstants.DELETE_CLT_USER_ROLE_BY_USER_AND_ROLE_ID_SUCCESS, result);
+
+    }
+
+
+    //参数检验的方法
+    public static void init(UserRoleQuery userRoleQuery, String funcCode) throws Exception {
+
+        ParamVerifyUtil paramVerifyUtil = new ParamVerifyUtil();
+
+        Map<String, Object> dataMap = CltUtils.beanToMap(userRoleQuery);
+
+        if ("addUserRole".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "userId", "roleId");
+
+        } else if ("queryRoleByUserId".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "userId");
+
+        } else if ("F".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "funcCode");
+        } else if ("U1".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "userRoleId","userId","roleId");
+
+        }else if ("U2".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "roleId","userId","userIdDB");
+
+        }else if ("U3".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "roleId","userId","roleIdDB");
+
+        }else if ("deleteByUserIdAndRoleId".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "roleId", "userId");
+
+
+        }else if ("deleteUserRoleByUserRoleIds".equals(funcCode)) {
+            String[] ids = userRoleQuery.getUserRoleIds();
+
+
+            if (ids.length == 0) {
+                throw new GlobalException(ResultCode.INVALID_PARAM.code(), "要删除的个数不能为零");
+            }
+            for (int i = 0; i < ids.length; i++) {
+                String userRoleId = ids[i];
+                if ("".equals(userRoleId) || userRoleId == null) {
+                    throw new GlobalException(ResultCode.INVALID_PARAM.code(), "userRoleId不能为空");
+                }
+            }
+
+        }else if ("addUserRoles".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "roleId", "userId");
+        }
+
+        }
+
+}

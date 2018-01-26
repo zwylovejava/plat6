@@ -1,0 +1,467 @@
+package net.northking.cloudplatform.service.impl;
+
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.dao.base.BaseServiceImpl;
+import net.northking.cloudplatform.dao.user.CltRoleMapper;
+import net.northking.cloudplatform.dao.user.CltUserLoginMapper;
+import net.northking.cloudplatform.dao.user.CltUserMapper;
+import net.northking.cloudplatform.domain.user.*;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.query.user.UserAndLoginQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.service.UserRoleService;
+import net.northking.cloudplatform.service.UserService;
+import net.northking.cloudplatform.utils.BeanUtil;
+import net.northking.cloudplatform.utils.Md5Util;
+import net.northking.cloudplatform.utils.PageUtil;
+import net.northking.cloudplatform.utils.UUIDUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.Date;
+import java.util.List;
+
+/**
+ * Created by HBH on 2017/11/10.
+ */
+@Service
+public class UserServiceImpl  extends BaseServiceImpl<CltUserLogin, CltUserLoginExample, String> implements UserService {
+    //注入Mapper
+    @Autowired
+    private CltUserMapper cltUserMapper;
+    @Autowired
+    private CltUserLoginMapper cltUserLoginMapper;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+
+    private final static Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
+
+    //查询用户列表(查询除管理员之外的所有用户)
+    @Override
+    public Page<CltUserAndLogin> queryUserList(UserAndLoginQuery userAndLoginQuery) throws Exception {
+        try {
+            PageUtil.startPage(userAndLoginQuery);
+            List<CltUserAndLogin> users = cltUserLoginMapper.findAll(userAndLoginQuery);
+            return new Page<>(users);
+        } catch (Exception e) {
+            logger.error("queryUserList", e);
+            throw new GlobalException(ErrorConstants.QUERY_CLT_USER_LIST_ERROR_CODE, ErrorConstants.QUERY_CLT_USER_LIST_MESSAGE);
+        }
+
+
+    }
+
+    //查看用户的详细信息(包括用户的登录信息和用户的详细信息)
+    @Override
+    public CltUserAndLogin findUserById(String userId) throws Exception {
+
+        try {
+            CltUserAndLogin cltUserAndLogin = cltUserLoginMapper.findUserById(userId);
+            return cltUserAndLogin;
+        } catch (Exception e) {
+            logger.error("findUserById", e);
+            throw new GlobalException(ErrorConstants.QUWERY_CLT_USER_ONE_ERROR_CODE, ErrorConstants.QUERY_CLT_USER_ONE_ERROR_MESSAGE);
+        }
+
+
+    }
+
+    //------------------------------------------------
+    //添加新的用户
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public String saveUser(UserAndLoginQuery userAndLoginQuery) throws Exception {
+
+
+        //检验用户登录号(登录名)的唯一性
+
+          CltUserLogin login = cltUserLoginMapper.findUserByLoginNo(userAndLoginQuery.getLoginNo());
+
+        if (login != null) {
+
+            throw new GlobalException(ResultCode.INVALID_PARAM.code(), "用户名:" + userAndLoginQuery.getLoginNo() + "已存在，请修改");
+        }
+
+        try {
+
+            //1.添加用户的登录信息
+            CltUserLogin cltUserLogin = new CltUserLogin();
+
+            BeanUtil.copyProperties(userAndLoginQuery, cltUserLogin);
+
+            cltUserLogin.setUserId(UUIDUtil.getUUID());
+            //密码加密
+            cltUserLogin.setLoginPwd(passwordEncoder.encode("111111"));
+
+            cltUserLogin.setPwdStatus("1");
+
+            cltUserLogin.setUpdateDate(new Date());
+            /**1-未启用,2-启用,3-禁用*/
+            cltUserLogin.setStatus("1");
+            cltUserLoginMapper.insertSelective(cltUserLogin);
+            //-----------------------------------------
+
+            /**2.添加用户详细信息*/
+            CltUser user = new CltUser();
+            /**用户id*/
+            user.setUserId(cltUserLogin.getUserId());
+
+            BeanUtil.copyProperties(userAndLoginQuery, user);
+
+            user.setWorkStatus("1");
+
+            user.setCreateDate(new Date());
+
+
+            user.setUpdateDate(new Date());
+
+            cltUserMapper.insertSelective(user);
+
+            return  cltUserLogin.getUserId();
+
+        } catch (Exception e) {
+            logger.error("saveUser", e);
+            throw new GlobalException(ErrorConstants.ADD_CLT_USER_ERROR_CODE, ErrorConstants.ADD_CLT_USER_ERROR_MESSAGE);
+        }
+
+    }
+
+    //------------------------------------
+    //编辑用户信息
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer updateUser(UserAndLoginQuery userAndLoginQuery) throws Exception {
+
+        //返回的记录数
+        Integer updateCltUserNum = 0;
+
+        Integer updateCltUserLoginNum = 0;
+
+
+        try {
+            //更新用户详细表
+            CltUser cltUser=new CltUser();
+
+            BeanUtil.copyProperties(userAndLoginQuery,cltUser);
+
+            /**更新时间*/
+            cltUser.setUpdateDate(new Date());
+
+            updateCltUserNum = cltUserMapper.updateByPrimaryKeySelective(cltUser);
+
+            //--------------------------------------------------------------------------
+
+            //更新用户的登录表
+
+            CltUserLogin userLogin=new CltUserLogin();
+
+            BeanUtil.copyProperties(userAndLoginQuery,userLogin);
+            //更新时间
+            userLogin.setUpdateDate(new Date());
+
+            updateCltUserLoginNum=cltUserLoginMapper.updateByPrimaryKeySelective(userLogin);
+
+
+        } catch (Exception e) {
+            logger.error("updateUser", e);
+
+            throw new GlobalException(ErrorConstants.UPDATE_CLT_USER_ERROR_CODE, ErrorConstants.UPDATE_CLT_USER_ERROR_MESSAGE);
+
+        }
+        return updateCltUserNum+updateCltUserLoginNum;
+
+    }
+
+    //用户的启用/禁用功能
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer EnableDisableUser(CltUserLogin user) throws Exception {
+
+        Integer updateNum = 0;
+
+        try {
+
+            /**设置更新的时间*/
+            user.setUpdateDate(new Date());
+            updateNum = cltUserLoginMapper.updateByPrimaryKeySelective(user);
+
+        } catch (Exception e) {
+            logger.error("EnableDisableUser", e);
+            throw new GlobalException(ErrorConstants.ENABLE_DISABLE_CLT_USER_ERROR_CODE, ErrorConstants.ENABLE_DISABLE_CLT_USER_ERROR_MESSAGE);
+
+        }
+        return updateNum;
+
+    }
+
+
+    //根据用户的主键查询用户
+    @Override
+    public CltUser findCltUserById(String userId) {
+        return cltUserMapper.selectByPrimaryKey(userId);
+    }
+
+
+    //检查用户登录号的唯一性
+    @Override
+    public Boolean checkUserLoginNo(String loginNo) throws Exception {
+        try {
+            CltUserLogin userLogin = cltUserLoginMapper.findUserByLoginNo(loginNo);
+            if (userLogin == null) {
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            logger.error("checkUserLoginNo");
+            throw new GlobalException(ErrorConstants.CHECK_CLT_USER_LOGIN_BY_LOGINNO_ERROR_CODE, ErrorConstants.CHECK_CLT_USER_LOGIN_BY_LOGINNO_ERROR_MESSAGE);
+        }
+
+    }
+
+    //根据机构id查询用户列表
+    @Override
+    public Page<CltUserAndLogin> queryUserListByOrgId(UserAndLoginQuery userAndLoginQuery) throws Exception {
+
+
+        try {
+            PageUtil.startPage(userAndLoginQuery);
+            List<CltUserAndLogin> users = cltUserLoginMapper.findUserByOrgId(userAndLoginQuery);
+            return new Page<>(users);
+        } catch (Exception e) {
+            logger.error("findUserByOrgId", e);
+            throw new GlobalException(ErrorConstants.QUERY_CLT_USER_BY_ORGID_ERROR_CODE, ErrorConstants.QUERY_CLT_USER_BY_ORGID_ERROR_MESSAGE);
+        }
+
+    }
+
+
+    //批量删除用户
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public String deleteUsersBatch(UserAndLoginQuery userAndLoginQuery) throws Exception {
+
+        String[] userIds = userAndLoginQuery.getUserIds();
+
+        Integer count = 0;
+
+        String msg = "";
+
+        for (int i = 0; i < userIds.length; i++) {
+
+            String userId = userIds[i];
+            try{
+                //删除用户详细表
+                int deleteCltUserLoginCount = cltUserLoginMapper.deleteByPrimaryKey(userId);
+                //删除用户登录表
+                int deleteCltUserCount=cltUserMapper.deleteByPrimaryKey(userId);
+
+                int deleteCount=deleteCltUserLoginCount+deleteCltUserCount;
+
+                if (deleteCount == 0){
+                    msg += "id为"+userId+"的数据不存在";
+                }else{
+                    count++;
+                }
+
+            }catch (Exception e){
+                logger.error("deleteUsersBatch", e);
+                throw new GlobalException(ErrorConstants.DELETE_USER_BY_USERIDS_BATCH_ERROR_CODE, ErrorConstants.DELETE_USER_BY_USERIDS_BATCH_ERROR_MESSAGE);
+            }
+        }
+        msg = "删除的数据个数为"+count +"  "+ msg;
+        //返回拼接好的字符串
+        return msg;
+
+    }
+
+
+    //根据用户id批量修改机构id
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public String updateOrgIdByUserIds(UserAndLoginQuery userAndLoginQuery) throws Exception {
+
+        String[] ids = userAndLoginQuery.getUserIds();
+
+        String orgId=userAndLoginQuery.getOrgId();
+
+        Integer count = 0;
+
+        String msg = "";
+
+        try{
+            if(ids.length == 0){
+                throw new GlobalException(ResultCode.INVALID_PARAM.code() , "要修改的用户个数不能为零");
+            }
+
+            for (int i = 0; i < ids.length; i++) {
+                String userId = ids[i];
+
+                if ("".equals(userId) || userId==null){
+                    throw new GlobalException(ResultCode.INVALID_PARAM.code() , "用户id不能为空");
+                }
+
+
+                int updateCount=cltUserMapper.updateOrgIdByPrimaryKeySelective(userId,orgId);
+
+                //判断要修改的对象是否存在
+                if (updateCount == 0){
+                    msg += "id为"+userId+"的数据不存在";
+                }else{
+                    count++;
+                }
+            }
+            msg = "修改的数据个数为"+count +"  "+ msg;
+            //返回拼接好的字符串
+            return msg;
+
+        }catch(Exception e){
+            logger.error("updateOrgIdByUserIds", e);
+            throw new GlobalException(ErrorConstants.UPDATE_ORGID_BY_USERID_ERROR_CODE, ErrorConstants.UPDATE_ORGID_BY_USERID_ERROR_MESSAGE);
+
+        }
+
+
+    }
+
+
+
+    //根据角色代码查询用户列表
+    @Override
+    public Page<CltUserAndLogin> queryUserListByRoleCode(UserAndLoginQuery userAndLoginQuery) throws Exception {
+        try {
+            PageUtil.startPage(userAndLoginQuery);
+            List<CltUserAndLogin> users = cltUserLoginMapper.queryUserListByRoleCode(userAndLoginQuery);
+            return new Page<>(users);
+        } catch (Exception e) {
+            logger.error("queryUserListByRoleCode", e);
+            throw new GlobalException(ErrorConstants.QUERY_CLT_USER_LIST_ERROR_CODE, ErrorConstants.QUERY_CLT_USER_LIST_MESSAGE);
+        }
+    }
+
+
+    //根据用户类型查询用户列表
+    @Override
+    public Page<CltUserAndLogin> queryUserListByUserType(UserAndLoginQuery userAndLoginQuery) throws Exception {
+        try {
+            PageUtil.startPage(userAndLoginQuery);
+            List<CltUserAndLogin> users = cltUserLoginMapper.queryUserListByUserType(userAndLoginQuery);
+            return new Page<>(users);
+        } catch (Exception e) {
+            logger.error("queryUserListByUserType", e);
+            throw new GlobalException(ErrorConstants.QUERY_CLT_USER_LIST_ERROR_CODE, ErrorConstants.QUERY_CLT_USER_LIST_MESSAGE);
+        }
+    }
+
+
+
+
+    //根据登录号修改用户登录表信息
+    @Override
+    public Integer updateCltUserLoginByLoginNo(UserAndLoginQuery userAndLoginQuery) throws Exception {
+
+        Integer updateNum=0;
+
+        try{
+            CltUserLogin cltUserLogin=new CltUserLogin();
+
+            cltUserLogin.setUpdateDate(new Date());
+
+            BeanUtil.copyProperties(userAndLoginQuery,cltUserLogin);
+
+            updateNum=cltUserLoginMapper.updateUserLoginByLoginNo(cltUserLogin);
+
+            return updateNum;
+
+        }catch (Exception e){
+
+            logger.error("updateCltUserLoginByLoginNo", e);
+
+            throw new GlobalException(ErrorConstants.UPDATE_CLT_USER_LOGIN_BY_LOGINNO_ERROR_CODE, ErrorConstants.UPDATE_CLT_USER_LOGIN_BY_LOGINNO_ERROR_MESSAGE);
+
+        }
+
+    }
+
+
+    //根据登录号查询用户登录信息
+    @Override
+    public CltUserLogin queryCltUserLoginByLoginNo(UserAndLoginQuery userAndLoginQuery) throws Exception {
+        try {
+
+            CltUserLogin cltUserLogin = cltUserLoginMapper.queryCltUserLoginByLoginNo(userAndLoginQuery.getLoginNo());
+
+            return cltUserLogin;
+
+        } catch (Exception e) {
+            logger.error("queryCltUserLoginByLoginNo", e);
+            throw new GlobalException(ErrorConstants.QUERY_CLT_USER_LOGIN_BY_LOGINNO_ERROR_CODE, ErrorConstants.QUERY_CLT_USER_LOGIN_BY_LOGINNO_ERROR_MESSAGE);
+        }
+    }
+
+    //--------------------------------------------------------------
+    //用户登录
+    @Override
+    public CltUserLogin login(String username, String pwd) {
+        String password = Md5Util.getMd5(pwd);
+        CltUserLogin user = cltUserLoginMapper.findUserByPd(username,password);
+        if(user==null){
+            throw new GlobalException(ResultCode.INVALID_PARAM.code(),"用户名或密码错误");
+        }
+        return user;
+    }
+    //根据用户id去修改密码
+    @Override
+
+    public void updatePassword(String userId, String newpwd) {
+        CltUserLogin userLogin = new CltUserLogin();
+        userLogin.setUserId(userId);
+        userLogin.setLoginPwd(passwordEncoder.encode(newpwd));
+        userLogin.setUpdateDate(new Date());
+        Integer num =cltUserLoginMapper.updatePassword(userLogin);
+        if(num==null){
+            throw new GlobalException(ResultCode.INVALID_PARAM.code(),"密码修改失败");
+        }
+    }
+
+    @Override
+    public void resetPassword(String loginName,String email, String chnName) {
+        //根据这3项查出用户ID
+        try {
+            String userId1 = cltUserLoginMapper.selectUserIdByName(loginName,chnName);
+            String userId2 = cltUserMapper.selectUserByEmail(email);
+            //根据用户id去重置密码
+            if(userId1==null || userId2==null){
+                throw new GlobalException(ResultCode.INVALID_PARAM.code(),"重置密码失败");
+            }
+            if(userId1.equals(userId2)){
+                CltUserLogin userLogin = new CltUserLogin();
+                userLogin.setUserId(userId1);
+                userLogin.setLoginPwd(passwordEncoder.encode("111111"));
+                userLogin.setUpdateDate(new Date());
+                cltUserLoginMapper.updatePassword(userLogin);
+            }else {
+                throw new GlobalException(ResultCode.INVALID_PARAM.code(),"重置密码失败");
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+            throw new GlobalException(ResultCode.INVALID_PARAM.code(),"重置密码失败");
+        }
+    }
+
+
+    //用户列表分页查询
+    @Override
+    public CltUserLogin findOneWithRolesByLoginNo(String loginNo)throws Exception {
+        return cltUserLoginMapper.findUserByLoginNo(loginNo);
+    }
+}

@@ -1,0 +1,15 @@
+package net.northking.cloudplatform;
+
+/**
+ * create by zwy on 2017/12/18
+ */
+public class Constants {
+
+
+    public static int maxConnection;
+
+    public static int socketPort;
+
+    public static String address;
+
+}

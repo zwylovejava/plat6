@@ -1,0 +1,64 @@
+package net.northking.cloudplatform.service;
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.domain.dictionary.CltDictionaryItem;
+import net.northking.cloudplatform.domain.dictionary.CltDictionaryType;
+import net.northking.cloudplatform.query.dictionary.DictionaryItemQuery;
+import net.northking.cloudplatform.query.dictionary.DictionaryTypeQuery;
+
+import java.util.List;
+
+/**
+ * @Title:
+ * @Description: 字典数据业务逻辑层
+ * @Company: Northking
+ * @Author: HBH
+ * @CreateDate: 2017-12-12 15:42
+ * @UpdateUser:
+ * @Version:0.1
+ */
+public interface DictionaryService {
+
+
+    //添加字典类型表
+    Integer addDictionaryType(DictionaryTypeQuery dictionaryTypeQuery)throws Exception;
+
+    //添加字典明细表
+    Integer addDictionaryItem(DictionaryItemQuery dictionaryItemQuery)throws Exception;
+
+    //删除字典类型表
+    Integer deleteDictionaryType(DictionaryTypeQuery dictionaryTypeQuery)throws Exception;
+
+    //删除字典明细表
+    Integer deleteDictionaryItem(DictionaryItemQuery dictionaryItemQuery)throws Exception;
+
+    //修改字典类型表
+    Integer updateDictionaryType(DictionaryTypeQuery dictionaryTypeQuery)throws Exception;
+
+    //修改字典明细表
+    Integer updateDictionaryItem(DictionaryItemQuery dictionaryItemQuery)throws Exception;
+
+    //根据类型id查询字典明细表
+    List<CltDictionaryItem> queryCltDictionaryItemsByTypeId(DictionaryItemQuery dictionaryItemQuery)throws Exception;
+
+
+    //查询所有的数据类型
+    Page<CltDictionaryType> queryDictionaryTypeList(DictionaryTypeQuery dictionaryTypeQuery)throws Exception;
+
+    //批量删除数据类型
+    Integer deleteDictionaryTypeBatch(DictionaryTypeQuery dictionaryTypeQuery)throws Exception;
+
+    //批量删除数据明细表
+    Integer deleteDictionaryItemBatch(DictionaryItemQuery dictionaryItemQuery)throws Exception;
+
+     //启用禁用
+    Integer disEnableDictionary(DictionaryTypeQuery dictionaryTypeQuery)throws Exception;
+
+    //调整字典明细顺序
+    Integer  updateDictionaryItemOrderSeq(List<DictionaryItemQuery> dictionaryItemQueries)throws Exception;
+
+    //根据typeCode查询明细表
+    List<CltDictionaryItem> queryCltDictionaryItemByTypeCode(DictionaryItemQuery dictionaryItemQuery);
+
+
+}

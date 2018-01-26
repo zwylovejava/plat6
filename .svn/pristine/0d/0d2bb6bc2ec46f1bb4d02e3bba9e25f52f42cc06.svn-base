@@ -1,0 +1,346 @@
+package net.northking.cloudplatform.controller.dictionary;
+
+import com.codingapi.tx.annotation.TxTransaction;
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.domain.dictionary.CltDictionaryItem;
+import net.northking.cloudplatform.domain.dictionary.CltDictionaryType;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.query.dictionary.DictionaryItemQuery;
+import net.northking.cloudplatform.query.dictionary.DictionaryTypeQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.dictionary.DictionaryService;
+import net.northking.cloudplatform.utils.CltUtils;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+
+/**
+ * @Title:
+ * @Description: 数据字典web层控制类
+ * @Company: Northking
+ * @Author: HBH
+ * @CreateDate: 2017-12-13 14:16
+ * @UpdateUser:
+ * @Version:0.1
+ */
+
+@RestController
+public class DictionaryController {
+
+    //日志
+    private final static Logger logger = LoggerFactory.getLogger(DictionaryController.class);
+
+   //注入service
+    @Autowired
+    private DictionaryService dictionaryService;
+
+
+    //添加字典类型
+    @TxTransaction
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping(value = "/addDictionaryTypeInfo")
+    public ResultInfo<Integer> addDictionaryTypeInfo(@RequestBody @Validated DictionaryTypeQuery dictionaryTypeQuery)throws Exception{
+
+        CltUtils.printStartInfo(dictionaryTypeQuery, "Controller addDictionaryTypeInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        //调用微服务接口
+        ResultInfo<Integer> result  = dictionaryService.addDictionaryType(dictionaryTypeQuery);
+
+        CltUtils.printEndInfo(result, " Controller addDictionaryTypeInfo", startTime);
+
+        return  result;
+
+    }
+
+
+    //添加字典明细
+    @TxTransaction
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping(value = "/addDictionaryItemInfo")
+    public ResultInfo<Integer> addDictionaryItemInfo(@RequestBody @Validated DictionaryItemQuery dictionaryItemQuery)throws Exception{
+
+        CltUtils.printStartInfo(dictionaryItemQuery, "Controller addDictionaryItemInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        //调用微服务接口
+        ResultInfo<Integer> result  = dictionaryService.addDictionaryItem(dictionaryItemQuery);
+
+        CltUtils.printEndInfo(result, " Controller addDictionaryItemInfo", startTime);
+
+        return  result;
+
+    }
+
+
+    //删除字典类型
+    @TxTransaction
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping(value = "/deleteDictionaryTypeInfo")
+    public ResultInfo<Integer> deleteDictionaryType(@RequestBody  DictionaryTypeQuery dictionaryTypeQuery)throws Exception{
+
+        CltUtils.printStartInfo(dictionaryTypeQuery, "Controller deleteDictionaryTypeInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        //调用微服务接口
+        ResultInfo<Integer> result  = dictionaryService.deleteDictionaryType(dictionaryTypeQuery);
+
+        CltUtils.printEndInfo(result, " Controller deleteDictionaryTypeInfo", startTime);
+
+        return  result;
+
+    }
+
+
+
+    //删除字典明细
+    @TxTransaction
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping(value = "/deleteDictionaryItemInfo")
+    public ResultInfo<Integer> deleteDictionaryItemInfo(@RequestBody  DictionaryItemQuery dictionaryItemQuery)throws Exception{
+
+        CltUtils.printStartInfo(dictionaryItemQuery, "Controller deleteDictionaryItemInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        //调用微服务接口
+        ResultInfo<Integer> result  = dictionaryService.deleteDictionaryItem(dictionaryItemQuery);
+
+        CltUtils.printEndInfo(result, " Controller deleteDictionaryItemInfo", startTime);
+
+        return  result;
+
+    }
+
+
+
+    //修改字典类型
+    @TxTransaction
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping(value = "/updateDictionaryTypeInfo")
+    public ResultInfo<Integer> updateDictionaryTypeInfo(@RequestBody @Validated DictionaryTypeQuery dictionaryTypeQuery)throws Exception{
+
+        CltUtils.printStartInfo(dictionaryTypeQuery, "Controller updateDictionaryTypeInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        String typeId=dictionaryTypeQuery.getTypeId();
+
+        if(StringUtils.isEmpty(typeId)){
+
+            throw  new GlobalException(ResultCode.INVALID_PARAM.code(),"typeId为空");
+
+        }
+        //调用微服务接口
+        ResultInfo<Integer> result  = dictionaryService.updateDictionaryType(dictionaryTypeQuery);
+
+        CltUtils.printEndInfo(result, " Controller updateDictionaryTypeInfo", startTime);
+
+        return  result;
+
+    }
+
+
+    //修改字典明细
+    @TxTransaction
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping(value = "/updateDictionaryItemInfo")
+    public ResultInfo<Integer> updateDictionaryItemInfo(@RequestBody @Validated DictionaryItemQuery dictionaryItemQuery)throws Exception{
+
+        CltUtils.printStartInfo(dictionaryItemQuery, "Controller updateDictionaryItemInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        String itemId=dictionaryItemQuery.getItemId();
+
+        if(StringUtils.isEmpty(itemId)){
+
+            throw  new GlobalException(ResultCode.INVALID_PARAM.code(),"itemId为空");
+
+        }
+        //调用微服务接口
+        ResultInfo<Integer> result  = dictionaryService.updateDictionaryItem(dictionaryItemQuery);
+
+        CltUtils.printEndInfo(result, " Controller updateDictionaryItemInfo", startTime);
+
+        return  result;
+
+    }
+
+
+    //查询字典类型列表
+    @PostMapping("/pageCltDictionaryTypeInfo")
+    public  ResultInfo<Page<CltDictionaryType>>  pageCltDictionaryTypeInfo(@RequestBody DictionaryTypeQuery dictionaryTypeQuery) throws Exception {
+
+        CltUtils.printStartInfo(dictionaryTypeQuery, "Controller pageCltDictionaryTypeInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        //调用微服务controller接口
+        ResultInfo<Page<CltDictionaryType>>  result  = dictionaryService.queryDictionaryTypeList(dictionaryTypeQuery);
+
+        CltUtils.printEndInfo(result, "Controller pageCltDictionaryTypeInfo", startTime);
+
+        return  result;
+
+    }
+
+    //根据typeId查询字典明细列表
+    @PostMapping("/queryCltDictionaryItemsByTypeId")
+    public  ResultInfo<List<CltDictionaryItem>>  queryCltDictionaryItemsByTypeId(@RequestBody DictionaryItemQuery dictionaryItemQuery) throws Exception {
+
+        CltUtils.printStartInfo(dictionaryItemQuery, "Controller queryCltDictionaryItemsByTypeId");
+
+        long startTime = System.currentTimeMillis();
+
+        //调用微服务controller接口
+        ResultInfo<List<CltDictionaryItem>>   result  = dictionaryService.queryCltDictionaryItemsByTypeId(dictionaryItemQuery);
+
+        CltUtils.printEndInfo(result, "Controller queryCltDictionaryItemsByTypeId", startTime);
+
+        return  result;
+
+    }
+
+    //批量删除字典类型表
+    @TxTransaction
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping(value = "/deleteCltDictionaryTypeBatch")
+    public ResultInfo<Integer> deleteCltDictionaryTypeBatch(@RequestBody  DictionaryTypeQuery dictionaryTypeQuery)throws Exception{
+
+        CltUtils.printStartInfo(dictionaryTypeQuery, "Controller deleteCltDictionaryTypeBatch");
+
+        long startTime = System.currentTimeMillis();
+        //参数校验
+        String[] typeIds=dictionaryTypeQuery.getTypeIds();
+
+        if(typeIds.length==0){
+            throw new GlobalException(ResultCode.INVALID_PARAM.code(),"要删除的个数不能为0");
+        }
+
+        for (int i = 0; i < typeIds.length; i++) {
+            String typeId = typeIds[i];
+
+            if(StringUtils.isEmpty(typeId)){
+                throw new GlobalException(ResultCode.INVALID_PARAM.code(),"typeId为空!");
+
+            }
+        }
+
+        //调用微服务接口
+        ResultInfo<Integer> result  = dictionaryService.deleteCltDictionaryTypeBatch(dictionaryTypeQuery);
+
+        CltUtils.printEndInfo(result, " Controller deleteCltDictionaryTypeBatch", startTime);
+
+        return  result;
+
+    }
+
+    //批量删除字典明细表
+    @TxTransaction
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping(value = "/deleteDictionaryItemBatch")
+    public ResultInfo<Integer> deleteDictionaryItemBatch(@RequestBody  DictionaryItemQuery dictionaryItemQuery)throws Exception{
+
+        CltUtils.printStartInfo(dictionaryItemQuery, "Controller deleteDictionaryItemBatch");
+
+        long startTime = System.currentTimeMillis();
+        //参数校验
+        String[] itemIds=dictionaryItemQuery.getItemIds();
+
+        if(itemIds.length==0){
+            throw new GlobalException(ResultCode.INVALID_PARAM.code(),"要删除的个数不能为0");
+        }
+
+        for (int i = 0; i < itemIds.length; i++) {
+            String itemId = itemIds[i];
+
+            if(StringUtils.isEmpty(itemId)){
+                throw new GlobalException(ResultCode.INVALID_PARAM.code(),"itemId为空!");
+
+            }
+        }
+
+        //调用微服务接口
+        ResultInfo<Integer> result  = dictionaryService.deleteDictionaryItemBatch(dictionaryItemQuery);
+
+        CltUtils.printEndInfo(result, " Controller deleteDictionaryItemBatch", startTime);
+
+        return  result;
+
+    }
+
+    //启用/禁用
+    @TxTransaction
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping(value = "/disEnableDictionary")
+    public ResultInfo<Integer> disEnableDictionary(@RequestBody  DictionaryTypeQuery dictionaryTypeQuery)throws Exception{
+
+        CltUtils.printStartInfo(dictionaryTypeQuery, "Controller disEnableDictionary");
+
+        long startTime = System.currentTimeMillis();
+        //参数校验
+        String typeId=dictionaryTypeQuery.getTypeId();
+
+        String status=dictionaryTypeQuery.getStatus();
+
+        if(StringUtils.isEmpty(typeId)){
+
+            throw  new GlobalException(ResultCode.INVALID_PARAM.code(),"typeId不能为空");
+
+        }
+        if("".equals(status) || status==null || !status.matches("[12]")){
+
+            throw new GlobalException(ErrorConstants.DISENABLE_CLT_DICTIONARY_PARAM_ERROR_CODE,ErrorConstants.DISENABLE_CLT_DICTIONARY_PARAM_ERROR_MESSAGE);
+        }
+
+
+        //调用微服务接口
+        ResultInfo<Integer> result  = dictionaryService.disEnableDictionary(dictionaryTypeQuery);
+
+        CltUtils.printEndInfo(result, " Controller disEnableDictionary", startTime);
+
+        return  result;
+
+    }
+
+    //批量修改数据字典序号
+    @TxTransaction
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping(value = "/updateDictionarysByOrderSeq")
+    public ResultInfo<Integer> updateDictionarysByOrderSeq(@RequestBody List<DictionaryItemQuery> dictionaryItemQueries)throws Exception{
+
+        CltUtils.printStartInfo(dictionaryItemQueries, "Controller updateDictionarysByOrderSeq");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer>   result  = new ResultInfo<Integer>();
+
+        //调用微服务controller接口
+        result  = dictionaryService.updateDictionarysByOrderSeq(dictionaryItemQueries);
+
+        //logger.debug("Controller queryCltDictionaryItemsByTypeId"+result);
+        CltUtils.printEndInfo(result, " Controller updateDictionarysByOrderSeq", startTime);
+
+        return  result;
+    }
+
+
+
+
+}

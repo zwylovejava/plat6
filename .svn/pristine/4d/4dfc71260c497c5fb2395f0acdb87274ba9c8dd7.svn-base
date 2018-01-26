@@ -1,0 +1,777 @@
+package net.northking.cloudplatform.service.impl;
+
+
+import net.northking.cloudplatform.constants.CommonConstants;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.dao.base.BaseServiceImpl;
+import net.northking.cloudplatform.dao.project.CltProjectMapper;
+import net.northking.cloudplatform.dao.user.CltFuncMapper;
+import net.northking.cloudplatform.dao.user.CltProjectTeamMapper;
+import net.northking.cloudplatform.dao.user.CltUserLoginMapper;
+import net.northking.cloudplatform.domain.project.CltProject;
+import net.northking.cloudplatform.domain.project.CltProjectExample;
+import net.northking.cloudplatform.domain.project.CltProjectUserInfo;
+import net.northking.cloudplatform.domain.user.CltFunc;
+import net.northking.cloudplatform.domain.user.CltProjectTeam;
+import net.northking.cloudplatform.domain.user.CltRole;
+import net.northking.cloudplatform.domain.user.CltUserAndLogin;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.feign.user.RoleFeignClient;
+import net.northking.cloudplatform.feign.user.UserRoleFeignClient;
+import net.northking.cloudplatform.query.project.CltProjectTeamQuery;
+import net.northking.cloudplatform.query.project.ProjectQuery;
+import net.northking.cloudplatform.query.user.RoleQuery;
+import net.northking.cloudplatform.query.user.UserRoleQuery;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.ProjecTeamtService;
+import net.northking.cloudplatform.service.ProjectService;
+import net.northking.cloudplatform.utils.BeanUtil;
+import net.northking.cloudplatform.utils.CltUtils;
+import net.northking.cloudplatform.utils.UUIDUtil;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.security.Principal;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @Title:
+ * @Description: 项目管理service实现类
+ * @Company: Northking
+ * @Author: HBH
+ * @CreateDate: 2017-11-28 10:46
+ * @UpdateUser:
+ * @Version:0.1
+ */
+
+@Service
+public class ProjectServiceImpl extends BaseServiceImpl<CltProject, CltProjectExample, String> implements ProjectService {
+
+
+    //注入ProjectMapper
+    @Autowired
+    private CltProjectMapper cltProjectMapper;
+
+    //注入CltFuncMapper
+    @Autowired
+    private CltFuncMapper cltFuncMapper;
+
+    //注入CltProjectTeamMapper
+
+    @Autowired
+    private CltProjectTeamMapper cltProjectTeamMapper;
+
+
+    @Autowired
+    private RoleFeignClient roleFeignClient;
+
+    @Autowired
+    private UserRoleFeignClient userRoleFeignClient;
+
+    @Autowired
+    private ProjecTeamtService projecTeamtService;
+
+
+    //注入用户登录mapper
+    @Autowired
+    private CltUserLoginMapper cltUserLoginMapper;
+
+
+    //日志
+    private final static Logger logger = LoggerFactory.getLogger(ProjectServiceImpl.class);
+
+
+    /**
+     * 项目列表权限控制
+     *
+     * @param
+     * @return
+     * @throws Exception
+     * @Override
+     */
+    public List<CltProject> CltProjectListInfo(Principal user) {
+
+        List<CltProject> list = new ArrayList<>();
+
+        try {
+
+        } catch (Exception e) {
+            throw new GlobalException(ErrorConstants.SELECT_CLT_PROJECT_FUNC_CODE, ErrorConstants.SELECT_CLT_PROJECT_FUNC_MESSAGE);
+        }
+        return list;
+    }
+
+    @Override
+    public List<CltProject> CltProjectListInfo() {
+        return null;
+    }
+
+    /**
+     * // 根据项目ID查询项目详情
+     *
+     * @param
+     * @return
+     */
+    @Override
+    public CltProject queryProjectInfoByProId(CltProject cltProject) {
+
+        try {
+            String testManager="";
+            //查询项目详情
+            cltProject = cltProjectMapper.selectByPrimaryKey(cltProject.getProId());
+            if(cltProject!=null){
+                testManager  = cltProject.getTestManager();
+
+            }
+
+            //根据testManager查询出对应的用户
+            if (testManager != null || !"".equals(testManager)) {
+
+                CltUserAndLogin cltUserAndLogin = cltUserLoginMapper.findUserById(testManager);
+
+                cltProject.setCltUserAndLogin(cltUserAndLogin);
+            }
+
+
+        } catch (Exception e) {
+            logger.error("<<<<",e);
+            throw new GlobalException(ErrorConstants.QUERY_CLT_PROJECT_ONE_ERROR_CODE, ErrorConstants.QUERY_CLT_PROJECT_ONE_MESSAGE);
+        }
+
+        return cltProject;
+
+    }
+
+    /**
+     * 查询项目下用户的功能菜单
+     *
+     * @param paramDataMap
+     * @return
+     */
+    @Override
+    public List<CltFunc> getFuncListByAdminRoleId(Map<String, Object> paramDataMap) {
+
+        List<CltFunc> funcList = new ArrayList<CltFunc>();
+
+        try {
+
+            funcList = cltFuncMapper.queryFuncListByAdminRoleId((String) paramDataMap.get("roleId"));
+
+        } catch (Exception e) {
+
+            logger.error("getFuncListByAdminRoleId", e);
+
+            throw new GlobalException(ErrorConstants.QUERY_USER_FUNC_BY_USERID_AND_PROID_ERROR_CODE,
+                    ErrorConstants.QUERY_USER_FUNC_BY_USERID_AND_PROID_ERROR_MESSAGE);
+        }
+
+        return funcList;
+    }
+
+    //根据项目ID  用户ID查询出项目空间左侧菜单列表
+    public List<CltFunc> getFuncListByProIdAndUserId(Map<String, Object> paramDataMap) {
+
+        List<CltFunc> funcList = new ArrayList<CltFunc>();
+
+        String proId = (String) paramDataMap.get("proId");
+
+        String userId = (String) paramDataMap.get("userId");
+
+        //参数判空
+        if (proId == null || "".equals(proId)) {
+            throw new GlobalException(ErrorConstants.PROID_PARAM_NOTNULL_ERROR_CODE, ErrorConstants.PROID_PARAM_NOTNULL_ERROR_MESSAGE);
+        }
+        if (userId == null || "".equals(userId)) {
+            throw new GlobalException(ErrorConstants.USEID_PARAM_NOTNULL_ERROR_CODEUSER_ID_USER_ONE_ERROR_CODE,
+                    ErrorConstants.USEID_PARAM_NOTNULL_ERROR_CODEUSER_ID_USER_ONE_ERROR_MESSAGE);
+        }
+
+        funcList = cltFuncMapper.queryFuncListByProIdAndUserId(userId, proId);
+
+        return funcList;
+    }
+
+
+    //添加项目
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer saveProject(ProjectQuery projectQuery) throws Exception {
+
+        //返回记录数
+        Integer saveProjectNum = 0;
+
+        try {
+            CltProject cltProject = new CltProject();
+
+            BeanUtil.copyProperties(projectQuery, cltProject);
+
+            String proId=projectQuery.getProId();
+
+            if(StringUtils.isEmpty(proId)){
+               proId = UUIDUtil.getUUID();
+            }
+            //设置id
+            cltProject.setProId(proId);
+
+            projectQuery.setProId(proId);
+
+            //创建时间
+            cltProject.setCreateDate(new Date());
+
+            //默认状态:1_启用;2_禁用
+            cltProject.setStatus("1");
+            //存进数据库
+            saveProjectNum = cltProjectMapper.insertSelective(cltProject);
+
+            return  saveProjectNum;
+
+        } catch (Exception e) {
+            logger.error("saveProject", e);
+            throw new GlobalException(ErrorConstants.ADD_CLT_PROJECT_ERROR_CODE, ErrorConstants.ADD_CLT_PROJECT_ERROR_MESSAGE);
+        }
+
+    }
+
+
+    //查询项目列表  查询全部(只能查询该客户下的所有的项目)
+    @Override
+    public List<CltProject> findAllProject(String custId) throws Exception {
+
+        List<CltProject> projectList = new ArrayList<CltProject>();
+
+        try {
+
+            projectList = cltProjectMapper.queryAllProject(custId);
+
+        } catch (Exception e) {
+
+            logger.error("findAllProject", e);
+
+            throw new GlobalException(ErrorConstants.QUERY_CLT_PROJECT_LIST_ERROR_CODE, ErrorConstants.QUERY_CLT_PROJECT_LIST_MESSAGE);
+        }
+
+        return projectList;
+    }
+
+
+    //编辑项目信息
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer updateCltProject(ProjectQuery projectQuery)throws  Exception {
+
+        Integer updateProjectNum = 0;
+
+        //第一步先更新项目表
+        CltProject cltProject = new CltProject();
+
+        BeanUtil.copyProperties(projectQuery, cltProject);
+
+        //根据proId查询出项目信息（测试经理）
+        CltProject projectDB = cltProjectMapper.queryCltProject(cltProject.getProId());
+
+        if(projectDB!=null){
+            String testManagerUI = projectQuery.getTestManager();//前端传过来的testManager
+            String testManagerDB = projectDB.getTestManager();//DB的testManager
+
+            //修改项目信息
+            try {
+
+                //更新时间
+                cltProject.setUpdateDate(new Date());
+
+                updateProjectNum = cltProjectMapper.updateByPrimaryKeySelective(cltProject);
+
+            } catch (Exception e) {
+
+                logger.error("updateCltProject", e);
+
+                throw new GlobalException(ErrorConstants.UPDATE_CLT_PROJECT_ERROR_CODE, ErrorConstants.UPDATE_CLT_PROJECT_ERROR_MESSAGE);
+            }
+
+            if(updateProjectNum==1){
+
+                //testManagerUI与testManagerDB不一致
+                if (!testManagerUI.equals(testManagerDB)) {
+                    //1.testManagerDB为空,testManagerUI不为空
+                    if (StringUtils.isEmpty(testManagerDB) && StringUtils.isNotEmpty(testManagerUI)) {
+                        //新增用户角色,新增团队
+                        Integer addTeamAndUserRole = addTeamAndUserRole(projectQuery);
+                        return updateProjectNum + addTeamAndUserRole;
+                    }
+
+                    //2.testManagerDB不为空
+                    if (StringUtils.isNotEmpty(testManagerDB)) {
+                        ResultInfo<CltRole> resultRole = queryByRoleCode();
+                        if (resultRole != null && "CLT000000000".equals(resultRole.getResultCode())) {
+                            String roleId = resultRole.getResultData().getRoleId();
+                            //根据testManagerDB和角色ID查询是否为多个项目指定同一个项目经理
+                            Integer proCountDB = cltProjectTeamMapper.countByRoleIdAndUserId(roleId, testManagerDB);
+
+                            logger.info("\n\n\nproCountDB;"+proCountDB);
+                            //(1)如果proCount>1==>测试经理对应多个项目
+                            if (proCountDB > 1) {
+                                //1).如果testManagerUI为空的情况
+                                if (StringUtils.isEmpty(testManagerUI)) {
+                                    //不处理用户角色表,删除团队表
+                                    Integer deleteTeamNum = deleteTeam(testManagerDB, cltProject.getProId());
+                                    return deleteTeamNum + updateProjectNum;
+
+                                }
+                                //2).如果testManagerUI不为空的情况
+                                if (StringUtils.isNotEmpty(testManagerUI)) {
+                                    //根据testManagerUI和角色ID查询是否为多个项目指定同一个项目经理
+                                    Integer proCountUI = cltProjectTeamMapper.countByRoleIdAndUserId(roleId, testManagerUI);
+                                    //a.如果为0;==>没有关联过用户角色,
+                                    if (proCountUI == 0) {
+                                        //添加用户角色
+                                        UserRoleQuery userRoleQuery = new UserRoleQuery();
+                                        userRoleQuery.setRoleId(resultRole.getResultData().getRoleId());
+                                        userRoleQuery.setUserId(testManagerUI);
+                                        ResultInfo<String> resultUserRole = userRoleFeignClient.addUserRole(userRoleQuery);
+                                        if (resultUserRole != null && "CLT000000000".equals(resultUserRole.getResultCode())) {
+                                            //修改团队表
+                                            Integer updateTeamNum = updateTeam(projectQuery, testManagerUI, testManagerDB);
+
+                                            return updateTeamNum + updateProjectNum + 1;
+
+                                        } else {
+                                            throw new GlobalException(resultUserRole.getResultCode(), resultUserRole.getResultMsg());
+                                        }
+
+
+                                    } else {
+                                        //修改团队表
+                                        Integer updateTeamNum = updateTeam(projectQuery, testManagerUI, testManagerDB);
+                                        return updateProjectNum + updateTeamNum;
+                                    }
+
+
+                                }
+
+
+                            } else {
+                                // (2)如果proCount等于1或者等于0的情况==>测试经理对应一个项目
+                                //1).如果testManagerUI为空的情况
+                                if (StringUtils.isEmpty(testManagerUI)) {
+                                    //删除用户角色
+                                    ResultInfo<Integer> resultDeleteUserRole = deleteUserRole(testManagerDB);
+
+                                    if (resultDeleteUserRole != null && "CLT000000000".equals(resultDeleteUserRole.getResultCode())) {
+                                        //删除团队
+                                        Integer deleteTeamNum = deleteTeam(testManagerDB, cltProject.getProId());
+
+                                        if (deleteTeamNum==1) {
+                                            return deleteTeamNum + updateProjectNum + 1;
+                                        }
+
+                                    } else {
+                                        throw new GlobalException(resultDeleteUserRole.getResultCode(), resultDeleteUserRole.getResultMsg());
+
+                                    }
+
+
+                                }
+                                //2)如果testManagerUI不为空的情况
+                                //根据testManagerUI和角色ID查询是否为多个项目指定同一个项目经理
+                                Integer proCountUI = cltProjectTeamMapper.countByRoleIdAndUserId(roleId, testManagerUI);
+                                //a.如果为0==>该用户没有关联过角色;
+                                if (proCountUI == 0) {
+                                    //删除原来的用户角色,再添加
+                                    ResultInfo<Integer> deleteUserRole = deleteUserRole(testManagerDB);
+                                    if (deleteUserRole != null && "CLT000000000".equals(deleteUserRole.getResultCode())) {
+                                        //删除成功再添加用户角色
+                                        UserRoleQuery userRoleQuery = new UserRoleQuery();
+                                        userRoleQuery.setRoleId(resultRole.getResultData().getRoleId());
+                                        userRoleQuery.setUserId(testManagerUI);
+                                        ResultInfo<String> resultUserRole = userRoleFeignClient.addUserRole(userRoleQuery);
+                                        if (resultUserRole != null && "CLT000000000".equals(resultUserRole.getResultCode())) {
+                                            //修改团队表
+                                            Integer updateTeamNum = updateTeam(projectQuery, testManagerUI, testManagerDB);
+                                            return updateTeamNum + deleteUserRole.getResultData() + 1;
+                                        } else {
+                                            throw new GlobalException(resultUserRole.getResultCode(), resultUserRole.getResultMsg());
+                                        }
+
+
+                                    } else {
+                                        throw new GlobalException(deleteUserRole.getResultCode(), deleteUserRole.getResultMsg());
+                                    }
+
+
+                                } else {
+                                    //删除用户角色关系(testManagerDB)
+                                    ResultInfo<Integer> resultDeleteUserRole = deleteUserRole(testManagerDB);
+
+                                    if (resultDeleteUserRole != null && "CLT000000000".equals(resultDeleteUserRole.getResultCode())) {
+
+                                        //修改团队表
+                                        Integer updateTeamNum = updateTeam(projectQuery, testManagerUI, testManagerDB);
+                                        return updateProjectNum + updateProjectNum + resultDeleteUserRole.getResultData();
+
+                                    } else {
+                                        throw new GlobalException(resultDeleteUserRole.getResultCode(), resultDeleteUserRole.getResultMsg());
+                                    }
+
+
+                                }
+
+
+                            }
+
+
+                        } else {
+                            throw new GlobalException(resultRole.getResultCode(), resultRole.getResultMsg());
+                        }
+                    }
+
+
+                }
+            }
+        }
+
+        return updateProjectNum;
+    }
+
+
+    //启用和禁用
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer disEnableproject(CltProject cltProject) throws Exception {
+
+        Integer disEnableprojectNum = 0;
+
+        try {
+            //设置更新的时间
+            cltProject.setUpdateDate(new Date());
+
+            disEnableprojectNum = cltProjectMapper.updateByPrimaryKeySelective(cltProject);
+
+
+        } catch (Exception e) {
+
+            logger.error("disEnableproject", e);
+
+            throw new GlobalException(ErrorConstants.DISENABLE_CLT_PROJECT_FUNC_CODE, ErrorConstants.DISENABLE_CLT_PROJECT_FUNC_MESSAGE);
+        }
+
+        return disEnableprojectNum;
+
+
+    }
+
+
+    //根据用户id查询项目
+    @Override
+    public List<CltProject> findProjectByUserId(String userId) throws Exception {
+
+        try {
+
+            List<CltProject> projects = cltProjectTeamMapper.selectProjectByUserId(userId);
+
+            return projects;
+
+        } catch (Exception e) {
+
+            logger.error("findProjectByUserId", e);
+
+            throw new GlobalException(ErrorConstants.QUERY_CLT_PROJECT_BYUSERID_ERROR_CODE, ErrorConstants.QUERY_CLT_PROJECT_BYUSERID_ERROR_MESSAGE);
+        }
+
+    }
+
+    //查询项目下所有的用户与角色
+    @Override
+    public List<CltProjectUserInfo> queryUserAndRoleByProId(CltProjectTeamQuery cltProjectTeamQuery) {
+
+        String proId = cltProjectTeamQuery.getProId();
+
+        if (proId == null || "".equals(proId)) {
+            throw new GlobalException(ErrorConstants.PROID_PARAM_NOTNULL_ERROR_CODE, ErrorConstants.PROID_PARAM_NOTNULL_ERROR_MESSAGE);
+        }
+
+        List<CltProjectUserInfo> CltProUserList = cltProjectMapper.queryProjectUserInfoListByProId(cltProjectTeamQuery);
+
+        return CltProUserList;
+    }
+
+    //查询客户下的所有项目
+    @Override
+    public List<CltProject> queryCltProjectByCustId( ProjectQuery projectQuery) {
+        try {
+
+            List<CltProject> cltProjects = cltProjectMapper.queryCltProjectByCustId(projectQuery.getCustId());
+
+            return cltProjects;
+
+        } catch (Exception e) {
+
+            logger.error("queryCltProjectByCustId", e);
+
+            throw new GlobalException(ErrorConstants.QUERY_LIST_CLT_PROJECTT_BY_CUSTID_ERROR_CODE, ErrorConstants.QUERY_LIST_CLT_PROJECTT_BY_CUSTID_ERROR_MESSAGE);
+        }
+
+    }
+
+
+
+    //添加团队表和用户角色表的方法
+    public Integer addTeamAndUserRole(ProjectQuery projectQuery) throws Exception {
+
+        //根据角色代码查询用户角色
+        ResultInfo<CltRole> resultRole = queryByRoleCode();
+
+        if (resultRole != null && "CLT000000000".equals(resultRole.getResultCode())) {
+            //新增团队信息(封装参数)
+            List<CltProjectTeamQuery> cltProjectTeamQueryList = new ArrayList<CltProjectTeamQuery>();
+            CltProjectTeamQuery cltProjectTeamQuery = new CltProjectTeamQuery();
+            cltProjectTeamQuery.setProId(projectQuery.getProId());
+            cltProjectTeamQuery.setUserId(projectQuery.getTestManager());
+            cltProjectTeamQuery.setAccess_token(projectQuery.getAccess_token());
+            cltProjectTeamQuery.setRoleId(resultRole.getResultData().getRoleId());
+            cltProjectTeamQueryList.add(cltProjectTeamQuery);
+            //添加团队组建表
+            Integer createNum = projecTeamtService.createTeam(cltProjectTeamQueryList);
+
+            //成功添加用户角色表
+            if (createNum == 1) {
+
+                UserRoleQuery userRoleQuery = new UserRoleQuery();
+                userRoleQuery.setRoleId(resultRole.getResultData().getRoleId());
+                userRoleQuery.setUserId(projectQuery.getTestManager());
+                ResultInfo<String> resultUserRole = userRoleFeignClient.addUserRole(userRoleQuery);
+                if (resultUserRole != null && "CLT000000000".equals(resultUserRole.getResultCode())) {
+
+                    if (resultUserRole.getResultData() != null || !"".equals(resultUserRole.getResultData())) {
+
+                        return createNum + 1;
+
+                    } else {
+                        return createNum;
+
+                    }
+
+
+                } else {
+                    throw new GlobalException(resultUserRole.getResultCode(), resultUserRole.getResultMsg());
+                }
+
+            }
+            return 0;
+        } else {
+            return 0;
+        }
+
+    }
+
+
+
+
+
+    //删除团队表的方法
+    public Integer deleteTeam(String testManager,String proId )throws Exception{
+
+        Integer deleteNum=0;
+
+        //根据角色代码查询用户角色
+        ResultInfo<CltRole> resultRole = queryByRoleCode();
+        if (resultRole != null && "CLT000000000".equals(resultRole.getResultCode())) {
+            //组装团队表信息
+            List<CltProjectTeamQuery> cltProjectTeamQueryList = new ArrayList<CltProjectTeamQuery>();
+            CltProjectTeamQuery cltProjectTeamQuery = new CltProjectTeamQuery();
+            cltProjectTeamQuery.setProId(proId);
+            cltProjectTeamQuery.setUserId(testManager);
+            cltProjectTeamQuery.setRoleId(resultRole.getResultData().getRoleId());
+            cltProjectTeamQueryList.add(cltProjectTeamQuery);
+            //删除团队表
+            deleteNum= projecTeamtService.removeUserByIds(cltProjectTeamQueryList);
+
+        } else {
+            throw new GlobalException(resultRole.getResultCode(), resultRole.getResultMsg());
+        }
+
+        return deleteNum ;
+
+    }
+
+
+    //删除用户角色表的方法
+    public   ResultInfo<Integer> deleteUserRole(String testManager)throws Exception{
+
+        ResultInfo<Integer>  resultInfo = null;
+
+        try{
+            //根据角色代码查询用户角色
+            ResultInfo<CltRole> resultRole = queryByRoleCode();
+            if (resultRole != null && "CLT000000000".equals(resultRole.getResultCode())) {
+
+                UserRoleQuery userRoleQuery=new UserRoleQuery();
+                userRoleQuery.setRoleId(resultRole.getResultData().getRoleId());
+                userRoleQuery.setUserId(testManager);
+
+
+                resultInfo = userRoleFeignClient.deleteByUserIdAndRoleId(userRoleQuery);
+
+            } else {
+                throw new GlobalException(resultRole.getResultCode(), resultRole.getResultMsg());
+            }
+
+        }catch (Exception e){
+
+            logger.error("deleteUserRole",e);
+
+            if(resultInfo!=null){
+
+                throw new GlobalException(resultInfo.getResultCode(),resultInfo.getResultMsg());
+            }else{
+
+                throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+            }
+        }
+
+
+        return resultInfo ;
+
+    }
+
+
+
+
+    //更新团队组建表方法
+    public Integer updateTeam(ProjectQuery projectQuery,String testManagerUI,String testManagerDB){
+
+        //查询角色信息（根据角色代码查询） 请求参数
+        RoleQuery roleQuery = new RoleQuery();
+        roleQuery.setRoleCode(CommonConstants.ROLE_TESTER);
+        //根据角色代码查询用户角色
+        ResultInfo<CltRole> resultRole = roleFeignClient.queryRoleByRoleCode(roleQuery);
+        if (resultRole != null && "CLT000000000".equals(resultRole.getResultCode())) {
+
+            CltProjectTeam cltProjectTeam=new CltProjectTeam();
+
+            cltProjectTeam.setUpdateUser(projectQuery.getUpdateUser());
+
+            cltProjectTeam.setUserId(testManagerUI);
+
+            cltProjectTeam.setRoleId(resultRole.getResultData().getRoleId());
+            //根据testManager和角色ID和项目Id查询组建团队表
+            CltProjectTeam projectTeam=cltProjectTeamMapper.selectByProIdAndUserIdAndRoleId(projectQuery.getProId(),resultRole.getResultData().getRoleId(),testManagerDB);
+
+            cltProjectTeam.setTeamId(projectTeam.getTeamId());
+            //更新团队组建表
+            int updateNum = cltProjectTeamMapper.updateByPrimaryKeySelective(cltProjectTeam);
+
+            return updateNum;
+
+        }else{
+            throw new GlobalException(resultRole.getResultCode(),resultRole.getResultMsg());
+        }
+
+
+    }
+
+
+    //更新用户角色
+    public ResultInfo<Integer> updateUserRole(UserRoleQuery userRoleQuery) throws Exception {
+
+        CltUtils.printStartInfo(userRoleQuery, "updateUserRole");
+
+        ResultInfo<Integer>  resultInfo = null;
+
+        long startTime = System.currentTimeMillis();
+        try{
+            //调用数据库
+            resultInfo = userRoleFeignClient.updateUserRole(userRoleQuery);
+
+        }catch (Exception e){
+
+            logger.error("updateUserRole",e);
+
+            if(resultInfo!=null){
+
+                throw new GlobalException(resultInfo.getResultCode(),resultInfo.getResultMsg());
+            }else{
+
+                throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+            }
+        }
+
+        CltUtils.printEndInfo(resultInfo, "updateUserRole", startTime);
+
+        return resultInfo ;
+
+    }
+
+
+
+    //根据角色代码查询角色
+    public ResultInfo<CltRole> queryByRoleCode() throws Exception {
+
+        //查询角色信息（根据角色代码查询） 请求参数
+
+        ResultInfo<CltRole>  resultInfo = null;
+
+        RoleQuery roleQuery = new RoleQuery();
+
+        roleQuery.setRoleCode(CommonConstants.ROLE_TESTER);
+
+        try{
+            //调用数据库
+            resultInfo = roleFeignClient.queryRoleByRoleCode(roleQuery);
+
+        }catch (Exception e){
+
+            logger.error("queryByRoleCode",e);
+
+            new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        if (resultInfo!=null&&!"CLT000000000".equals(resultInfo.getResultCode())){
+
+            throw new GlobalException(resultInfo.getResultCode(),resultInfo.getResultMsg());
+        }
+
+        return resultInfo ;
+
+    }
+
+
+
+
+
+
+    /**
+     * @Author:HBH
+     * @Description:
+     * @Date:13:58 2017/12/15
+     * @param1: projectQuery:封装查询参数
+     * @param2:
+     * @return: CltProjectExample
+     */
+    private CltProjectExample getExample(ProjectQuery projectQuery){
+        CltProjectExample example = new CltProjectExample();
+        //分组排序
+        example.setOrderByClause(projectQuery.getOrderByClause());
+
+        CltProjectExample.Criteria criteria = example.createCriteria();
+
+        if(projectQuery.getProId() != null){
+            criteria.andProIdEqualTo(projectQuery.getProId());
+        }
+        if (projectQuery.getProName() != null){
+
+            criteria.andProNameLike("%"+projectQuery.getProName()+"%");
+        }
+        return example;
+    }
+
+}

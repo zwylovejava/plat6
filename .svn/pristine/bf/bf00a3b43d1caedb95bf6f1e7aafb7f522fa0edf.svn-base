@@ -1,0 +1,243 @@
+package net.northking.cloudplatform.service.impl.user;
+
+import net.northking.cloudplatform.Utils.ServiceUtil;
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.domain.user.CltOrg;
+import net.northking.cloudplatform.domain.user.CltUserAndLogin;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.feign.user.OrgFeignClient;
+import net.northking.cloudplatform.query.user.OrgQuery;
+import net.northking.cloudplatform.query.user.UserAndLoginQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.user.OrgService;
+import net.northking.cloudplatform.service.user.UserService;
+import net.northking.cloudplatform.utils.CltUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.io.Serializable;
+
+/**
+ * Created by Administrator on 2017/12/20 0020.
+ */
+@Service
+public class OrgServiceImpl implements OrgService,Serializable {
+
+    @Autowired
+    OrgFeignClient orgFeignClient;
+
+    @Autowired
+    UserService userService;
+
+
+    private final static Logger logger = LoggerFactory.getLogger(OrgServiceImpl.class);
+
+    @Override
+    public ResultInfo<Integer> addCltOrgInfo(OrgQuery orgQuery) throws Exception {
+
+        CltUtils.printStartInfo(orgQuery, "addCltOrgInfo");
+
+        ResultInfo<Integer> result = null;
+
+        long startTime = System.currentTimeMillis();
+
+        try{
+            //调用微服务接口
+            result =  orgFeignClient.addCltOrgInfo(orgQuery);
+
+        }catch (Exception e){
+
+            logger.error("queryCltOrgInfo",e);
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(result);
+
+        CltUtils.printEndInfo(result, "addCltOrgInfo", startTime);
+
+        return result;
+    }
+    @Override
+    public ResultInfo<Integer> deleteCltOrgInfo(OrgQuery orgQuery) throws Exception {
+
+        CltUtils.printStartInfo(orgQuery, "deleteCltOrgInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> result =null;
+
+        try {
+
+            //调用微服务接口
+            result = orgFeignClient.deleteCltOrgInfo(orgQuery);
+
+        }catch (Exception e){
+
+            logger.error("deleteCltOrgInfo",e);
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(result);
+
+        CltUtils.printEndInfo(result, "deleteCltOrgInfo", startTime);
+
+        return result;
+    }
+
+    @Override
+    public ResultInfo<Page<CltOrg>> readUserInfo(OrgQuery orgQuery) throws Exception {
+
+        CltUtils.printStartInfo(orgQuery, "readUserInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Page<CltOrg>> result = null;
+
+        try {
+
+            //调用微服务接口
+            result = orgFeignClient.queryCltOrgInfo(orgQuery);
+
+        }catch (Exception e){
+
+            logger.error("readUserInfo",e);
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(result);
+
+        CltUtils.printEndInfo(result, "readUserInfo", startTime);
+
+        return result;
+    }
+
+
+
+    @Override
+    public ResultInfo<Integer> updateCltOrgInfo(OrgQuery orgQuery) throws Exception {
+
+        CltUtils.printStartInfo(orgQuery, "updateCltOrgInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> result = null;
+
+        try {
+
+            //调用微服务接口
+            result = orgFeignClient.updateCltOrgInfo(orgQuery);
+
+        }catch (Exception e){
+
+            logger.error("queryCltOrgInfo",e);
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(result);
+
+        CltUtils.printEndInfo(result, "updateCltOrgInfo", startTime);
+
+        return result;
+    }
+
+    @Override
+    public ResultInfo<CltOrg> queryCltOrgInfoByOrgId(OrgQuery orgQuery) throws Exception {
+
+        CltUtils.printStartInfo(orgQuery, "queryCltOrgInfoByOrgId");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<CltOrg> result = null;
+
+        try {
+
+            //调用微服务接口
+            result = orgFeignClient.queryCltOrgInfoByOrgId(orgQuery);
+
+        }catch (Exception e){
+
+            logger.error("queryCltOrgInfoByOrgId",e);
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(result);
+
+        CltUtils.printEndInfo(result, "queryCltOrgInfoByOrgId", startTime);
+
+        return result;
+    }
+
+    @Override
+    public ResultInfo<Integer> updateCltOrgByParentorgIdAndCustId(OrgQuery orgQuery) throws Exception {
+
+        CltUtils.printStartInfo(orgQuery, "updateCltOrgByParentorgIdAndCustId");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> result = null;
+
+        try {
+
+            //调用微服务接口
+            result = orgFeignClient.updateCltOrgByParentorgIdAndCustId(orgQuery);
+
+        }catch (Exception e){
+
+            logger.error("updateCltOrgByParentorgIdAndCustId",e);
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(result);
+
+        CltUtils.printEndInfo(result, "updateCltOrgByParentorgIdAndCustId", startTime);
+
+        return result;
+    }
+
+    @Override
+    public ResultInfo<Integer> delteCltOrgByParentorgIdAndCustId(OrgQuery orgQuery) throws Exception {
+
+        CltUtils.printStartInfo(orgQuery, "delteCltOrgByParentorgIdAndCustId");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> result = null;
+
+        try {
+
+            //调用微服务接口
+            result = orgFeignClient.delteCltOrgByParentorgIdAndCustId(orgQuery);
+
+        }catch (Exception e){
+
+            logger.error("delteCltOrgByParentorgIdAndCustId",e);
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_USER_ERROR_CODE,ErrorConstants.CLT_WEB_USER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(result);
+
+        CltUtils.printEndInfo(result, "delteCltOrgByParentorgIdAndCustId", startTime);
+
+        return result;
+    }
+
+
+}

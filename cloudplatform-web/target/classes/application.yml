@@ -1,0 +1,20 @@
+server:
+  port: 18088
+spring:
+  rabbitmq:
+    host: 192.168.0.100
+    port: 5672
+    username: northking
+    password: 123456
+    virtual-host: /cloud
+defaultImage:
+  host: 192.168.0.100
+  port: 8180
+  path: /httpfiletrans/HttpFileTrans
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+             timeoutInMilliseconds: 60000

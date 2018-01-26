@@ -1,0 +1,50 @@
+package net.northking.cloudplatform.utils;
+
+import org.springframework.amqp.core.Binding;
+import org.springframework.amqp.core.BindingBuilder;
+import org.springframework.amqp.core.FanoutExchange;
+import org.springframework.amqp.core.Queue;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+/**
+ * Created by Administrator on 2018/1/11 0011.
+ */
+@Configuration
+public class FanoutRabbitConfig {
+        //创建队列
+        @Bean
+        public Queue AMessage() {
+            return new Queue("platfrom.A");
+        }
+        //创建队列
+        @Bean
+        public Queue BMessage() {
+            return new Queue("platfrom.B");
+        }
+        //创建队列
+        @Bean
+        public Queue CMessage() {
+            return new Queue("platfrom.C");
+        }
+        //创建Fanout交换器
+        @Bean
+        FanoutExchange fanoutExchange() {
+            return new FanoutExchange("platfromExchange");
+        }
+        //将对列绑定到Fanout交换器
+        @Bean
+         Binding bindingExchangeA(Queue AMessage, FanoutExchange fanoutExchange) {
+            return BindingBuilder.bind(AMessage).to(fanoutExchange);
+        }
+        //将对列绑定到Fanout交换器
+        @Bean
+         Binding bindingExchangeB(Queue BMessage, FanoutExchange fanoutExchange) {
+            return BindingBuilder.bind(BMessage).to(fanoutExchange);
+        }
+        //将对列绑定到Fanout交换器
+        @Bean
+         Binding bindingExchangeC(Queue CMessage, FanoutExchange fanoutExchange) {
+            return BindingBuilder.bind(CMessage).to(fanoutExchange);
+        }
+}

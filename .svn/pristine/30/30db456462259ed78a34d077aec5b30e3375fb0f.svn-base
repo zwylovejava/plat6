@@ -1,0 +1,77 @@
+package net.northking.cloudplatform.feign.user;
+
+
+import net.northking.cloudplatform.domain.user.CltRole;
+import net.northking.cloudplatform.query.user.RoleQuery;
+import net.northking.cloudplatform.result.ResultInfo;
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.List;
+
+/**
+ * Created by laodeng on 2017/11/21.
+ */
+@FeignClient(name = "cloudplatform-gateway")
+public interface RoleFeignClient {
+
+    /**
+     * 添加角色
+     */
+    @RequestMapping(value = "/user/addCltRoleInfo", method = RequestMethod.POST, consumes = "application/json")
+    ResultInfo<Integer> addCltRoleInfo(@RequestBody @Validated RoleQuery roleQuery);
+
+
+    /**
+     * 根据项目ID查询出所有的公共角色和业务角色
+     *
+     * @param roleQuery
+     * @return
+     */
+    @RequestMapping(value = "/user/queryCltRolesInfo", method = RequestMethod.POST, consumes = "application/json")
+    ResultInfo<List<CltRole>> queryCltRolesInfo(@RequestBody RoleQuery roleQuery);
+
+
+    /**
+     * 更新角色信息
+     */
+    @RequestMapping(value = "/user/updateCltRoleInfo", method = RequestMethod.PUT, consumes = "application/json")
+    ResultInfo<Integer> updateCltRoleInfo(@RequestBody RoleQuery roleQuery);
+
+
+    /**
+     * 根据角色ID查询角色信息
+     */
+    @RequestMapping(value = "/user/selectCltRoleByRoleId", method = RequestMethod.POST, consumes = "application/json")
+    ResultInfo<CltRole> queryCltRoleByRoleId(@RequestBody RoleQuery roleQuery);
+
+
+    //批量删除角色
+    @RequestMapping(value = "/user/deleteRolesByRoleIds", method = RequestMethod.POST, consumes = "application/json")
+    public ResultInfo<String> deleteRolesByRoleIds(@RequestBody RoleQuery roleQuery);
+
+    /**
+     * 导入角色execl
+     */
+    @RequestMapping(value = "/user/importRoleExcelInfo", method = RequestMethod.POST, consumes = "application/json")
+    ResultInfo<Object> importRoleExcelInfo(@RequestBody RoleQuery roleQuery);
+
+    //查询所有的角色列表(包括功能列表/管理员角色)
+    @RequestMapping(value = "/user/queryAllRole", method = RequestMethod.POST, consumes = "application/json")
+    ResultInfo<List<CltRole>> queryAllRoleList();
+
+
+    //查询所有角色(不包括管理员)
+    @RequestMapping(value = "/user/queryAllCltRoleIsNotSuper", method = RequestMethod.POST, consumes = "application/json")
+    ResultInfo<List<CltRole>> queryAllCltRoleIsNotSuper();
+
+
+    /**根据角色代码查询角色**/
+
+    @RequestMapping(value = "/user/queryRoleByRoleCode", method = RequestMethod.POST, consumes = "application/json")
+    ResultInfo<CltRole> queryRoleByRoleCode(@RequestBody RoleQuery roleQuery);
+
+}

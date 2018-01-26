@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.user.CltUserMapper" >
+    <select id="selectUserByEmail"  resultType="string">
+        select USER_ID from CLT_USER where EMAIL=#{email}
+    </select>
+
+    <update id="updateOrgIdByPrimaryKeySelective" parameterType="java.lang.String" >
+        update CLT_USER SET ORG_ID = #{orgId,jdbcType=VARCHAR} where USER_ID = #{userId,jdbcType=VARCHAR}
+    </update>
+
+</mapper>

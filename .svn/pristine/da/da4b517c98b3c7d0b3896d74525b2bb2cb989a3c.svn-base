@@ -1,0 +1,33 @@
+package net.northking.cloudplatform.compensate.dao;
+
+
+
+
+
+import net.northking.cloudplatform.compensate.model.TransactionCompensateMsg;
+
+import java.util.List;
+
+/**
+ * create by zwy on 2017/12/18
+ */
+public interface CompensateDao {
+
+    String saveCompensateMsg(TransactionCompensateMsg transactionCompensateMsg);
+
+    List<String> loadCompensateKeys();
+
+    List<String> loadCompensateTimes(String model);
+
+    List<String> loadCompensateByModelAndTime(String path);
+
+    String getCompensate(String key);
+
+    String getCompensateByGroupId(String groupId);
+
+    void deleteCompensateByPath(String path);
+
+    void deleteCompensateByKey(String key);
+
+    boolean hasCompensate();
+}

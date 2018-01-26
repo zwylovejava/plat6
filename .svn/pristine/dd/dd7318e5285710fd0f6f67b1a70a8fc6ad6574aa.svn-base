@@ -1,0 +1,12 @@
+package net.northking.cloudplatform.listener.service;
+
+/**
+ * create by zwy on 2017/12/18
+ */
+public interface InitService {
+
+    void start();
+
+
+    void close();
+}

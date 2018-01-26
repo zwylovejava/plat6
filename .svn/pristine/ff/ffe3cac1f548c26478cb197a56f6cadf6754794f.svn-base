@@ -1,0 +1,356 @@
+package net.northking.cloudplatform.service.impl;
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.dao.base.BaseServiceImpl;
+import net.northking.cloudplatform.dao.user.CltUserRoleMapper;
+import net.northking.cloudplatform.domain.user.CltUserRole;
+import net.northking.cloudplatform.domain.user.CltUserRoleExample;
+import net.northking.cloudplatform.dto.auth.UserRole;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.query.user.UserRoleQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.service.UserRoleService;
+import net.northking.cloudplatform.utils.UUIDUtil;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * @Title: 用户角色逻辑实现类
+ * @Description:
+ * @Company: Northking
+ * @Author: suny
+ * @CreateDate: 2017/11/14
+ * @UpdateUser:
+ * @Version:0.1
+ */
+@Service
+public class UserRoleServiceImpl extends BaseServiceImpl<CltUserRole, CltUserRoleExample, String> implements UserRoleService {
+
+    private final static Logger logger = LoggerFactory.getLogger(UserRoleServiceImpl.class);
+
+    @Autowired
+    CltUserRoleMapper cltUserRoleMapper;
+
+    //添加用户角色表
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public String addUserRole(CltUserRole cltUserRole) throws GlobalException {
+        try {
+            //查询是否存在该用户角色表
+            String userId=cltUserRole.getUserId();
+            String roleId=cltUserRole.getRoleId();
+            Integer UserRoleCount=cltUserRoleMapper.countByRoleAndUserId(roleId,userId);
+
+            if(UserRoleCount!=null && UserRoleCount<1){
+                cltUserRole.setUserRoleId(UUIDUtil.getUUID());
+                cltUserRoleMapper.insertSelective(cltUserRole);
+                return cltUserRole.getUserRoleId();
+            }else{
+                return null;
+            }
+
+        } catch (Exception e) {
+            logger.error("addUserRole", e);
+            throw new GlobalException(ErrorConstants.ADD_CLT_USER_ROLE_ERROR_CODE, ErrorConstants.ADD_CLT_USER_ROLE_ERROR_MESSAGE);
+        }
+
+    }
+
+
+
+    //根据id删除用户角色表
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer deleteUserRole(String userRoleId) throws GlobalException {
+        Integer delNum = 0;
+        try {
+            delNum = cltUserRoleMapper.deleteByPrimaryKey(userRoleId);
+        } catch (Exception e) {
+            logger.error("deleteUserRole", e);
+            throw new GlobalException(ErrorConstants.DELETE_CLT_USER_ROLE_ERROR_CODE, ErrorConstants.DELETE_CLT_USER_ROLE_ERROR_MESSAGE);
+        }
+        return delNum;
+    }
+
+    //根据用户Id查询用户角色列表
+    @Override
+    public Page<CltUserRole> queryByUserId(String userId) throws Exception {
+        List<CltUserRole> cltFuncRoleList = null;
+        try {
+            cltFuncRoleList = cltUserRoleMapper.selectByUserId(userId);
+        } catch (Exception e) {
+            logger.error("queryByUserId", e);
+            throw new GlobalException(ErrorConstants.QUERY_USER_ROLE_ERROR_CODE, ErrorConstants.QUERY_USER_ROLE_ERROR_MESSAGE);
+        }
+        return new Page<>(cltFuncRoleList);
+    }
+
+
+    //根据userRoleIds批量删除用户角色表
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public String deleteUserRoleByUserRoleIds(UserRoleQuery userRoleQuery) throws Exception {
+        String[] userRoleIds = userRoleQuery.getUserRoleIds();
+
+        Integer count = 0;
+
+        String msg = "";
+
+        for (int i = 0; i < userRoleIds.length; i++) {
+
+            String userRoleId = userRoleIds[i];
+
+            try {
+
+                int deleteCount = cltUserRoleMapper.deleteByPrimaryKey(userRoleId);
+                //判断要删除的对象是否存在
+                if (deleteCount == 0) {
+                    msg += "id为" + userRoleId + "的数据不存在";
+                } else {
+                    count++;
+                }
+
+
+            }catch (Exception e){
+
+                logger.error("deleteUserRoleByUserRoleIds", e);
+
+                throw new GlobalException(ErrorConstants.DELETE_CLT_USER_ROLE_BY_USERROLEID_BATCH_ERROR_CODE, ErrorConstants.DELETE_CLT_USER_ROLE_BY_USERROLEID_BATCH_ERROR_MESSAGE);
+
+            }
+
+        }
+
+        msg = "删除的数据个数为" + count + "  " + msg;
+        //返回拼接好的字符串
+        return msg;
+
+    }
+
+
+    //批量添加用户角色表
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
+    public Integer addUserRoles(List<UserRoleQuery> userRoleQueries) throws Exception {
+
+           Integer addNum=0;
+
+           CltUserRole cltUserRole=new CltUserRole();
+
+        for (int i = 0; i < userRoleQueries.size(); i++) {
+
+            UserRoleQuery userRoleQuery =  userRoleQueries.get(i);
+            try {
+                //添加之前先删除
+                cltUserRoleMapper.deleteByRoleIdAndUserId(userRoleQuery.getRoleId(), userRoleQuery.getUserId());
+
+            }catch (Exception e){
+                logger.error("deleteCltUserRole",e);
+
+                throw new GlobalException(ErrorConstants.DELETE_CLT_USER_ROLE_ERROR_CODE, ErrorConstants.DELETE_CLT_USER_ROLE_ERROR_MESSAGE);
+
+            }
+
+            //再添加
+            try{
+                cltUserRole.setUserRoleId(UUIDUtil.getUUID());
+
+                cltUserRole.setUserId(userRoleQuery.getUserId());
+
+                cltUserRole.setRoleId(userRoleQuery.getRoleId());
+
+                int result =cltUserRoleMapper.insertSelective(cltUserRole);
+
+                if (result>0){
+
+                    addNum++;
+                }
+
+            }catch (Exception e){
+
+                logger.error("addUserRoles",e);
+
+                throw new GlobalException(ErrorConstants.ADD_CLT_USER_ROLE_BATCH_ERROR_CODE, ErrorConstants.ADD_CLT_USER_ROLE_BATCH_ERROR_MESSAGE);
+            }
+
+
+        }
+
+        return addNum;
+
+    }
+
+
+    //根据用户ID角色ID删除用户角色表
+    @Override
+    public Integer deleteByRoleIdAndUserId(UserRoleQuery userRoleQuery) throws Exception {
+
+        Integer deleteNum=0;
+
+        try {
+
+            deleteNum=cltUserRoleMapper.deleteByRoleIdAndUserId(userRoleQuery.getRoleId(),userRoleQuery.getUserId());
+
+            return deleteNum;
+        } catch (Exception e) {
+
+            logger.error("deleteByRoleIdAndUserId", e);
+
+            throw new GlobalException(ErrorConstants.DELETE_CLT_USER_ROLE_ERROR_CODE, ErrorConstants.DELETE_CLT_USER_ROLE_ERROR_MESSAGE);
+        }
+
+    }
+
+
+    /**更新用户角色表*/
+    @Override
+    public Integer updateUserRoles(UserRoleQuery userRoleQuery) throws Exception {
+
+        String funcCode=userRoleQuery.getFuncCode();
+
+        try {
+
+            if (StringUtils.isNotEmpty(funcCode)) {
+
+                if (funcCode.equals("1")) {
+                    //根据userRoleId更新用户角色表
+                    Integer updateNum = updateUserRoleByUserRoleId(userRoleQuery);
+                    return updateNum;
+
+                } else if (funcCode.equals("2")) {
+                    //根据userId和roleId更新userIdDB
+                    Integer updateNum = updateUserByUserIdAndRoleId(userRoleQuery);
+                    return updateNum;
+
+                }
+                //根据userId和roleId更新roleId
+                Integer updateNum = updateRoleByUserIdAndRoleId(userRoleQuery);
+                return updateNum;
+
+            }
+
+        }catch (Exception e){
+            logger.error("deleteUserRoleByUserRoleIds", e);
+            throw new GlobalException(ErrorConstants.UPDATE_CLT_USERROLE_ERROR_CODE, ErrorConstants.UPDATE_CLT_USERROLE_ERROR_MESSAGE);
+        }
+
+          return 0;
+
+    }
+
+
+    //根据userRoleId更新用户角色表方法
+    public Integer updateUserRoleByUserRoleId(UserRoleQuery  userRoleQuery){
+
+        String userRoleId=userRoleQuery.getUserRoleId();
+        String userIdUI=userRoleQuery.getUserId();
+        String roleIdUI=userRoleQuery.getRoleId();
+      //根据userIdUI和roleIdUI查询是否存在该用户角色关系
+        int userRoleCount = cltUserRoleMapper.countByRoleAndUserId(roleIdUI, userIdUI);
+        //如果该用户角色已经存在
+      if(userRoleCount>0){
+          //删除原来的用户角色关系
+          int deleteNum = cltUserRoleMapper.deleteByPrimaryKey(userRoleId);
+
+          return deleteNum;
+      }
+
+      //如果不存在该用户角色关系
+      //直接修改根据userRoleId修改用户角色关系
+         CltUserRole cltUserRole=new CltUserRole();
+         cltUserRole.setRoleId(roleIdUI);
+         cltUserRole.setUserId(userIdUI);
+         cltUserRole.setUserRoleId(userRoleId);
+        int updateNum = cltUserRoleMapper.updateByPrimaryKeySelective(cltUserRole);
+        return updateNum;
+
+    }
+
+
+
+
+
+    //根据userId和roleId更新userIdDB
+
+    public Integer updateUserByUserIdAndRoleId(UserRoleQuery  userRoleQuery){
+
+          String userIdUI=userRoleQuery.getUserId();
+          String roleId=userRoleQuery.getRoleId();
+          String userIdDB=userRoleQuery.getUserIdDB();
+
+        //根据userIdUI和roleId查询是否存在该用户角色关系
+        int userRoleCount = cltUserRoleMapper.countByRoleAndUserId(roleId, userIdUI);
+        //如果存在,
+        if(userRoleCount>0){
+            //根据userIdDB和roleIdUI查询该用户角色
+            CltUserRole userRole = cltUserRoleMapper.queryByRoleAndUserId(roleId, userIdDB);
+
+            //删除原来的用户角色关系
+            int deleteNum = cltUserRoleMapper.deleteByPrimaryKey(userRole.getUserRoleId());
+
+            return deleteNum;
+        }
+
+        //如果不存在
+        //根据userIdDB和roleIdUI查询该用户角色
+        CltUserRole userRole = cltUserRoleMapper.queryByRoleAndUserId(roleId, userIdDB);
+         //根据userRoleId修改用户角色表
+          CltUserRole cltUserRole=new CltUserRole();
+          cltUserRole.setUserRoleId(userRole.getUserRoleId());
+          cltUserRole.setUserId(userIdUI);
+
+        int updateNum = cltUserRoleMapper.updateByPrimaryKeySelective(cltUserRole);
+
+        return updateNum;
+
+    }
+
+
+
+    //根据userId和roleId更新roleId
+
+    public Integer updateRoleByUserIdAndRoleId(UserRoleQuery  userRoleQuery){
+
+        String userId=userRoleQuery.getUserId();
+        String roleIdUI=userRoleQuery.getRoleId();
+        String roleIdDB=userRoleQuery.getRoleIdDB();
+
+        //根据userId和roleIdUI查询是否存在该用户角色关系
+        int userRoleCount = cltUserRoleMapper.countByRoleAndUserId(roleIdUI, userId);
+        //如果存在,
+        if(userRoleCount>0){
+            //根据userId和roleIdDB查询该用户角色
+            CltUserRole userRole = cltUserRoleMapper.queryByRoleAndUserId(roleIdDB, userId);
+
+            //删除原来的用户角色关系
+            int deleteNum = cltUserRoleMapper.deleteByPrimaryKey(userRole.getUserRoleId());
+
+            return deleteNum;
+        }
+
+        //如果不存在
+        //根据userId和roleIdDB查询该用户角色
+        CltUserRole userRole = cltUserRoleMapper.queryByRoleAndUserId(roleIdDB, userId);
+        //根据userRoleId修改用户角色表
+        CltUserRole cltUserRole=new CltUserRole();
+        cltUserRole.setUserRoleId(userRole.getUserRoleId());
+        cltUserRole.setRoleId(roleIdUI);
+
+        int updateNum = cltUserRoleMapper.updateByPrimaryKeySelective(cltUserRole);
+
+        return updateNum;
+
+    }
+
+
+
+}

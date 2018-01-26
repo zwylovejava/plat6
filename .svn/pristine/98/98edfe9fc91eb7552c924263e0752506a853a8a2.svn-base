@@ -1,0 +1,17 @@
+package net.northking.cloudplatform.manager.service;
+
+
+import net.northking.cloudplatform.model.TxServer;
+import net.northking.cloudplatform.model.TxState;
+
+/**
+ * create by zwy on 2017/12/18
+ */
+public interface MicroService {
+
+    String  tmKey = "tx-manager";
+
+    TxServer getServer();
+
+    TxState getState();
+}

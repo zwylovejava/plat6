@@ -1,0 +1,435 @@
+package net.northking.cloudplatform.service.impl.disctionary;
+
+
+import net.northking.cloudplatform.Utils.ServiceUtil;
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.domain.dictionary.CltDictionaryItem;
+import net.northking.cloudplatform.domain.dictionary.CltDictionaryType;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.feign.dictionary.DictionaryFeignClient;
+import net.northking.cloudplatform.query.dictionary.DictionaryItemQuery;
+import net.northking.cloudplatform.query.dictionary.DictionaryTypeQuery;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.dictionary.DictionaryService;
+import net.northking.cloudplatform.utils.CltUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+
+/**
+ * @Title:
+ * @Description: 数据字典web层的业务逻辑层实现层
+ * @Company: Northking
+ * @Author: HBH
+ * @CreateDate: 2017-12-28 10:41
+ * @UpdateUser:
+ * @Version:0.1
+ */
+
+@Service
+public class DictionaryServiceImpl implements DictionaryService{
+
+    //注入feign
+    @Autowired
+    private DictionaryFeignClient dictionaryFeignClient;
+
+
+    //添加数据字典类型
+    @Override
+    public ResultInfo<Integer> addDictionaryType(DictionaryTypeQuery dictionaryTypeQuery) throws Exception {
+
+        CltUtils.printStartInfo(dictionaryTypeQuery, "serviceImpl addDictionaryType");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> resultInfo = null;
+
+        try {
+            //调用微服务接口
+            resultInfo = dictionaryFeignClient.addDictionaryType(dictionaryTypeQuery);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_DICTIONARY_ERROR_CODE, ErrorConstants.CLT_WEB_DICTIONARY_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(resultInfo);
+
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl addDictionaryType", startTime);
+
+        return resultInfo;
+    }
+
+
+    //添加数据字典明细
+    @Override
+    public ResultInfo<Integer> addDictionaryItem(DictionaryItemQuery dictionaryItemQuery) throws Exception {
+
+        CltUtils.printStartInfo(dictionaryItemQuery, "serviceImpl addDictionaryItem");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> resultInfo = null;
+
+        try {
+            //调用微服务接口
+            resultInfo = dictionaryFeignClient.addDictionaryItem(dictionaryItemQuery);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_DICTIONARY_ERROR_CODE, ErrorConstants.CLT_WEB_DICTIONARY_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(resultInfo);
+
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl addDictionaryItem", startTime);
+
+        return resultInfo;
+    }
+
+
+
+    //删除数据字典类型
+    @Override
+    public ResultInfo<Integer> deleteDictionaryType(DictionaryTypeQuery dictionaryTypeQuery) throws Exception {
+
+        CltUtils.printStartInfo(dictionaryTypeQuery, "serviceImpl deleteDictionaryType");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> resultInfo = null;
+
+        try {
+            //调用微服务接口
+            resultInfo = dictionaryFeignClient.deleteDictionaryType(dictionaryTypeQuery);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_DICTIONARY_ERROR_CODE, ErrorConstants.CLT_WEB_DICTIONARY_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(resultInfo);
+
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl deleteDictionaryType", startTime);
+
+        return resultInfo;
+    }
+
+
+
+
+
+    //删除数据字典明细
+    @Override
+    public ResultInfo<Integer> deleteDictionaryItem(DictionaryItemQuery dictionaryItemQuery) throws Exception {
+
+        CltUtils.printStartInfo(dictionaryItemQuery, "serviceImpl deleteDictionaryItem");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> resultInfo = null;
+
+        try {
+            //调用微服务接口
+            resultInfo = dictionaryFeignClient.addDictionaryItem(dictionaryItemQuery);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_DICTIONARY_ERROR_CODE, ErrorConstants.CLT_WEB_DICTIONARY_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(resultInfo);
+
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl deleteDictionaryItem", startTime);
+
+        return resultInfo;
+    }
+
+
+    //更新数据字典类型
+    @Override
+    public ResultInfo<Integer> updateDictionaryType(DictionaryTypeQuery dictionaryTypeQuery) throws Exception {
+
+        CltUtils.printStartInfo(dictionaryTypeQuery, "serviceImpl updateDictionaryType");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> resultInfo = null;
+
+        try {
+            //调用微服务接口
+            resultInfo = dictionaryFeignClient.updateDictionaryType(dictionaryTypeQuery);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_DICTIONARY_ERROR_CODE, ErrorConstants.CLT_WEB_DICTIONARY_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(resultInfo);
+
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl updateDictionaryType", startTime);
+
+        return resultInfo;
+    }
+
+
+
+
+    //更新数据字典明细
+    @Override
+    public ResultInfo<Integer> updateDictionaryItem(DictionaryItemQuery dictionaryItemQuery) throws Exception {
+
+        CltUtils.printStartInfo(dictionaryItemQuery, "serviceImpl updateDictionaryItem");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> resultInfo = null;
+
+        try {
+            //调用微服务接口
+            resultInfo = dictionaryFeignClient.updateDictionaryItem(dictionaryItemQuery);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_DICTIONARY_ERROR_CODE, ErrorConstants.CLT_WEB_DICTIONARY_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(resultInfo);
+
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl updateDictionaryItem", startTime);
+
+        return resultInfo;
+    }
+
+
+    //查询所有字典类型列表
+    @Override
+    public ResultInfo<Page<CltDictionaryType>> queryDictionaryTypeList(DictionaryTypeQuery dictionaryTypeQuery) throws Exception {
+
+        CltUtils.printStartInfo(dictionaryTypeQuery, "serviceImpl queryDictionaryTypeList");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Page<CltDictionaryType>> resultInfo = null;
+
+        try {
+            //调用数据库
+            resultInfo = dictionaryFeignClient.queryDictionaryTypeList(dictionaryTypeQuery);
+
+        } catch (Exception e) {
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_DICTIONARY_ERROR_CODE, ErrorConstants.CLT_WEB_DICTIONARY_ERROR_MESSAGE);
+
+        }
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl queryDictionaryTypeList", startTime);
+
+        return resultInfo;
+    }
+
+    //根据typeId查询字典明细列表
+    @Override
+    public ResultInfo<List<CltDictionaryItem>> queryCltDictionaryItemsByTypeId(DictionaryItemQuery dictionaryItemQuery) throws Exception {
+
+        CltUtils.printStartInfo(dictionaryItemQuery, "serviceImpl queryCltDictionaryItemsByTypeId");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<List<CltDictionaryItem>> resultInfo = null;
+
+        try {
+            //调用数据库
+            resultInfo = dictionaryFeignClient.queryCltDictionaryItemsByTypeId(dictionaryItemQuery);
+
+        } catch (Exception e) {
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_DICTIONARY_ERROR_CODE, ErrorConstants.CLT_WEB_DICTIONARY_ERROR_MESSAGE);
+
+        }
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl queryCltDictionaryItemsByTypeId", startTime);
+
+        return resultInfo;
+    }
+    //批量删除字典类型表
+    @Override
+    public ResultInfo<Integer> deleteCltDictionaryTypeBatch(DictionaryTypeQuery dictionaryTypeQuery) throws Exception {
+
+        CltUtils.printStartInfo(dictionaryTypeQuery, "serviceImpl deleteCltDictionaryTypeBatch");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> resultInfo = null;
+
+        try {
+            //调用微服务接口
+            resultInfo = dictionaryFeignClient.deleteCltDictionaryTypeBatch(dictionaryTypeQuery);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_DICTIONARY_ERROR_CODE, ErrorConstants.CLT_WEB_DICTIONARY_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(resultInfo);
+
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl deleteCltDictionaryTypeBatch", startTime);
+
+        return resultInfo;
+    }
+
+    //批量删除字典明细表
+    @Override
+    public ResultInfo<Integer> deleteDictionaryItemBatch(DictionaryItemQuery dictionaryItemQuery) throws Exception {
+
+        CltUtils.printStartInfo(dictionaryItemQuery, "serviceImpl deleteDictionaryItemBatch");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> resultInfo = null;
+
+        try {
+            //调用微服务接口
+            resultInfo = dictionaryFeignClient.deleteDictionaryItemBatch(dictionaryItemQuery);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_DICTIONARY_ERROR_CODE, ErrorConstants.CLT_WEB_DICTIONARY_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(resultInfo);
+
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl deleteDictionaryItemBatch", startTime);
+
+        return resultInfo;
+    }
+
+
+    //启用禁用
+    @Override
+    public ResultInfo<Integer> disEnableDictionary(DictionaryTypeQuery dictionaryTypeQuery)throws Exception {
+
+        CltUtils.printStartInfo(dictionaryTypeQuery, "serviceImpl disEnableDictionary");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> resultInfo = null;
+
+        try {
+            //调用微服务接口
+            resultInfo = dictionaryFeignClient.disEnableDictionary(dictionaryTypeQuery);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_DICTIONARY_ERROR_CODE, ErrorConstants.CLT_WEB_DICTIONARY_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(resultInfo);
+
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl deleteCltDictionaryTypeBatch", startTime);
+
+        return resultInfo;
+    }
+
+    @Override
+    public ResultInfo<Integer> updateDictionarysByOrderSeq(List<DictionaryItemQuery> dictionaryItemQueries) throws Exception {
+
+        CltUtils.printStartInfo(dictionaryItemQueries, "serviceImpl disEnableDictionary");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> resultInfo = null;
+
+        try {
+            //调用微服务接口
+            resultInfo = dictionaryFeignClient.updateOrderSeq(dictionaryItemQueries);
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_DICTIONARY_ERROR_CODE, ErrorConstants.CLT_WEB_DICTIONARY_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(resultInfo);
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl deleteCltDictionaryTypeBatch", startTime);
+
+        return resultInfo;
+    }
+
+
+    //根据typeCode查询明细表
+    @Override
+    public ResultInfo<List<CltDictionaryItem>> queryCltDictionaryItemByTypeCode(DictionaryItemQuery dictionaryItemQuery) throws Exception {
+
+        CltUtils.printStartInfo(dictionaryItemQuery, "serviceImpl queryCltDictionaryItemByTypeCode");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<List<CltDictionaryItem>> resultInfo = null;
+
+        try {
+            //调用数据库
+            resultInfo = dictionaryFeignClient.queryCltDictionaryItemByTypeCode(dictionaryItemQuery);
+
+        } catch (Exception e) {
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_DICTIONARY_ERROR_CODE, ErrorConstants.CLT_WEB_DICTIONARY_ERROR_MESSAGE);
+
+        }
+        //如果返回为异常信息则抛出异常
+        ServiceUtil.throwServiceException(resultInfo);
+
+        CltUtils.printEndInfo(resultInfo, "serviceImpl queryCltDictionaryItemByTypeCode", startTime);
+
+        return resultInfo;
+    }
+
+
+}

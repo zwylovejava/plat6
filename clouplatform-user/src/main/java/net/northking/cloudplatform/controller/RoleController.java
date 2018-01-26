@@ -1,0 +1,226 @@
+package net.northking.cloudplatform.controller;
+
+
+import net.northking.cloudplatform.assist.RedisUtil;
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.constants.SuccessConstants;
+import net.northking.cloudplatform.domain.user.CltRole;
+import net.northking.cloudplatform.domain.user.CltUserLogin;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.query.user.RoleQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.RoleService;
+import net.northking.cloudplatform.utils.BeanUtil;
+import net.northking.cloudplatform.utils.CltUtils;
+import net.northking.cloudplatform.utils.ParamVerifyUtil;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by laodeng on 2017/11/21.
+ */
+@RestController
+public class RoleController {
+
+    //注入service
+    @Autowired
+    private RoleService roleService;
+
+    @Autowired
+    private RedisUtil redisUtil;
+
+    private final static Logger logger = LoggerFactory.getLogger(RoleController.class);
+
+
+
+    //添加角色
+    @PostMapping("/addCltRoleInfo")
+    public ResultInfo<Integer> addCltRoleInfo(@RequestBody @Validated RoleQuery roleQuery) throws Exception {
+
+        logger.info(" addCltRoleInfo  start paramData: "+roleQuery.toString());
+
+        CltUserLogin cltUserLogin = (CltUserLogin) redisUtil.get(roleQuery.getAccess_token());
+
+        if(cltUserLogin!=null){
+            roleQuery.setCreateUser(cltUserLogin.getUserId());
+
+        }
+
+        CltRole cltRole = new CltRole();
+
+        BeanUtil.copyProperties(roleQuery, cltRole);
+
+        Integer result =  roleService.addCltRoleInfo(cltRole);
+
+        logger.info(" addCltRoleInfo  end  " + result);
+
+        return new ResultInfo<>(ResultCode.SUCCESS.code(), SuccessConstants.ADD_CLT_ROLE_INFO_SUCCESS,result);
+    }
+
+    // 更新角色信息
+    @PutMapping("/updateCltRoleInfo")
+    public ResultInfo<Integer> updateCltRoleInfo(@RequestBody RoleQuery roleQuery) throws Exception {
+
+        logger.info(" updateCltRoleInfo  start paramData: "+roleQuery.toString());
+
+        CltUserLogin cltUserLogin = (CltUserLogin) redisUtil.get(roleQuery.getAccess_token());
+
+        if(cltUserLogin!=null){
+
+            roleQuery.setUpdateUser(cltUserLogin.getUserId());
+
+        }
+        CltRole cltRole = new CltRole();
+
+        //参数校验
+        init(roleQuery,"updateCltRoleInfo");
+
+        BeanUtil.copyProperties(roleQuery, cltRole);
+
+        Integer result = roleService.updateCltRoleInfo(cltRole);
+
+        logger.info(" updateCltRoleInfo  end !!! " + result);
+
+        return new ResultInfo<>(ResultCode.SUCCESS.code(),SuccessConstants.UPDATE_CLT_ROLE_INFO_SUCCESS,result);
+    }
+
+
+    //批量导入角色execl
+    @PostMapping("/importRoleExcelInfo")
+    public ResultInfo<Object> importRoleExcelInfo(@RequestBody RoleQuery roleQuery){
+
+        logger.info(" importRoleExcel start paramData" + roleQuery.toString());
+
+        roleService.importRoleExcelInfo(roleQuery);
+
+        ResultInfo<Object>  info = new ResultInfo<>(ResultCode.SUCCESS.code(),ResultCode.SUCCESS.msg());
+
+        logger.info(" importRoleExcel end paramData" + info.toString());
+
+        return info;
+    }
+
+    //查询项目下的业务角色和所有的公共角色
+    @PostMapping("/queryCltRolesInfo")
+    public ResultInfo<List<CltRole>> queryCltRolesInfo(@RequestBody RoleQuery roleQuery) throws Exception {
+
+        logger.info(" pageCltRolesInfo  start paramData: "+roleQuery.toString());
+
+        List<CltRole>  result = roleService.queryCltRolesInfo(roleQuery);
+
+        logger.info(" pageCltRolesInfo  end !!! " + result);
+
+        return new ResultInfo<>(ResultCode.SUCCESS , SuccessConstants.QUERY_ROLE_LIST_BY_PRO_ID_SUCCESS,result);
+    }
+
+
+    //查询角色列表(包括展示功能列表/包括管理员角色)
+    @PostMapping("/queryAllRole")
+    public ResultInfo<Page<CltRole>> queryAllRole(@RequestBody RoleQuery roleQuery) throws Exception {
+
+        logger.info(" queryAllRole  start paramData",roleQuery);
+
+        Page<CltRole> result = roleService.queryAllCltRole(roleQuery);
+
+        logger.info(" queryAllRole  end !!! " );
+
+        return new ResultInfo<>(ResultCode.SUCCESS , SuccessConstants.QUERY_ROLE_LIST_SUCCESS,result);
+    }
+
+    //查询所有的角色列表(不包括管理员角色)
+    @PostMapping("/queryAllCltRoleIsNotSuper")
+    public ResultInfo<List<CltRole>> queryAllCltRoleIsNotSuper() throws Exception {
+
+        logger.info(" queryAllCltRoleIsNotSuper  start paramData");
+
+        List<CltRole>  list = roleService.queryAllCltRoleIsNotSuper();
+
+        logger.info(" queryAllCltRoleIsNotSuper  end !!! " );
+
+        return new ResultInfo<>(ResultCode.SUCCESS , SuccessConstants.QUERY_ROLE_LIST_IS_NOT_SUPER_SUCCESS,list);
+    }
+
+
+    //通过角色ID 查询角色详细信息
+    @PostMapping("/selectCltRoleByRoleId")
+    public ResultInfo<CltRole> selectCltRoleByRoleId(@RequestBody RoleQuery roleQuery)throws Exception{
+
+        logger.info(" selectCltRoleByRoleId  start paramData: "+roleQuery.toString());
+
+        CltRole cltRole = roleService.selectCltRoleByRoleId(roleQuery);
+
+        logger.info(" selectCltRoleByRoleId  end !!! " );
+
+        return new ResultInfo<>(ResultCode.SUCCESS ,SuccessConstants.QUERY_CLT_ROLE_INFO_BY_ROLE_ID_SUCCESS,cltRole);
+    }
+
+    //批量删除角色
+    @PostMapping("/deleteRolesByRoleIds")
+    public ResultInfo<String> deleteRolesByRoleIds(@RequestBody RoleQuery roleQuery)throws Exception{
+
+        logger.info(" deleteRolesByRoleIds  start paramData: "+roleQuery.toString());
+
+        String msg = roleService.deleteRolesByRoleIds(roleQuery);
+
+        logger.info(" deleteRolesByRoleIds  start paramData: "+roleQuery.toString());
+
+        return new ResultInfo<>(ResultCode.SUCCESS ,SuccessConstants.DELETE_ROLE_BATCH_BY_ROLE_IDS_SUCCESS,msg);
+    }
+
+
+    //根据角色代码查询角色
+    @PostMapping("queryRoleByRoleCode")
+    public ResultInfo<CltRole> queryRoleByRoleCode(@RequestBody RoleQuery roleQuery)throws Exception{
+
+        logger.info("queryRoleByRoleCode start paramData" + roleQuery.toString());
+
+        //参数校验
+        init(roleQuery,"queryRoleByRoleCode");
+
+        CltRole cltRole = roleService.selectRoleIdByRoleCode(roleQuery.getRoleCode());
+
+        logger.info(" queryRoleByRoleCode end paramData" + roleQuery.toString());
+
+        return new ResultInfo<>(ResultCode.SUCCESS,SuccessConstants.QUERY_ROLE_LIST_BY_ROLE_CODE_SUCCESS,cltRole);
+    }
+
+
+    //参数校验的方法
+    public static void init(RoleQuery roleQuery, String funcCode) throws Exception {
+
+        ParamVerifyUtil paramVerifyUtil = new ParamVerifyUtil();
+
+        Map<String, Object> dataMap = CltUtils.beanToMap(roleQuery);
+
+        if ("updateCltRoleInfo".equals(funcCode)) {
+
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "roleId");
+        }else if ("queryRoleByRoleCode".equals(funcCode)) {
+
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "roleCode");
+        }
+
+
+    }
+
+
+}
+
+
+
+
+

@@ -1,0 +1,19 @@
+package net.northking.cloudplatform.api.service;
+
+
+
+
+
+import net.northking.cloudplatform.model.ModelInfo;
+
+import java.util.List;
+
+/**
+ * create by zwy on 2017/12/18
+ */
+public interface ApiModelService {
+
+    List<ModelInfo> onlines();
+
+
+}

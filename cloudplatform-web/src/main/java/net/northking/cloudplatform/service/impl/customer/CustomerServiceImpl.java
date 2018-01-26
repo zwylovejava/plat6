@@ -1,0 +1,251 @@
+package net.northking.cloudplatform.service.impl.customer;
+import net.northking.cloudplatform.Utils.ServiceUtil;
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.domain.project.CltCustomer;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.feign.customer.CustomerFeignClient;
+import net.northking.cloudplatform.query.cust.CustomerQuery;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.customer.CustomerService;
+import net.northking.cloudplatform.utils.CltUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ * Created by Administrator on 2018/1/2 0002.
+ */
+@Service
+public class CustomerServiceImpl implements CustomerService {
+
+    private final static Logger logger = LoggerFactory.getLogger(CustomerServiceImpl.class);
+
+    //注入CustomerFeignClient的客户端
+    @Autowired
+    private CustomerFeignClient customerFeignClient;
+
+    @Override
+    public ResultInfo<CltCustomer> addCltCustInfo(CustomerQuery customerQuery) throws Exception {
+
+        CltUtils.printStartInfo(customerQuery, "addCltCustInfo");
+
+        ResultInfo<CltCustomer>  resultCust = new ResultInfo<CltCustomer>();
+
+        long startTime = System.currentTimeMillis();
+
+        try{
+            //新增客户信息
+            resultCust =  customerFeignClient.addCustomer(customerQuery);
+
+        }catch (Exception e){
+
+            logger.error("addCltCustInfo",e);
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_CUSTOMER_ERROR_CODE, ErrorConstants.CLT_WEB_CUSTOMER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(resultCust);
+
+        CltUtils.printEndInfo(resultCust, "addCltCustInfo", startTime);
+
+        return  resultCust;
+    }
+
+
+    @Override
+    public ResultInfo<Integer> updateCustomerInfo(CustomerQuery customerQuery) throws Exception {
+
+        CltUtils.printStartInfo(customerQuery, "updateCustomerInfo");
+
+        ResultInfo<Integer> result = null;
+
+        long startTime = System.currentTimeMillis();
+
+        try{
+            //调用微服务接口
+            result =  customerFeignClient.updateCustomer(customerQuery);
+
+        }catch (Exception e){
+
+            logger.error("updateCustomerInfo",e);
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_CUSTOMER_ERROR_CODE,ErrorConstants.CLT_WEB_CUSTOMER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(result);
+
+        CltUtils.printEndInfo(result, "updateCustomerInfo", startTime);
+
+        return  result;
+    }
+
+    @Override
+    public ResultInfo<CltCustomer> queryCustomerByCustId(CustomerQuery customerQuery) throws Exception {
+
+        CltUtils.printStartInfo(customerQuery, "queryCustomerByCustId");
+
+        ResultInfo<CltCustomer> result = null;
+
+        long startTime = System.currentTimeMillis();
+
+        try{
+            //调用微服务接口
+            result =  customerFeignClient.queryByCustId(customerQuery);
+
+        }catch (Exception e){
+
+            logger.error("queryCustomerByCustId",e);
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_CUSTOMER_ERROR_CODE,ErrorConstants.CLT_WEB_CUSTOMER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(result);
+
+        CltUtils.printEndInfo(result, "queryCustomerByCustId", startTime);
+
+        return  result;
+    }
+
+    @Override
+    public ResultInfo<Page<CltCustomer>> queryAllCustomersInfo(CustomerQuery customerQuery) throws Exception {
+
+        CltUtils.printStartInfo(customerQuery, "queryAllCustomersInfo");
+
+        ResultInfo<Page<CltCustomer>>result = null;
+
+        long startTime = System.currentTimeMillis();
+
+        try{
+            //调用微服务接口
+            result =  customerFeignClient.queryAllCustomers(customerQuery);
+
+        }catch (Exception e){
+
+            logger.error("queryAllCustomersInfo",e);
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_CUSTOMER_ERROR_CODE,ErrorConstants.CLT_WEB_CUSTOMER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(result);
+
+        CltUtils.printEndInfo(result, "queryAllCustomersInfo", startTime);
+
+        return  result;
+    }
+
+    @Override
+    public ResultInfo<Integer> countCustomerByCustCode(CustomerQuery customerQuery) throws Exception {
+
+        CltUtils.printStartInfo(customerQuery, "countCustomerByCustCode");
+
+        ResultInfo<Integer> result = null;
+
+        long startTime = System.currentTimeMillis();
+
+
+        try{
+            //调用微服务接口
+            result =  customerFeignClient.countCustomerByCustCode(customerQuery);
+
+        }catch (Exception e){
+
+            logger.error("countCustomerByCustCode",e);
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_CUSTOMER_ERROR_CODE,ErrorConstants.CLT_WEB_CUSTOMER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(result);
+
+        CltUtils.printEndInfo(result, "countCustomerByCustCode", startTime);
+
+        return  result;
+    }
+
+    @Override
+    public ResultInfo<CltCustomer> queryCustomerByCustCode(CustomerQuery customerQuery) throws Exception {
+
+        CltUtils.printStartInfo(customerQuery, "queryCustomerByCustCode");
+
+        ResultInfo<CltCustomer> result = null;
+
+        long startTime = System.currentTimeMillis();
+
+        try{
+            //调用微服务接口
+            result =  customerFeignClient.queryCustomerByCustCode(customerQuery);
+
+        }catch (Exception e){
+
+            logger.error("queryCustomerByCustCode",e);
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_CUSTOMER_ERROR_CODE,ErrorConstants.CLT_WEB_CUSTOMER_ERROR_MESSAGE);
+
+        }
+        CltUtils.printEndInfo(result, "queryCustomerByCustCode", startTime);
+
+        return  result;
+    }
+
+    @Override
+    public ResultInfo<Integer> deleteCustomerByCustId(CustomerQuery customerQuery) throws Exception {
+
+        CltUtils.printStartInfo(customerQuery, "deleteCustomerByCustId");
+
+        ResultInfo<Integer> result = null;
+
+        long startTime = System.currentTimeMillis();
+
+        try{
+            //调用微服务接口
+            result =  customerFeignClient.deleteCustomerByCustId(customerQuery);
+
+        }catch (Exception e){
+
+            logger.error("deleteCustomerByCustId",e);
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_CUSTOMER_ERROR_CODE,ErrorConstants.CLT_WEB_CUSTOMER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(result);
+
+        CltUtils.printEndInfo(result, "deleteCustomerByCustId", startTime);
+
+        return  result;
+    }
+
+    @Override
+    public ResultInfo<Integer> disEnableBatchCustomerByCustId(CustomerQuery customerQuery) throws Exception {
+
+        CltUtils.printStartInfo(customerQuery, "updateBatchCustomerByCustId");
+
+        ResultInfo<Integer> result = null;
+
+        long startTime = System.currentTimeMillis();
+
+        try{
+            //调用微服务接口
+            result =  customerFeignClient.disEnableCustByCustId(customerQuery);
+
+        }catch (Exception e){
+
+            logger.error("updateBatchCustomerByCustId",e);
+
+            throw new GlobalException(ErrorConstants.CLT_WEB_CUSTOMER_ERROR_CODE,ErrorConstants.CLT_WEB_CUSTOMER_ERROR_MESSAGE);
+
+        }
+
+        ServiceUtil.throwServiceException(result);
+
+        CltUtils.printEndInfo(result, "updateBatchCustomerByCustId", startTime);
+
+        return  result;
+    }
+}

@@ -1,0 +1,38 @@
+package net.northking.cloudplatform.dao.testexecute;
+
+import net.northking.cloudplatform.domain.testbug.CltTestBug;
+import net.northking.cloudplatform.domain.testexecute.CltBatch;
+import net.northking.cloudplatform.domain.testexecute.CltBatchExample;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Component;
+
+import java.util.List;
+
+@Component
+@Mapper
+public interface CltBatchMapper {
+    int countByExample(CltBatchExample example);
+
+    int deleteByExample(CltBatchExample example);
+
+    int deleteByPrimaryKey(String batchId);
+
+    int insert(CltBatch record);
+
+    int insertSelective(CltBatch record);
+
+    List<CltBatch> selectByExample(CltBatchExample example);
+
+    CltBatch selectByPrimaryKey(String batchId);
+
+    int updateByExampleSelective(@Param("record") CltBatch record, @Param("example") CltBatchExample example);
+
+    int updateByExample(@Param("record") CltBatch record, @Param("example") CltBatchExample example);
+
+    int updateByPrimaryKeySelective(CltBatch record);
+
+    int updateByPrimaryKey(CltBatch record);
+
+
+}

@@ -1,0 +1,467 @@
+package net.northking.cloudplatform.controller.user;
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.CommonConstants;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.domain.user.CltUserAndLogin;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.feign.user.UserFeignClient;
+import net.northking.cloudplatform.query.user.UserAndLoginQuery;
+import net.northking.cloudplatform.query.user.UserUpdatePwd;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.user.UserService;
+import net.northking.cloudplatform.utils.CltUtils;
+import net.northking.cloudplatform.utils.ParamVerifyUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+import java.util.Map;
+
+/**
+ * @Title:
+ * @Description:用户信息控制层
+ * @Company: Northking
+ * @Author: suny
+ * @CreateDate: 2017-12-07 17:04
+ * @UpdateUser:
+ * @Version:0.1
+ */
+@RestController
+public class UserController {
+
+    @Autowired
+    private UserService userService;
+
+
+    private final static Logger logger = LoggerFactory.getLogger(UserController.class);
+
+    /**
+     * 添加一个新的用户
+     * @param userAndLoginQuery
+     * @return
+     * @throws Exception
+     */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/addUserInfo")
+    public ResultInfo<CltUserAndLogin> addUserInfo(@RequestBody @Validated UserAndLoginQuery userAndLoginQuery)throws Exception{
+
+        CltUtils.printStartInfo(userAndLoginQuery, "addUserInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+        init(userAndLoginQuery, "ADD");
+
+        userAndLoginQuery.setFuncCode("1");//路径来源
+
+        //调用微服务接口
+        ResultInfo<CltUserAndLogin> resultInfo = userService.addUserInfo(userAndLoginQuery);
+
+
+        CltUtils.printEndInfo(resultInfo, "addUserInfo", startTime);
+
+        return  resultInfo;
+    }
+
+    /**
+     * 模糊查询所有用户(管理员除外)
+     * @param userAndLoginQuery
+     * @return
+     */
+    @PostMapping("/queryLikeUserInfo")
+    public ResultInfo<Page<CltUserAndLogin>> queryLikeUserInfo(@RequestBody UserAndLoginQuery  userAndLoginQuery )throws Exception{
+
+        CltUtils.printStartInfo(userAndLoginQuery, "queryLikeUserInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+
+        //调用微服务接口
+        ResultInfo<Page<CltUserAndLogin>> resultInfo = userService.queryAllUserList(userAndLoginQuery);
+
+        CltUtils.printEndInfo(resultInfo, "queryLikeUserInfo", startTime);
+
+        return resultInfo;
+
+    }
+
+
+    /**
+     * 查询机构下所有用户(管理员除外 支持模糊查询)
+     * @param userAndLoginQuery
+     * @return
+     */
+    @PostMapping("/queryLikeUserListByOrgId")
+    public ResultInfo<Page<CltUserAndLogin>> queryLikeUserListByOrgId(@RequestBody UserAndLoginQuery  userAndLoginQuery )throws Exception{
+
+        CltUtils.printStartInfo(userAndLoginQuery, "queryLikeUserListByOrgId");
+
+        long startTime = System.currentTimeMillis();
+
+        //调用微服务接口
+        ResultInfo<Page<CltUserAndLogin>> resultInfo = userService.queryLikeUserListByOrgId(userAndLoginQuery);
+
+        CltUtils.printEndInfo(resultInfo, "queryLikeUserListByOrgId", startTime);
+
+        return resultInfo;
+
+    }
+
+    /**
+     * 批量修改用户的机构id
+     * @param userAndLoginQuery
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/updateOrgIdByUserIds")
+    public ResultInfo<String> updateOrgIdByUserIds(@RequestBody UserAndLoginQuery userAndLoginQuery) throws Exception {
+
+        //日志
+        CltUtils.printStartInfo(userAndLoginQuery, "updateOrgIdByUserIds");
+
+        long startTime = System.currentTimeMillis();
+
+        //对参数进行校验
+
+        //调用user微服务接口
+        ResultInfo<String>  resultInfo =  userService.updateOrgIdByUserIds(userAndLoginQuery);;
+
+        CltUtils.printEndInfo(resultInfo, "updateOrgIdByUserIds", startTime);
+
+        return resultInfo;
+
+    }
+
+    /**
+     * 查询出所有的测试主管
+     * @param userAndLoginQuery
+     * @return
+     */
+    @PostMapping("/queryALlTestMangerList")
+    public ResultInfo<Page<CltUserAndLogin>> queryALlTestMangerList(@RequestBody UserAndLoginQuery  userAndLoginQuery )throws Exception{
+
+        CltUtils.printStartInfo(userAndLoginQuery, "queryALlTestMangerList");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+        userAndLoginQuery.setRoleCode(CommonConstants.ROLE_TESTLEAD);
+
+        //调用微服务接口
+        ResultInfo<Page<CltUserAndLogin>> resultInfo = userService.queryAllTestMangerList(userAndLoginQuery);
+
+        CltUtils.printEndInfo(resultInfo, "queryALlTestMangerList", startTime);
+
+        return resultInfo;
+
+    }
+
+    /**
+     * 根据角色代码查询用户列表
+     * @param userAndLoginQuery
+     * @return
+     */
+    @PostMapping("/queryUserByRoleCode")
+    public ResultInfo<Page<CltUserAndLogin>> queryUserByRoleCode(@RequestBody UserAndLoginQuery  userAndLoginQuery )throws Exception{
+
+        CltUtils.printStartInfo(userAndLoginQuery, "queryUserByRoleCode");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+       init(userAndLoginQuery,"Q_R");
+
+        //调用微服务接口
+        ResultInfo<Page<CltUserAndLogin>> resultInfo = userService.queryUserByRoleCode(userAndLoginQuery);
+
+        CltUtils.printEndInfo(resultInfo, "queryUserByRoleCode", startTime);
+
+        return resultInfo;
+
+    }
+
+
+    /**
+     * 查询所有启用用户
+     * @param userAndLoginQuery
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/queryUserListEnable")
+    public ResultInfo<Page<CltUserAndLogin>> queryUserListEnable(@RequestBody UserAndLoginQuery userAndLoginQuery)throws Exception{
+
+        CltUtils.printStartInfo(userAndLoginQuery, "queryUserListEnable");
+
+        long startTime = System.currentTimeMillis();
+
+        //调用user微服务接口
+        ResultInfo<Page<CltUserAndLogin>>  resultInfo = userService.queryUserListEnable(userAndLoginQuery);
+
+        CltUtils.printEndInfo(resultInfo, "queryUserListEnable", startTime);
+
+        return  resultInfo;
+    }
+
+
+    /**
+     * 查询所有的平台用户
+     * @param userAndLoginQuery
+     * @return
+     */
+    @PostMapping("/queryUserByUserType")
+    public ResultInfo<Page<CltUserAndLogin>> queryUserByUserType(@RequestBody UserAndLoginQuery  userAndLoginQuery )throws Exception{
+
+        CltUtils.printStartInfo(userAndLoginQuery, "queryUserByUserType");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+        userAndLoginQuery.setUserType("1");
+
+        //调用微服务接口
+        ResultInfo<Page<CltUserAndLogin>> resultInfo = userService.queryUserByUserType(userAndLoginQuery);
+
+        CltUtils.printEndInfo(resultInfo, "queryUserByUserType", startTime);
+
+        return resultInfo;
+
+    }
+
+    /**
+     * 用户详情的查询
+     * @param userAndLoginQuery
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/queryUserByUserId")
+    public ResultInfo<CltUserAndLogin> queryUserByUserId(@RequestBody UserAndLoginQuery userAndLoginQuery)throws Exception{
+
+        CltUtils.printStartInfo(userAndLoginQuery, "queryUserByUserId");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+        init(userAndLoginQuery,"Q_I");
+        //调用微服务接口
+        ResultInfo<CltUserAndLogin> resultInfo = userService.queryUserInfoByUserId(userAndLoginQuery);
+
+        CltUtils.printEndInfo(resultInfo, "queryUserByUserId", startTime);
+
+        return  resultInfo;
+    }
+
+    /**
+     * 编辑用户详情
+     * @param userAndLoginQuery
+     * @return
+     * @throws Exception
+     */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/updateUserInfo")
+    public ResultInfo<Integer> updateUserInfo(@RequestBody @Validated  UserAndLoginQuery userAndLoginQuery) throws Exception{
+
+        CltUtils.printStartInfo(userAndLoginQuery, "updateUserInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+        init(userAndLoginQuery,"U_I");
+        //调用微服务接口
+        ResultInfo<Integer> resultInfo = userService.updateCltUser(userAndLoginQuery);
+
+        CltUtils.printEndInfo(resultInfo, "updateUserInfo", startTime);
+
+        return  resultInfo;
+
+    }
+
+
+    /**
+     * 用户的启用/禁用
+     * @param userAndLoginQuery
+     * @return
+     * @throws Exception
+     */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/disEnableUser")
+    public ResultInfo<Integer> disEnableUser(@RequestBody  UserAndLoginQuery userAndLoginQuery) throws Exception{
+
+        CltUtils.printStartInfo(userAndLoginQuery, "disEnableUser");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+        init(userAndLoginQuery,"DIS");
+        //调用微服务接口
+        ResultInfo<Integer> resultInfo = userService.disEnableUser(userAndLoginQuery);
+
+        CltUtils.printEndInfo(resultInfo, "disEnableUser", startTime);
+
+        return resultInfo;
+    }
+
+
+    /**
+     * 批量删除用户
+     * @param userAndLoginQuery
+     * @return
+     * @throws Exception
+     */
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/deleteUsersByUserIds")
+    public ResultInfo<String> deleteUsersByUserIds(@RequestBody UserAndLoginQuery userAndLoginQuery) throws Exception {
+        //日志
+        CltUtils.printStartInfo(userAndLoginQuery, "deleteUsersByUserIds");
+
+        long startTime = System.currentTimeMillis();
+
+        //对参数进行校验
+        init(userAndLoginQuery, "DEL");
+
+        //调用微服务接口
+        ResultInfo<String> resultInfo = userService.deleteUsersByUserIds(userAndLoginQuery);
+
+        CltUtils.printEndInfo(resultInfo, "deleteUsersByUserIds", startTime);
+
+        return resultInfo;
+    }
+
+    /**
+     * 查询用户的详细信息(从token里面拿出UserId查询)
+     * @param userAndLoginQuery
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/queryUserByToken")
+    public ResultInfo<CltUserAndLogin> queryUserByToken(@RequestBody UserAndLoginQuery userAndLoginQuery)throws Exception{
+
+        CltUtils.printStartInfo(userAndLoginQuery, "queryUserByUserId");
+
+        long startTime = System.currentTimeMillis();
+
+        //调用微服务接口
+        ResultInfo<CltUserAndLogin> resultInfo = userService.queryUserByToken(userAndLoginQuery);
+
+        CltUtils.printEndInfo(resultInfo, "queryUserByToken", startTime);
+
+        return  resultInfo;
+    }
+
+    //密码修改
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/updatePassword")
+    ResultInfo<String> updatePassword(@RequestBody @Validated UserUpdatePwd userUpdatePwd)throws  Exception{
+
+        CltUtils.printStartInfo(userUpdatePwd, "queryUserByUserId");
+
+        long startTime = System.currentTimeMillis();
+
+        //调用微服务接口
+        ResultInfo<String> resultInfo = userService.updateUserPassword(userUpdatePwd);
+
+        CltUtils.printEndInfo(resultInfo, "queryUserByToken", startTime);
+
+        return  resultInfo;
+
+    }
+
+
+    /**
+     * 检验用户登录号的唯一性
+     * @param userAndLoginQuery
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/checkUserLoginNo")
+    public ResultInfo<Boolean> checkUserLoginNo(@RequestBody UserAndLoginQuery userAndLoginQuery)throws Exception{
+
+        CltUtils.printStartInfo(userAndLoginQuery, "checkUserLoginNo");
+
+        long startTime = System.currentTimeMillis();
+        //参数检验
+        init(userAndLoginQuery,"CHECK");
+
+        //调用微服务接口
+        ResultInfo<Boolean> resultInfo = userService.checkUserLoginNo(userAndLoginQuery);
+
+        CltUtils.printEndInfo(resultInfo, "checkUserLoginNo", startTime);
+
+        return  resultInfo;
+    }
+
+
+
+
+    //参数校验的方法
+    public static void init(UserAndLoginQuery userAndLoginQuery, String funcCode) throws Exception {
+
+        ParamVerifyUtil paramVerifyUtil = new ParamVerifyUtil();
+
+        Map<String,Object> dataMap = CltUtils.beanToMap(userAndLoginQuery);
+
+        if ("ADD".equals(funcCode)) {
+
+            //判断用户的类型
+            String userType=userAndLoginQuery.getUserType();
+            //如果用户类型为平台用户,有些字段是必填字段
+            if("1".equals(userType)){
+                paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                        "idType", "idNo", "address", "graduatedSchool", "graduatedDate", "graduatedSpecialty", "eduCode","specialty");
+            }
+
+        }else if("U_I".equals(funcCode)){
+
+            //判断用户的类型
+            String userType=userAndLoginQuery.getUserType();
+
+            //如果用户类型为平台用户,有些字段是必填字段
+            if("1".equals(userType)){
+                paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                        "userId","idType", "idNo", "address", "graduatedSchool", "graduatedDate", "graduatedSpecialty", "eduCode","specialty");
+
+            }else{
+                if("".equals(userAndLoginQuery.getUserId())|| userAndLoginQuery.getUserId()==null){
+                    throw new GlobalException(ErrorConstants.CLT_SYS_PARAM_ERROR_CODE,"userId"+ErrorConstants.CLT_SYS_PARAM_ERROR_MESSAGE);
+                }
+            }
+
+        }else if ("Q_I".equals(funcCode)){
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "userId");
+
+        }else if("DIS".equals(funcCode)){
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "userId");
+            //判断用户的状态
+            String status=userAndLoginQuery.getStatus();
+            if("".equals(status) || status==null || !status.matches("[23]")){
+
+                throw new GlobalException(ErrorConstants.USESTATUS_PARAM_NOTNULL_ERROR_CODEUSER_ERROR_CODE,ErrorConstants.USESTATUS_PARAM_NOTNULL_ERROR_CODEUSER_ERROR_MESSAGE);
+            }
+
+        }else if ("DEL".equals(funcCode)){
+            String[] userIds = userAndLoginQuery.getUserIds();
+            if (userIds.length == 0){
+                throw new GlobalException(ErrorConstants.USEID_PARAM_NOTNULL_ERROR_CODEUSER_IDS_USER_ERROR_CODE,ErrorConstants.USEID_PARAM_NOTNULL_ERROR_CODEUSER_IDS_USER_ERROR_MESSAGE);
+            }
+        }else if("Q_NULL".equals(funcCode)){
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "orgId");
+
+        }else if("CHECK".equals(funcCode)){
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "loginNo");
+
+        }else if("Q_R".equals(funcCode)){
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "roleCode");
+        }
+    }
+
+}

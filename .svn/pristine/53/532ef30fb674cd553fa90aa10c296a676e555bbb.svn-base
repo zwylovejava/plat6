@@ -1,0 +1,70 @@
+package net.northking.cloudplatform.api.service.impl;
+
+
+
+
+import net.northking.cloudplatform.api.service.ApiTxManagerService;
+import net.northking.cloudplatform.compensate.model.TransactionCompensateMsg;
+import net.northking.cloudplatform.compensate.service.CompensateService;
+import net.northking.cloudplatform.config.ConfigReader;
+import net.northking.cloudplatform.manager.service.MicroService;
+import net.northking.cloudplatform.manager.service.TxManagerSenderService;
+import net.northking.cloudplatform.manager.service.TxManagerService;
+import net.northking.cloudplatform.model.TxServer;
+import net.northking.cloudplatform.model.TxState;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+/**
+ * create by zwy on 2017/12/18
+ */
+@Service
+public class ApiTxManagerServiceImpl implements ApiTxManagerService {
+
+
+    @Autowired
+    private TxManagerService managerService;
+
+    @Autowired
+    private MicroService eurekaService;
+
+    @Autowired
+    private CompensateService compensateService;
+
+
+    @Autowired
+    private TxManagerSenderService txManagerSenderService;
+
+    @Autowired
+    private ConfigReader configReader;
+
+
+    @Override
+    public TxServer getServer() {
+        return eurekaService.getServer();
+    }
+
+
+    @Override
+    public int cleanNotifyTransaction(String groupId, String taskId) {
+        return managerService.cleanNotifyTransaction(groupId,taskId);
+    }
+
+
+    @Override
+    public boolean sendCompensateMsg(long currentTime, String groupId, String model, String address, String uniqueKey, String className, String methodStr, String data, int time) {
+        TransactionCompensateMsg transactionCompensateMsg = new TransactionCompensateMsg(currentTime, groupId, model, address, uniqueKey, className, methodStr, data, time, 0);
+        return compensateService.saveCompensateMsg(transactionCompensateMsg);
+    }
+
+    @Override
+    public String sendMsg(String model,String msg) {
+        return txManagerSenderService.sendMsg(model, msg, configReader.getTransactionNettyDelayTime());
+    }
+
+
+    @Override
+    public TxState getState() {
+        return eurekaService.getState();
+    }
+}

@@ -1,0 +1,798 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.testexecute.CoreWfWorkitemMapper" >
+  <resultMap id="BaseResultMap" type="net.northking.cloudplatform.domain.testexecute.CoreWfWorkitem" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="ENGINE_ADDRESS" property="engineAddress" jdbcType="INTEGER" />
+    <result column="ROOT_ACT_ID" property="rootActId" jdbcType="VARCHAR" />
+    <result column="PARENT_ACT_ID" property="parentActId" jdbcType="VARCHAR" />
+    <result column="ACTIVITYPATH" property="activitypath" jdbcType="VARCHAR" />
+    <result column="DESCRIPTION" property="description" jdbcType="VARCHAR" />
+    <result column="STYLESHEET" property="stylesheet" jdbcType="VARCHAR" />
+    <result column="EXCLUDE_PARTICIPANT" property="excludeParticipant" jdbcType="VARCHAR" />
+    <result column="WORKQUEUE" property="workqueue" jdbcType="VARCHAR" />
+    <result column="CREATED_TIME" property="createdTime" jdbcType="DECIMAL" />
+    <result column="RECLAIM_DEADLINE_TIME" property="reclaimDeadlineTime" jdbcType="DECIMAL" />
+    <result column="OBTAIN_DEADLINE_TIME" property="obtainDeadlineTime" jdbcType="DECIMAL" />
+    <result column="OBTAINED_TIME" property="obtainedTime" jdbcType="DECIMAL" />
+    <result column="SUBMITED_TIME" property="submitedTime" jdbcType="DECIMAL" />
+    <result column="PAUSEED_TIME" property="pauseedTime" jdbcType="DECIMAL" />
+    <result column="EXCEPTION_PAUSEED_TIME" property="exceptionPauseedTime" jdbcType="DECIMAL" />
+    <result column="RESUMED_TIME" property="resumedTime" jdbcType="DECIMAL" />
+    <result column="FINISHED_TIME" property="finishedTime" jdbcType="DECIMAL" />
+    <result column="PARTICIPANT" property="participant" jdbcType="VARCHAR" />
+    <result column="ISROLEMANAGER" property="isrolemanager" jdbcType="INTEGER" />
+    <result column="ORG_BUSINESS" property="orgBusiness" jdbcType="VARCHAR" />
+    <result column="ORGANIZATIONALUNIT" property="organizationalunit" jdbcType="VARCHAR" />
+    <result column="ORGANIZATIONALUNITTYPE" property="organizationalunittype" jdbcType="VARCHAR" />
+    <result column="ORGANIZATIONCLASSNAME" property="organizationclassname" jdbcType="VARCHAR" />
+    <result column="OPERATOR" property="operator" jdbcType="VARCHAR" />
+    <result column="STATE" property="state" jdbcType="INTEGER" />
+    <result column="PRIORITY" property="priority" jdbcType="INTEGER" />
+    <result column="PROCESSTYPE" property="processtype" jdbcType="VARCHAR" />
+    <result column="OBTAINID" property="obtainid" jdbcType="VARCHAR" />
+    <result column="INSTANCEPATH" property="instancepath" jdbcType="VARCHAR" />
+    <result column="ACT_ID" property="actId" jdbcType="VARCHAR" />
+    <result column="ACT_DEF_V_ID" property="actDefVId" jdbcType="VARCHAR" />
+    <result column="REF_ENTITY_ID" property="refEntityId" jdbcType="VARCHAR" />
+    <result column="UPDATE_ASS" property="updateAss" jdbcType="VARCHAR" />
+    <result column="ROOT_START_DATETIME" property="rootStartDatetime" jdbcType="DECIMAL" />
+    <result column="CONTENT" property="content" jdbcType="VARCHAR" />
+    <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+    <result column="ACQUIRE_TIME" property="acquireTime" jdbcType="TIMESTAMP" />
+    <result column="VALID_OPER" property="validOper" jdbcType="VARCHAR" />
+    <result column="EX_OPERATOR2" property="exOperator2" jdbcType="VARCHAR" />
+    <result column="EX_OPERATOR1" property="exOperator1" jdbcType="VARCHAR" />
+    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, ENGINE_ADDRESS, ROOT_ACT_ID, PARENT_ACT_ID, ACTIVITYPATH, DESCRIPTION, STYLESHEET, 
+    EXCLUDE_PARTICIPANT, WORKQUEUE, CREATED_TIME, RECLAIM_DEADLINE_TIME, OBTAIN_DEADLINE_TIME, 
+    OBTAINED_TIME, SUBMITED_TIME, PAUSEED_TIME, EXCEPTION_PAUSEED_TIME, RESUMED_TIME, 
+    FINISHED_TIME, PARTICIPANT, ISROLEMANAGER, ORG_BUSINESS, ORGANIZATIONALUNIT, ORGANIZATIONALUNITTYPE, 
+    ORGANIZATIONCLASSNAME, OPERATOR, STATE, PRIORITY, PROCESSTYPE, OBTAINID, INSTANCEPATH, 
+    ACT_ID, ACT_DEF_V_ID, REF_ENTITY_ID, UPDATE_ASS, ROOT_START_DATETIME, CONTENT, PROJECT_ID, 
+    ACQUIRE_TIME, VALID_OPER, EX_OPERATOR2, EX_OPERATOR1, CREATE_TIME
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.northking.cloudplatform.domain.testexecute.CoreWfWorkitemExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CORE_WF_WORKITEM
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CORE_WF_WORKITEM
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CORE_WF_WORKITEM
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.northking.cloudplatform.domain.testexecute.CoreWfWorkitemExample" >
+    delete from CORE_WF_WORKITEM
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.northking.cloudplatform.domain.testexecute.CoreWfWorkitem" >
+    insert into CORE_WF_WORKITEM (ID, ENGINE_ADDRESS, ROOT_ACT_ID, 
+      PARENT_ACT_ID, ACTIVITYPATH, DESCRIPTION, 
+      STYLESHEET, EXCLUDE_PARTICIPANT, WORKQUEUE, 
+      CREATED_TIME, RECLAIM_DEADLINE_TIME, OBTAIN_DEADLINE_TIME, 
+      OBTAINED_TIME, SUBMITED_TIME, PAUSEED_TIME, 
+      EXCEPTION_PAUSEED_TIME, RESUMED_TIME, FINISHED_TIME, 
+      PARTICIPANT, ISROLEMANAGER, ORG_BUSINESS, 
+      ORGANIZATIONALUNIT, ORGANIZATIONALUNITTYPE, 
+      ORGANIZATIONCLASSNAME, OPERATOR, STATE, 
+      PRIORITY, PROCESSTYPE, OBTAINID, 
+      INSTANCEPATH, ACT_ID, ACT_DEF_V_ID, 
+      REF_ENTITY_ID, UPDATE_ASS, ROOT_START_DATETIME, 
+      CONTENT, PROJECT_ID, ACQUIRE_TIME, 
+      VALID_OPER, EX_OPERATOR2, EX_OPERATOR1, 
+      CREATE_TIME)
+    values (#{id,jdbcType=VARCHAR}, #{engineAddress,jdbcType=INTEGER}, #{rootActId,jdbcType=VARCHAR}, 
+      #{parentActId,jdbcType=VARCHAR}, #{activitypath,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{stylesheet,jdbcType=VARCHAR}, #{excludeParticipant,jdbcType=VARCHAR}, #{workqueue,jdbcType=VARCHAR}, 
+      #{createdTime,jdbcType=DECIMAL}, #{reclaimDeadlineTime,jdbcType=DECIMAL}, #{obtainDeadlineTime,jdbcType=DECIMAL}, 
+      #{obtainedTime,jdbcType=DECIMAL}, #{submitedTime,jdbcType=DECIMAL}, #{pauseedTime,jdbcType=DECIMAL}, 
+      #{exceptionPauseedTime,jdbcType=DECIMAL}, #{resumedTime,jdbcType=DECIMAL}, #{finishedTime,jdbcType=DECIMAL}, 
+      #{participant,jdbcType=VARCHAR}, #{isrolemanager,jdbcType=INTEGER}, #{orgBusiness,jdbcType=VARCHAR}, 
+      #{organizationalunit,jdbcType=VARCHAR}, #{organizationalunittype,jdbcType=VARCHAR}, 
+      #{organizationclassname,jdbcType=VARCHAR}, #{operator,jdbcType=VARCHAR}, #{state,jdbcType=INTEGER}, 
+      #{priority,jdbcType=INTEGER}, #{processtype,jdbcType=VARCHAR}, #{obtainid,jdbcType=VARCHAR}, 
+      #{instancepath,jdbcType=VARCHAR}, #{actId,jdbcType=VARCHAR}, #{actDefVId,jdbcType=VARCHAR}, 
+      #{refEntityId,jdbcType=VARCHAR}, #{updateAss,jdbcType=VARCHAR}, #{rootStartDatetime,jdbcType=DECIMAL}, 
+      #{content,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, #{acquireTime,jdbcType=TIMESTAMP}, 
+      #{validOper,jdbcType=VARCHAR}, #{exOperator2,jdbcType=VARCHAR}, #{exOperator1,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="net.northking.cloudplatform.domain.testexecute.CoreWfWorkitem" >
+    insert into CORE_WF_WORKITEM
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="engineAddress != null" >
+        ENGINE_ADDRESS,
+      </if>
+      <if test="rootActId != null" >
+        ROOT_ACT_ID,
+      </if>
+      <if test="parentActId != null" >
+        PARENT_ACT_ID,
+      </if>
+      <if test="activitypath != null" >
+        ACTIVITYPATH,
+      </if>
+      <if test="description != null" >
+        DESCRIPTION,
+      </if>
+      <if test="stylesheet != null" >
+        STYLESHEET,
+      </if>
+      <if test="excludeParticipant != null" >
+        EXCLUDE_PARTICIPANT,
+      </if>
+      <if test="workqueue != null" >
+        WORKQUEUE,
+      </if>
+      <if test="createdTime != null" >
+        CREATED_TIME,
+      </if>
+      <if test="reclaimDeadlineTime != null" >
+        RECLAIM_DEADLINE_TIME,
+      </if>
+      <if test="obtainDeadlineTime != null" >
+        OBTAIN_DEADLINE_TIME,
+      </if>
+      <if test="obtainedTime != null" >
+        OBTAINED_TIME,
+      </if>
+      <if test="submitedTime != null" >
+        SUBMITED_TIME,
+      </if>
+      <if test="pauseedTime != null" >
+        PAUSEED_TIME,
+      </if>
+      <if test="exceptionPauseedTime != null" >
+        EXCEPTION_PAUSEED_TIME,
+      </if>
+      <if test="resumedTime != null" >
+        RESUMED_TIME,
+      </if>
+      <if test="finishedTime != null" >
+        FINISHED_TIME,
+      </if>
+      <if test="participant != null" >
+        PARTICIPANT,
+      </if>
+      <if test="isrolemanager != null" >
+        ISROLEMANAGER,
+      </if>
+      <if test="orgBusiness != null" >
+        ORG_BUSINESS,
+      </if>
+      <if test="organizationalunit != null" >
+        ORGANIZATIONALUNIT,
+      </if>
+      <if test="organizationalunittype != null" >
+        ORGANIZATIONALUNITTYPE,
+      </if>
+      <if test="organizationclassname != null" >
+        ORGANIZATIONCLASSNAME,
+      </if>
+      <if test="operator != null" >
+        OPERATOR,
+      </if>
+      <if test="state != null" >
+        STATE,
+      </if>
+      <if test="priority != null" >
+        PRIORITY,
+      </if>
+      <if test="processtype != null" >
+        PROCESSTYPE,
+      </if>
+      <if test="obtainid != null" >
+        OBTAINID,
+      </if>
+      <if test="instancepath != null" >
+        INSTANCEPATH,
+      </if>
+      <if test="actId != null" >
+        ACT_ID,
+      </if>
+      <if test="actDefVId != null" >
+        ACT_DEF_V_ID,
+      </if>
+      <if test="refEntityId != null" >
+        REF_ENTITY_ID,
+      </if>
+      <if test="updateAss != null" >
+        UPDATE_ASS,
+      </if>
+      <if test="rootStartDatetime != null" >
+        ROOT_START_DATETIME,
+      </if>
+      <if test="content != null" >
+        CONTENT,
+      </if>
+      <if test="projectId != null" >
+        PROJECT_ID,
+      </if>
+      <if test="acquireTime != null" >
+        ACQUIRE_TIME,
+      </if>
+      <if test="validOper != null" >
+        VALID_OPER,
+      </if>
+      <if test="exOperator2 != null" >
+        EX_OPERATOR2,
+      </if>
+      <if test="exOperator1 != null" >
+        EX_OPERATOR1,
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="engineAddress != null" >
+        #{engineAddress,jdbcType=INTEGER},
+      </if>
+      <if test="rootActId != null" >
+        #{rootActId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentActId != null" >
+        #{parentActId,jdbcType=VARCHAR},
+      </if>
+      <if test="activitypath != null" >
+        #{activitypath,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="stylesheet != null" >
+        #{stylesheet,jdbcType=VARCHAR},
+      </if>
+      <if test="excludeParticipant != null" >
+        #{excludeParticipant,jdbcType=VARCHAR},
+      </if>
+      <if test="workqueue != null" >
+        #{workqueue,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        #{createdTime,jdbcType=DECIMAL},
+      </if>
+      <if test="reclaimDeadlineTime != null" >
+        #{reclaimDeadlineTime,jdbcType=DECIMAL},
+      </if>
+      <if test="obtainDeadlineTime != null" >
+        #{obtainDeadlineTime,jdbcType=DECIMAL},
+      </if>
+      <if test="obtainedTime != null" >
+        #{obtainedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="submitedTime != null" >
+        #{submitedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="pauseedTime != null" >
+        #{pauseedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="exceptionPauseedTime != null" >
+        #{exceptionPauseedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="resumedTime != null" >
+        #{resumedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="finishedTime != null" >
+        #{finishedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="participant != null" >
+        #{participant,jdbcType=VARCHAR},
+      </if>
+      <if test="isrolemanager != null" >
+        #{isrolemanager,jdbcType=INTEGER},
+      </if>
+      <if test="orgBusiness != null" >
+        #{orgBusiness,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationalunit != null" >
+        #{organizationalunit,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationalunittype != null" >
+        #{organizationalunittype,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationclassname != null" >
+        #{organizationclassname,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        #{state,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null" >
+        #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="processtype != null" >
+        #{processtype,jdbcType=VARCHAR},
+      </if>
+      <if test="obtainid != null" >
+        #{obtainid,jdbcType=VARCHAR},
+      </if>
+      <if test="instancepath != null" >
+        #{instancepath,jdbcType=VARCHAR},
+      </if>
+      <if test="actId != null" >
+        #{actId,jdbcType=VARCHAR},
+      </if>
+      <if test="actDefVId != null" >
+        #{actDefVId,jdbcType=VARCHAR},
+      </if>
+      <if test="refEntityId != null" >
+        #{refEntityId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAss != null" >
+        #{updateAss,jdbcType=VARCHAR},
+      </if>
+      <if test="rootStartDatetime != null" >
+        #{rootStartDatetime,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="acquireTime != null" >
+        #{acquireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validOper != null" >
+        #{validOper,jdbcType=VARCHAR},
+      </if>
+      <if test="exOperator2 != null" >
+        #{exOperator2,jdbcType=VARCHAR},
+      </if>
+      <if test="exOperator1 != null" >
+        #{exOperator1,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.northking.cloudplatform.domain.testexecute.CoreWfWorkitemExample" resultType="java.lang.Integer" >
+    select count(*) from CORE_WF_WORKITEM
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CORE_WF_WORKITEM
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.engineAddress != null" >
+        ENGINE_ADDRESS = #{record.engineAddress,jdbcType=INTEGER},
+      </if>
+      <if test="record.rootActId != null" >
+        ROOT_ACT_ID = #{record.rootActId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentActId != null" >
+        PARENT_ACT_ID = #{record.parentActId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.activitypath != null" >
+        ACTIVITYPATH = #{record.activitypath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        DESCRIPTION = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stylesheet != null" >
+        STYLESHEET = #{record.stylesheet,jdbcType=VARCHAR},
+      </if>
+      <if test="record.excludeParticipant != null" >
+        EXCLUDE_PARTICIPANT = #{record.excludeParticipant,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workqueue != null" >
+        WORKQUEUE = #{record.workqueue,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createdTime != null" >
+        CREATED_TIME = #{record.createdTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.reclaimDeadlineTime != null" >
+        RECLAIM_DEADLINE_TIME = #{record.reclaimDeadlineTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.obtainDeadlineTime != null" >
+        OBTAIN_DEADLINE_TIME = #{record.obtainDeadlineTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.obtainedTime != null" >
+        OBTAINED_TIME = #{record.obtainedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.submitedTime != null" >
+        SUBMITED_TIME = #{record.submitedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.pauseedTime != null" >
+        PAUSEED_TIME = #{record.pauseedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.exceptionPauseedTime != null" >
+        EXCEPTION_PAUSEED_TIME = #{record.exceptionPauseedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.resumedTime != null" >
+        RESUMED_TIME = #{record.resumedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.finishedTime != null" >
+        FINISHED_TIME = #{record.finishedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.participant != null" >
+        PARTICIPANT = #{record.participant,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isrolemanager != null" >
+        ISROLEMANAGER = #{record.isrolemanager,jdbcType=INTEGER},
+      </if>
+      <if test="record.orgBusiness != null" >
+        ORG_BUSINESS = #{record.orgBusiness,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organizationalunit != null" >
+        ORGANIZATIONALUNIT = #{record.organizationalunit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organizationalunittype != null" >
+        ORGANIZATIONALUNITTYPE = #{record.organizationalunittype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.organizationclassname != null" >
+        ORGANIZATIONCLASSNAME = #{record.organizationclassname,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operator != null" >
+        OPERATOR = #{record.operator,jdbcType=VARCHAR},
+      </if>
+      <if test="record.state != null" >
+        STATE = #{record.state,jdbcType=INTEGER},
+      </if>
+      <if test="record.priority != null" >
+        PRIORITY = #{record.priority,jdbcType=INTEGER},
+      </if>
+      <if test="record.processtype != null" >
+        PROCESSTYPE = #{record.processtype,jdbcType=VARCHAR},
+      </if>
+      <if test="record.obtainid != null" >
+        OBTAINID = #{record.obtainid,jdbcType=VARCHAR},
+      </if>
+      <if test="record.instancepath != null" >
+        INSTANCEPATH = #{record.instancepath,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actId != null" >
+        ACT_ID = #{record.actId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.actDefVId != null" >
+        ACT_DEF_V_ID = #{record.actDefVId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.refEntityId != null" >
+        REF_ENTITY_ID = #{record.refEntityId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateAss != null" >
+        UPDATE_ASS = #{record.updateAss,jdbcType=VARCHAR},
+      </if>
+      <if test="record.rootStartDatetime != null" >
+        ROOT_START_DATETIME = #{record.rootStartDatetime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.content != null" >
+        CONTENT = #{record.content,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectId != null" >
+        PROJECT_ID = #{record.projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.acquireTime != null" >
+        ACQUIRE_TIME = #{record.acquireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.validOper != null" >
+        VALID_OPER = #{record.validOper,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exOperator2 != null" >
+        EX_OPERATOR2 = #{record.exOperator2,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exOperator1 != null" >
+        EX_OPERATOR1 = #{record.exOperator1,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createTime != null" >
+        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CORE_WF_WORKITEM
+    set ID = #{record.id,jdbcType=VARCHAR},
+      ENGINE_ADDRESS = #{record.engineAddress,jdbcType=INTEGER},
+      ROOT_ACT_ID = #{record.rootActId,jdbcType=VARCHAR},
+      PARENT_ACT_ID = #{record.parentActId,jdbcType=VARCHAR},
+      ACTIVITYPATH = #{record.activitypath,jdbcType=VARCHAR},
+      DESCRIPTION = #{record.description,jdbcType=VARCHAR},
+      STYLESHEET = #{record.stylesheet,jdbcType=VARCHAR},
+      EXCLUDE_PARTICIPANT = #{record.excludeParticipant,jdbcType=VARCHAR},
+      WORKQUEUE = #{record.workqueue,jdbcType=VARCHAR},
+      CREATED_TIME = #{record.createdTime,jdbcType=DECIMAL},
+      RECLAIM_DEADLINE_TIME = #{record.reclaimDeadlineTime,jdbcType=DECIMAL},
+      OBTAIN_DEADLINE_TIME = #{record.obtainDeadlineTime,jdbcType=DECIMAL},
+      OBTAINED_TIME = #{record.obtainedTime,jdbcType=DECIMAL},
+      SUBMITED_TIME = #{record.submitedTime,jdbcType=DECIMAL},
+      PAUSEED_TIME = #{record.pauseedTime,jdbcType=DECIMAL},
+      EXCEPTION_PAUSEED_TIME = #{record.exceptionPauseedTime,jdbcType=DECIMAL},
+      RESUMED_TIME = #{record.resumedTime,jdbcType=DECIMAL},
+      FINISHED_TIME = #{record.finishedTime,jdbcType=DECIMAL},
+      PARTICIPANT = #{record.participant,jdbcType=VARCHAR},
+      ISROLEMANAGER = #{record.isrolemanager,jdbcType=INTEGER},
+      ORG_BUSINESS = #{record.orgBusiness,jdbcType=VARCHAR},
+      ORGANIZATIONALUNIT = #{record.organizationalunit,jdbcType=VARCHAR},
+      ORGANIZATIONALUNITTYPE = #{record.organizationalunittype,jdbcType=VARCHAR},
+      ORGANIZATIONCLASSNAME = #{record.organizationclassname,jdbcType=VARCHAR},
+      OPERATOR = #{record.operator,jdbcType=VARCHAR},
+      STATE = #{record.state,jdbcType=INTEGER},
+      PRIORITY = #{record.priority,jdbcType=INTEGER},
+      PROCESSTYPE = #{record.processtype,jdbcType=VARCHAR},
+      OBTAINID = #{record.obtainid,jdbcType=VARCHAR},
+      INSTANCEPATH = #{record.instancepath,jdbcType=VARCHAR},
+      ACT_ID = #{record.actId,jdbcType=VARCHAR},
+      ACT_DEF_V_ID = #{record.actDefVId,jdbcType=VARCHAR},
+      REF_ENTITY_ID = #{record.refEntityId,jdbcType=VARCHAR},
+      UPDATE_ASS = #{record.updateAss,jdbcType=VARCHAR},
+      ROOT_START_DATETIME = #{record.rootStartDatetime,jdbcType=DECIMAL},
+      CONTENT = #{record.content,jdbcType=VARCHAR},
+      PROJECT_ID = #{record.projectId,jdbcType=VARCHAR},
+      ACQUIRE_TIME = #{record.acquireTime,jdbcType=TIMESTAMP},
+      VALID_OPER = #{record.validOper,jdbcType=VARCHAR},
+      EX_OPERATOR2 = #{record.exOperator2,jdbcType=VARCHAR},
+      EX_OPERATOR1 = #{record.exOperator1,jdbcType=VARCHAR},
+      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.northking.cloudplatform.domain.testexecute.CoreWfWorkitem" >
+    update CORE_WF_WORKITEM
+    <set >
+      <if test="engineAddress != null" >
+        ENGINE_ADDRESS = #{engineAddress,jdbcType=INTEGER},
+      </if>
+      <if test="rootActId != null" >
+        ROOT_ACT_ID = #{rootActId,jdbcType=VARCHAR},
+      </if>
+      <if test="parentActId != null" >
+        PARENT_ACT_ID = #{parentActId,jdbcType=VARCHAR},
+      </if>
+      <if test="activitypath != null" >
+        ACTIVITYPATH = #{activitypath,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        DESCRIPTION = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="stylesheet != null" >
+        STYLESHEET = #{stylesheet,jdbcType=VARCHAR},
+      </if>
+      <if test="excludeParticipant != null" >
+        EXCLUDE_PARTICIPANT = #{excludeParticipant,jdbcType=VARCHAR},
+      </if>
+      <if test="workqueue != null" >
+        WORKQUEUE = #{workqueue,jdbcType=VARCHAR},
+      </if>
+      <if test="createdTime != null" >
+        CREATED_TIME = #{createdTime,jdbcType=DECIMAL},
+      </if>
+      <if test="reclaimDeadlineTime != null" >
+        RECLAIM_DEADLINE_TIME = #{reclaimDeadlineTime,jdbcType=DECIMAL},
+      </if>
+      <if test="obtainDeadlineTime != null" >
+        OBTAIN_DEADLINE_TIME = #{obtainDeadlineTime,jdbcType=DECIMAL},
+      </if>
+      <if test="obtainedTime != null" >
+        OBTAINED_TIME = #{obtainedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="submitedTime != null" >
+        SUBMITED_TIME = #{submitedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="pauseedTime != null" >
+        PAUSEED_TIME = #{pauseedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="exceptionPauseedTime != null" >
+        EXCEPTION_PAUSEED_TIME = #{exceptionPauseedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="resumedTime != null" >
+        RESUMED_TIME = #{resumedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="finishedTime != null" >
+        FINISHED_TIME = #{finishedTime,jdbcType=DECIMAL},
+      </if>
+      <if test="participant != null" >
+        PARTICIPANT = #{participant,jdbcType=VARCHAR},
+      </if>
+      <if test="isrolemanager != null" >
+        ISROLEMANAGER = #{isrolemanager,jdbcType=INTEGER},
+      </if>
+      <if test="orgBusiness != null" >
+        ORG_BUSINESS = #{orgBusiness,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationalunit != null" >
+        ORGANIZATIONALUNIT = #{organizationalunit,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationalunittype != null" >
+        ORGANIZATIONALUNITTYPE = #{organizationalunittype,jdbcType=VARCHAR},
+      </if>
+      <if test="organizationclassname != null" >
+        ORGANIZATIONCLASSNAME = #{organizationclassname,jdbcType=VARCHAR},
+      </if>
+      <if test="operator != null" >
+        OPERATOR = #{operator,jdbcType=VARCHAR},
+      </if>
+      <if test="state != null" >
+        STATE = #{state,jdbcType=INTEGER},
+      </if>
+      <if test="priority != null" >
+        PRIORITY = #{priority,jdbcType=INTEGER},
+      </if>
+      <if test="processtype != null" >
+        PROCESSTYPE = #{processtype,jdbcType=VARCHAR},
+      </if>
+      <if test="obtainid != null" >
+        OBTAINID = #{obtainid,jdbcType=VARCHAR},
+      </if>
+      <if test="instancepath != null" >
+        INSTANCEPATH = #{instancepath,jdbcType=VARCHAR},
+      </if>
+      <if test="actId != null" >
+        ACT_ID = #{actId,jdbcType=VARCHAR},
+      </if>
+      <if test="actDefVId != null" >
+        ACT_DEF_V_ID = #{actDefVId,jdbcType=VARCHAR},
+      </if>
+      <if test="refEntityId != null" >
+        REF_ENTITY_ID = #{refEntityId,jdbcType=VARCHAR},
+      </if>
+      <if test="updateAss != null" >
+        UPDATE_ASS = #{updateAss,jdbcType=VARCHAR},
+      </if>
+      <if test="rootStartDatetime != null" >
+        ROOT_START_DATETIME = #{rootStartDatetime,jdbcType=DECIMAL},
+      </if>
+      <if test="content != null" >
+        CONTENT = #{content,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      </if>
+      <if test="acquireTime != null" >
+        ACQUIRE_TIME = #{acquireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="validOper != null" >
+        VALID_OPER = #{validOper,jdbcType=VARCHAR},
+      </if>
+      <if test="exOperator2 != null" >
+        EX_OPERATOR2 = #{exOperator2,jdbcType=VARCHAR},
+      </if>
+      <if test="exOperator1 != null" >
+        EX_OPERATOR1 = #{exOperator1,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.northking.cloudplatform.domain.testexecute.CoreWfWorkitem" >
+    update CORE_WF_WORKITEM
+    set ENGINE_ADDRESS = #{engineAddress,jdbcType=INTEGER},
+      ROOT_ACT_ID = #{rootActId,jdbcType=VARCHAR},
+      PARENT_ACT_ID = #{parentActId,jdbcType=VARCHAR},
+      ACTIVITYPATH = #{activitypath,jdbcType=VARCHAR},
+      DESCRIPTION = #{description,jdbcType=VARCHAR},
+      STYLESHEET = #{stylesheet,jdbcType=VARCHAR},
+      EXCLUDE_PARTICIPANT = #{excludeParticipant,jdbcType=VARCHAR},
+      WORKQUEUE = #{workqueue,jdbcType=VARCHAR},
+      CREATED_TIME = #{createdTime,jdbcType=DECIMAL},
+      RECLAIM_DEADLINE_TIME = #{reclaimDeadlineTime,jdbcType=DECIMAL},
+      OBTAIN_DEADLINE_TIME = #{obtainDeadlineTime,jdbcType=DECIMAL},
+      OBTAINED_TIME = #{obtainedTime,jdbcType=DECIMAL},
+      SUBMITED_TIME = #{submitedTime,jdbcType=DECIMAL},
+      PAUSEED_TIME = #{pauseedTime,jdbcType=DECIMAL},
+      EXCEPTION_PAUSEED_TIME = #{exceptionPauseedTime,jdbcType=DECIMAL},
+      RESUMED_TIME = #{resumedTime,jdbcType=DECIMAL},
+      FINISHED_TIME = #{finishedTime,jdbcType=DECIMAL},
+      PARTICIPANT = #{participant,jdbcType=VARCHAR},
+      ISROLEMANAGER = #{isrolemanager,jdbcType=INTEGER},
+      ORG_BUSINESS = #{orgBusiness,jdbcType=VARCHAR},
+      ORGANIZATIONALUNIT = #{organizationalunit,jdbcType=VARCHAR},
+      ORGANIZATIONALUNITTYPE = #{organizationalunittype,jdbcType=VARCHAR},
+      ORGANIZATIONCLASSNAME = #{organizationclassname,jdbcType=VARCHAR},
+      OPERATOR = #{operator,jdbcType=VARCHAR},
+      STATE = #{state,jdbcType=INTEGER},
+      PRIORITY = #{priority,jdbcType=INTEGER},
+      PROCESSTYPE = #{processtype,jdbcType=VARCHAR},
+      OBTAINID = #{obtainid,jdbcType=VARCHAR},
+      INSTANCEPATH = #{instancepath,jdbcType=VARCHAR},
+      ACT_ID = #{actId,jdbcType=VARCHAR},
+      ACT_DEF_V_ID = #{actDefVId,jdbcType=VARCHAR},
+      REF_ENTITY_ID = #{refEntityId,jdbcType=VARCHAR},
+      UPDATE_ASS = #{updateAss,jdbcType=VARCHAR},
+      ROOT_START_DATETIME = #{rootStartDatetime,jdbcType=DECIMAL},
+      CONTENT = #{content,jdbcType=VARCHAR},
+      PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+      ACQUIRE_TIME = #{acquireTime,jdbcType=TIMESTAMP},
+      VALID_OPER = #{validOper,jdbcType=VARCHAR},
+      EX_OPERATOR2 = #{exOperator2,jdbcType=VARCHAR},
+      EX_OPERATOR1 = #{exOperator1,jdbcType=VARCHAR},
+      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

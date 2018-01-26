@@ -1,0 +1,52 @@
+package net.northking.cloudplatform.service;
+
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.dao.base.BaseService;
+import net.northking.cloudplatform.domain.testcase.User;
+import net.northking.cloudplatform.domain.testcase.UserExample;
+import net.northking.cloudplatform.query.testcase.UserQuery;
+
+
+/**
+ * @Title: 用户逻辑类
+ * @Description:
+ * @Company: Northking
+ * @Author: chuangsheng.huang
+ * @CreateDate: 2017/11/4
+ * @UpdateUser:
+ * @Version:0.1
+ */
+public interface UserService extends BaseService<User, UserExample, String> {
+
+    /**
+     * 查询所有用户
+     * @param userQuery
+     * @return
+     */
+    Page<User> findAll(UserQuery userQuery) throws Exception;
+
+    /**
+     * 添加用户
+     * @param user
+     */
+    int addUser(User user);
+
+    /**
+     * 更新用户
+     * @param user
+     */
+    int updateUser(User user);
+
+    /**
+     * 删除用户
+     * @param user
+     */
+    int deleteUser(User user);
+
+    /**
+     * 删除批量用户
+     * @param ids
+     */
+    void deleteUserByIds(String[] ids);
+}

@@ -1,0 +1,19 @@
+package net.northking.cloudplatform.dao.dictionary;
+
+
+import net.northking.cloudplatform.dao.base.BaseDao;
+import net.northking.cloudplatform.domain.dictionary.CltDictionaryType;
+import net.northking.cloudplatform.domain.dictionary.CltDictionaryTypeExample;
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
+
+
+@Component
+@Mapper
+public interface CltDictionaryTypeMapper extends BaseDao<CltDictionaryType,CltDictionaryTypeExample,String> {
+
+    //根据typeCode查询
+    CltDictionaryType queryCltDictionaryTypeByTypeCode(String typeCode);
+
+
+}

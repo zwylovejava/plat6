@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/cloudplatform-api/pom.xml" />
+        <option value="$PROJECT_DIR$/cloudplatform-dao/pom.xml" />
+        <option value="$PROJECT_DIR$/cloudplatform-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/cloudplatform-assist/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/cloudplatform-txmanager/pom.xml" />
+        <option value="$PROJECT_DIR$/cloudplatformeureka/pom.xml" />
+        <option value="$PROJECT_DIR$/cloudplatformtest-case/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="SvnBranchConfigurationManager">
+    <option name="myConfigurationMap">
+      <map>
+        <entry key="$PROJECT_DIR$">
+          <value>
+            <SvnBranchConfiguration>
+              <option name="trunkUrl" value="https://192.168.0.199:3690/svn/%E4%BA%91%E6%B5%8B%E9%A1%B9%E7%9B%AE/dev-code/cloud_platform" />
+            </SvnBranchConfiguration>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="mySupportsUserInfoFilter" value="true" />
+  </component>
+</project>

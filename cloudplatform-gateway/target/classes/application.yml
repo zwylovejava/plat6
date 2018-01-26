@@ -1,0 +1,17 @@
+server:
+  port: 18080
+eureka:
+   client:
+     healthcheck:
+       enabled: true
+zuul:
+  host:
+    connect-timeout-millis: 60000
+    socket-timeout-millis: 60000
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          thread:
+             timeoutInMilliseconds: 60000

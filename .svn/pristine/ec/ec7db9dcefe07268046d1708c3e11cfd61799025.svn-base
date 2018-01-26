@@ -1,0 +1,112 @@
+package net.northking.cloudplatform.controller.testbug;
+
+import com.codingapi.tx.annotation.TxTransaction;
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.domain.testbug.CltTestBug;
+import net.northking.cloudplatform.query.testbug.TestBugQuery;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.testbug.TestBugService;
+import net.northking.cloudplatform.utils.CltUtils;
+import net.northking.cloudplatform.utils.ParamVerifyUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
+
+/**
+ * Created by liujinghao on 2017/12/25.
+ */
+@RestController
+public class TestBugController {
+    private final static Logger logger = LoggerFactory.getLogger(TestBugController.class);
+
+   @Autowired
+   private TestBugService testBugService;
+    /**
+     * 添加缺陷信息
+     *
+     * @param testBugQuery
+     * @return
+     */
+    @TxTransaction
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/addCltProjectListInfo")
+    public ResultInfo<Integer> addTestBug(@RequestBody @Validated TestBugQuery testBugQuery) throws Exception{
+
+        CltUtils.printStartInfo(testBugQuery, "addTestBug");
+
+        long startTime = System.currentTimeMillis();
+
+        //调用微服务接口
+        ResultInfo<Integer> resultInfo = testBugService.addTestBug(testBugQuery);
+
+        CltUtils.printEndInfo(resultInfo, "addTestBug", startTime);
+
+        return  resultInfo;
+    }
+
+    /**
+     * 缺陷信息列表
+     *
+     * @param testBugQuery
+     * @return
+     */
+    @PostMapping("/queryAllTestBugs")
+    public ResultInfo<Page<CltTestBug>> queryAllTestBugs(@RequestBody TestBugQuery testBugQuery)throws Exception {
+        CltUtils.printStartInfo(testBugQuery, "Controller queryAllTestBugs");
+
+        long startTime = System.currentTimeMillis();
+
+        //调用微服务controller接口
+        ResultInfo<Page<CltTestBug>> result  = testBugService.queryAllTestBugs(testBugQuery);
+
+        CltUtils.printEndInfo(result, "Controller queryAllTestBugs", startTime);
+
+        return  result;
+    }
+
+    /**
+     * 缺陷信息详情
+     *
+     * @param testBugQuery
+     * @return
+     */
+    @PostMapping("/queryBugByBugId")
+    public ResultInfo<CltTestBug> queryBugByBugId(@RequestBody TestBugQuery testBugQuery) throws Exception{
+
+        CltUtils.printStartInfo(testBugQuery, "Controller queryBugByBugId");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+        init(testBugQuery,"queryBugByBugId");
+
+        //调用微服务controller接口
+        ResultInfo<CltTestBug> result  = testBugService.queryBugByBugId(testBugQuery);
+
+        CltUtils.printEndInfo(result, "Controller queryBugByBugId", startTime);
+
+        return  result;
+    }
+
+    //参数校验的方法
+    public static void init(TestBugQuery testBugQuery, String funcCode) throws Exception {
+
+        ParamVerifyUtil paramVerifyUtil = new ParamVerifyUtil();
+
+        Map<String, Object> dataMap = CltUtils.beanToMap(testBugQuery);
+
+        if ("queryBugByBugId".equals(funcCode)){
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "bugId");
+        }
+    }
+}

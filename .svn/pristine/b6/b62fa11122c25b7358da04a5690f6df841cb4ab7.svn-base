@@ -1,0 +1,398 @@
+package net.northking.cloudplatform.controller.user;
+
+import feign.FeignException;
+
+import net.northking.cloudplatform.assist.RedisUtil;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.domain.user.CltFunc;
+import net.northking.cloudplatform.domain.user.CltUserLogin;
+import net.northking.cloudplatform.dto.auth.AuthToken;
+import net.northking.cloudplatform.dto.auth.Authority;
+import net.northking.cloudplatform.dto.auth.UserFunc;
+import net.northking.cloudplatform.dto.user.UserLogin;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.feign.auth.AuthTokenFeign;
+import net.northking.cloudplatform.feign.user.UserLoginFeignClient;
+import net.northking.cloudplatform.query.auth.AuthQuery;
+import net.northking.cloudplatform.query.user.UserLoginQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.user.UserLoginService;
+import net.northking.cloudplatform.utils.*;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import sun.misc.BASE64Encoder;
+
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @Title:
+ * @Description:登陆信息控制层
+ * @Company: Northking
+ * @Author: HBH
+ * @CreateDate: 2017-12-07 17:04
+ * @UpdateUser:
+ * @Version:0.1
+ */
+
+@RestController
+public class UserLoginController {
+
+    private final static Logger logger = LoggerFactory.getLogger(UserLoginController.class);
+
+    @Autowired
+    RedisUtil redisUtil;
+
+    @Autowired
+    UserLoginService userLoginService;
+    /**
+     * 获取验证码
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/getVerificationCode")
+    public ResultInfo<UserLogin> getVerificationCode() throws Exception {
+
+        CltUtils.printStartInfo("", "getVerificationCode");
+
+        long startTime = System.currentTimeMillis();
+
+        UserLogin userLogin = getImageCode();
+
+        CltUtils.printEndInfo(userLogin, "getVerificationCode", startTime);
+
+        return new ResultInfo<UserLogin>(ResultCode.SUCCESS.code(), ResultCode.SUCCESS.msg(), userLogin);
+    }
+
+    /**
+     * 校验验证码正确性
+     * @param userLoginQuery
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/checkVerificationCode")
+    public ResultInfo<String> checkVerificationCode(@RequestBody UserLoginQuery userLoginQuery) throws Exception {
+
+        CltUtils.printStartInfo(userLoginQuery, "checkVerificationCode");
+
+        long startTime = System.currentTimeMillis();
+
+        //必输项校验  codeId code值
+        init(userLoginQuery);
+
+        //调用接口服务
+        ResultInfo<String> resultInfo  = userLoginService.checkVerificationCode(userLoginQuery);
+
+        CltUtils.printEndInfo(userLoginQuery, "checkVerificationCode", startTime);
+
+        return resultInfo;
+    }
+
+    /**
+     * 用户登录
+     * @param authQuery
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/authToken")
+    public ResultInfo<AuthToken> authToken(@RequestBody AuthQuery authQuery) throws Exception {
+
+        CltUtils.printStartInfo(authQuery, "authToken");
+
+        long startTime = System.currentTimeMillis();
+
+        //校验验证码是否正确
+        UserLoginQuery userLoginQuery = new UserLoginQuery();
+
+        userLoginQuery.setCodeId(authQuery.getImgId());
+
+        userLoginQuery.setCode(authQuery.getImgValue());
+
+        ResultInfo<String> resultInfo = checkVerificationCode(userLoginQuery);
+
+        AuthToken authToken = null;
+
+        try {
+            if("CLT000000000".equals(resultInfo.getResultCode())){
+                authToken = userLoginService.authLogin(authQuery);
+                if(authToken!=null && StringUtils.isNotEmpty(authToken.getAccess_token())) {
+                    CltUserLogin userLogin =userLoginService.getLoginUser(authToken);
+                    authToken.setUserName(userLogin.getLoginNo());
+                    authToken.setUserChnName(userLogin.getUserChnName());
+                    authToken.setIsSuper(userLogin.getIsSuper());
+                }
+            }else {
+                if(resultInfo!=null){
+
+                    throw new GlobalException(resultInfo.getResultCode(),resultInfo.getResultMsg());
+                }else{
+
+                    throw new GlobalException(ErrorConstants.CLT_WEB_AUTH_ERROR_CODE,ErrorConstants.CLT_WEB_AUTH_ERROR_MESSAGE);
+                }
+            }
+
+
+        }catch (FeignException e){
+            if(StringUtils.isNotEmpty(e.getMessage())) {
+                if (e.getMessage().indexOf("\"error\":\"invalid_grant\"") >= 0) {
+                    throw new GlobalException(ResultCode.INVALID_PARAM.code(), "密码有误!");
+                } else if (e.getMessage().indexOf("\"error\":\"unauthorized\"") >= 0) {
+                    throw new GlobalException(ResultCode.INVALID_PARAM.code(), "不存在该用户名!");
+                }
+            }
+        }
+
+        //CltUtils.printEndInfo(authToken, "authToken", startTime);
+        return new ResultInfo<>(ResultCode.SUCCESS, authToken);
+    }
+
+    /**
+     * 执行客户端用户登录
+     * @param authQuery
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/authTokenClient")
+    public ResultInfo<AuthToken> authTokenClient(@RequestBody AuthQuery authQuery) throws Exception {
+
+        CltUtils.printStartInfo(authQuery, "authToken");
+
+        long startTime = System.currentTimeMillis();
+
+        //必输项校验
+        initAuth(authQuery);
+
+
+        AuthToken authToken = null;
+
+        try {
+            authToken = userLoginService.authLogin(authQuery);
+            if(authToken!=null && StringUtils.isNotEmpty(authToken.getAccess_token())) {
+                CltUserLogin userLogin = userLoginService.getLoginUser(authToken);
+                authToken.setUserName(userLogin.getLoginNo());
+                authToken.setUserChnName(userLogin.getUserChnName());
+                authToken.setIsSuper(userLogin.getIsSuper());
+            }
+
+        }catch (FeignException e){
+            if(StringUtils.isNotEmpty(e.getMessage())) {
+                if (e.getMessage().indexOf("\"error\":\"invalid_grant\"") >= 0) {
+                    throw new GlobalException(ResultCode.INVALID_PARAM.code(), "密码有误!");
+                } else if (e.getMessage().indexOf("\"error\":\"unauthorized\"") >= 0) {
+                    throw new GlobalException(ResultCode.INVALID_PARAM.code(), "不存在该用户名!");
+                }
+            }
+        }
+
+        //CltUtils.printEndInfo(authToken, "authToken", startTime);
+        return new ResultInfo<>(ResultCode.SUCCESS, authToken);
+    }
+
+    /**
+     * 登录后获取权限（功能，角色列表）
+     * @param authorization
+     * @param parentFuncId
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/getUserFuncList")
+    public ResultInfo<Authority> getUserFuncList(@RequestHeader(name = "Authorization") String authorization, @RequestParam(name = "parentFuncId", required = false) String parentFuncId) throws Exception {
+
+        CltUtils.printStartInfo(authorization, "getUserFuncList");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Authority> authority = null;
+
+        List<CltFunc>  topFuncList = new ArrayList<CltFunc>();
+
+        List<UserFunc>  leftFuncList = new ArrayList<UserFunc>();
+
+        try{
+
+            //调用auth微服务接口
+            authority = userLoginService.getUserFuncList(authorization, parentFuncId);
+
+            List<UserFunc> authorityList = authority.getResultData().getFuncs();
+
+            //组装topFuncList的值
+            for (int i=0;i<authorityList.size();i++){
+
+                UserFunc userFunc = (UserFunc)authorityList.get(i);
+
+                CltFunc cltFunc = new CltFunc();
+
+                String  funcType = String.valueOf(userFunc.getFuncType());
+
+                if(userFunc!=null&& "2".equals(funcType)){
+
+                    BeanUtil.copyProperties(userFunc,cltFunc);
+
+                    topFuncList.add(cltFunc);
+
+                }
+
+            }
+
+            //组装left列表数据 （树状）
+            leftFuncList = getItemInfo(authorityList,parentFuncId);
+
+            //封装返回
+            authority.getResultData().getFuncs().clear();
+
+            authority.getResultData().setTopFuncList(topFuncList);
+            authority.getResultData().setLeftFuncList(leftFuncList);
+
+        }catch (Exception e){
+            logger.error("getUserFuncList",e);
+            if(authority!=null){
+
+                throw new GlobalException(authority.getResultCode(),authority.getResultMsg());
+            }else{
+
+                throw new GlobalException(ErrorConstants.CLT_WEB_AUTH_ERROR_CODE,ErrorConstants.CLT_WEB_AUTH_ERROR_MESSAGE);
+            }
+        }
+
+        CltUtils.printEndInfo(authority, "getUserFuncList", startTime);
+
+        return   authority;
+    }
+
+    //获取验证码方法
+    public UserLogin getImageCode() throws Exception {
+
+        String codeId = UUIDUtil.getUUID();
+
+        UserLogin userLogin = new UserLogin();
+
+        userLogin.setCodeId(codeId);
+
+        VerifyCode vc = new VerifyCode();
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        vc.drawImage(outputStream);
+
+        BASE64Encoder encoder = new BASE64Encoder();
+
+        String en = encoder.encode(outputStream.toByteArray());
+
+        userLogin.setBase64Code(en);
+
+        String code = vc.getCode();
+
+        redisUtil.set(codeId, code, 180l);
+
+        vc = null;
+
+        return userLogin;
+    }
+
+    //组装funcList数据（树状数据）
+    public static  List<UserFunc>  getItemInfo( List<UserFunc> authorityList,String reqParentFuncId ){
+
+        List<UserFunc>  rusult = new ArrayList<UserFunc>();
+
+        for (int i=0;i<authorityList.size();i++){
+
+            UserFunc userFunc = (UserFunc)authorityList.get(i);
+
+            Map map = CltUtils.beanToMap(userFunc);
+
+            String  parentFuncId= (String)map.get("parentFuncId");
+
+            Integer  funcType  = (Integer) map.get("funcType");
+
+            if(StringUtils.isEmpty(reqParentFuncId)){
+
+                if (null!=parentFuncId&&"0".equals(parentFuncId)){
+
+                    Map  orgInfoMap1 = new HashMap();
+
+                    orgInfoMap1.putAll(map);
+
+                    getSonTree(orgInfoMap1, authorityList);
+
+                    CltUtils.mapToBean(orgInfoMap1,userFunc);
+
+                    rusult.add(userFunc);
+                }
+
+            }else{
+
+                if (null!=parentFuncId&&parentFuncId.equals(reqParentFuncId)){
+
+                    Map  orgInfoMap1 = new HashMap();
+
+                    orgInfoMap1.putAll(map);
+
+                    getSonTree(orgInfoMap1, authorityList);
+
+                    CltUtils.mapToBean(orgInfoMap1,userFunc);
+
+                    rusult.add(userFunc);
+                }
+
+            }
+
+
+        }
+
+        return  rusult;
+    }
+    //递归方法
+    private static Map<String,Object> getSonTree(Map<String,Object> parentCltOrgMap,List<UserFunc> itemList){
+
+        List<Map<String,Object>> sonList = new ArrayList<Map<String,Object>>();
+
+        Map<String, Object> sonMap;
+
+        for(UserFunc item : itemList){
+
+            if((parentCltOrgMap.get("funcId").toString().equals(item.getParentFuncId().toString()))&& 2 !=item.getFuncType()){
+
+                sonMap = new HashMap<String, Object>();
+
+                sonMap = CltUtils.beanToMap(item);
+
+                sonList.add(sonMap);
+
+                getSonTree(sonMap,itemList);
+            }
+        }
+        parentCltOrgMap.put("sonFuncMap", sonList);
+
+        return parentCltOrgMap;
+    }
+
+    public static  void init(UserLoginQuery userLoginQuery){
+
+        ParamVerifyUtil paramVerifyUtil = new ParamVerifyUtil();
+
+        Map<String,Object> dataMap = CltUtils.beanToMap(userLoginQuery);
+
+        paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                "code","codeId");
+
+    }
+
+    public static  void initAuth(AuthQuery  authQuery){
+
+        ParamVerifyUtil paramVerifyUtil = new ParamVerifyUtil();
+
+        Map<String,Object> dataMap = CltUtils.beanToMap(authQuery);
+
+        paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                "username","password");
+
+    }
+
+}

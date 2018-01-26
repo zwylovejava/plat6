@@ -1,0 +1,63 @@
+package net.northking.cloudplatform.feign.customer;
+
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.domain.project.CltCustomer;
+import net.northking.cloudplatform.query.cust.CustomerQuery;
+import net.northking.cloudplatform.result.ResultInfo;
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+
+/**
+ * @Title:
+ * @Description: 客户表Feign客户端
+ * @Company: Northking
+ * @Author: HBH
+ * @CreateDate: 2017-12-07 17:08
+ * @UpdateUser:
+ * @Version:0.1
+ */
+@FeignClient(name = "cloudplatform-gateway")
+public interface CustomerFeignClient {
+    //新增客户
+    @RequestMapping(value = "/customer/addCustomer", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<CltCustomer> addCustomer(@RequestBody CustomerQuery customerQuery);
+
+
+    //修改客户
+    @RequestMapping(value = "/customer/updateCustomer", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<Integer> updateCustomer(@RequestBody  CustomerQuery customerQuery);
+
+
+    //查看客户信息
+    @RequestMapping(value = "/customer/queryByCustId", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<CltCustomer> queryByCustId(@RequestBody  CustomerQuery customerQuery);
+
+
+    //查看客户列表
+    @RequestMapping(value = "/customer/queryAllCustomers", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<Page<CltCustomer>> queryAllCustomers(@RequestBody  CustomerQuery customerQuery);
+
+
+    //启用禁用客户
+    @RequestMapping(value = "/customer/disEnableCustomer", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<Integer> disEnableCustByCustId(@RequestBody  CustomerQuery customerQuery);
+
+    //根据客户ID删除客户
+    @RequestMapping(value = "/customer/deleteCustomerByCustId", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<Integer> deleteCustomerByCustId(@RequestBody  CustomerQuery customerQuery);
+
+
+    //根据客户简称查询客户记录
+    @RequestMapping(value = "/customer/countCustomerByCustCode", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<Integer> countCustomerByCustCode(@RequestBody  CustomerQuery customerQuery);
+
+    //根据客户简称查询客户详情
+    @RequestMapping(value = "/customer/queryCustomerByCustCode", method = RequestMethod.POST, consumes="application/json")
+    ResultInfo<CltCustomer> queryCustomerByCustCode(@RequestBody  CustomerQuery customerQuery);
+
+
+}

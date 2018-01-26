@@ -1,0 +1,500 @@
+package net.northking.cloudplatform.controller.customer;
+
+
+
+import net.northking.cloudplatform.Utils.AsyncTask;
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.CommonConstants;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.domain.project.CltCustomer;
+import net.northking.cloudplatform.domain.project.CltProject;
+import net.northking.cloudplatform.domain.user.CltOrg;
+import net.northking.cloudplatform.domain.user.CltRole;
+import net.northking.cloudplatform.domain.user.CltUserAndLogin;
+import net.northking.cloudplatform.domain.user.CltUserLogin;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.query.cust.CustomerQuery;
+import net.northking.cloudplatform.query.project.ProjectQuery;
+import net.northking.cloudplatform.query.user.OrgQuery;
+import net.northking.cloudplatform.query.user.RoleQuery;
+import net.northking.cloudplatform.query.user.UserAndLoginQuery;
+import net.northking.cloudplatform.query.user.UserRoleQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.customer.CustomerService;
+import net.northking.cloudplatform.service.project.ProjectService;
+import net.northking.cloudplatform.service.user.OrgService;
+import net.northking.cloudplatform.service.user.RoleService;
+import net.northking.cloudplatform.service.user.UserRoleService;
+import net.northking.cloudplatform.service.user.UserService;
+import net.northking.cloudplatform.utils.BeanUtil;
+import net.northking.cloudplatform.utils.CltUtils;
+import net.northking.cloudplatform.utils.ParamVerifyUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @Title:
+ * @Description:客户表控制层
+ * @Company: Northking
+ * @Author: HBH
+ * @CreateDate: 2017-12-07 17:04
+ * @UpdateUser:
+ * @Version:0.1
+ */
+
+@RestController
+public class CustomerController {
+
+    //日志
+    private final static Logger logger = LoggerFactory.getLogger(CustomerController.class);
+
+    @Autowired
+    CustomerService customerService;
+
+    @Autowired
+    UserService userService;
+
+    @Autowired
+    UserRoleService userRoleService;
+
+    @Autowired
+    ProjectService projectService;
+
+    @Autowired
+    RoleService roleService;
+
+    @Autowired
+    OrgService  orgService;
+
+    @Autowired
+    AsyncTask asyncTask;
+
+    //添加客户
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/addCltCustInfo")
+    public ResultInfo<Integer> addCltCustInfo(@RequestBody  @Validated CustomerQuery customerQuery) throws Exception {
+
+        CltUtils.printStartInfo(customerQuery, "addCltCustInfo");
+
+        Integer  isSucess = 1;
+
+        ResultInfo<CltCustomer>  resultCust = new ResultInfo<CltCustomer>();
+
+        long startTime = System.currentTimeMillis();
+
+        String   accessToken = customerQuery.getAccess_token();
+
+        //新增客户信息
+        resultCust  = customerService.addCltCustInfo(customerQuery);
+        //新增客户管理员
+        ResultInfo<UserAndLoginQuery> userAndLoginQueryResultInfo = addCustAdminUser(resultCust.getResultData(), accessToken);
+        //查询角色 + 新增用户角色信息
+        addUserRoleInfo(resultCust.getResultData(),userAndLoginQueryResultInfo.getResultData().getUserId(),accessToken);
+        //新增机构信息
+        ResultInfo<OrgQuery> orgQueryResultInfo = addOrgInfo(resultCust.getResultData(), accessToken);
+
+        //启动异步任务
+        asyncTask.dsSask(resultCust.getResultData(),userAndLoginQueryResultInfo.getResultData(),orgQueryResultInfo.getResultData());
+        CltUtils.printEndInfo(isSucess, "addCltCustInfo ", startTime);
+        return   new ResultInfo<Integer>(resultCust.getResultCode(),resultCust.getResultMsg(),isSucess);
+    }
+
+
+    //修改客户
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/updateCltCustInfo")
+    public ResultInfo<Integer> updateCustomerInfo(@RequestBody @Validated CustomerQuery customerQuery) throws Exception {
+
+        CltUtils.printStartInfo(customerQuery, "updateCltCustInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<Integer> result = new ResultInfo<Integer>();
+
+        //参数校验
+        init(customerQuery, "U");
+
+        //根据客户ID查询出客户原始信息
+        ResultInfo<CltCustomer> resultCustomer = customerService.queryCustomerByCustId(customerQuery);
+
+        //判断是否修改custName字段 如果客户名称不一致则修改  管理员名称   机构名称
+        String custNameUI  =  customerQuery.getCustName();
+
+        String custNameDB = resultCustomer.getResultData().getCustName();
+
+        if(custNameUI.equals(custNameDB)){
+
+            UserAndLoginQuery userAndLoginQuery = new UserAndLoginQuery();
+            userAndLoginQuery.setUserChnName(customerQuery.getCustName());
+            userAndLoginQuery.setAccess_token(customerQuery.getAccess_token());
+            userAndLoginQuery.setLoginNo(resultCustomer.getResultData().getCustCode() + "_admin");
+            //根据登录号修改管理员姓名
+            userService.updateCltUserLoginByLoginNo(userAndLoginQuery);
+
+            OrgQuery orgQuery = new OrgQuery();
+            orgQuery.setParentOrgId("0");
+            orgQuery.setCustId(customerQuery.getCustId());
+            orgQuery.setAccess_token(customerQuery.getAccess_token());
+            orgQuery.setOrgName(customerQuery.getCustName());
+            //根据parentOrgId custId修改orgName
+            orgService.updateCltOrgByParentorgIdAndCustId(orgQuery);
+
+        }
+
+        //调用接口服务
+        result = customerService.updateCustomerInfo(customerQuery);
+
+        CltUtils.printEndInfo(result, "updateCltCustInfo", startTime);
+
+        return  result;
+    }
+
+
+    //查询客户详情
+    @PostMapping("/queryCustInfoByCustId")
+    public ResultInfo<CltCustomer> queryCustInfoByCustId(@RequestBody CustomerQuery customerQuery) throws Exception {
+
+        CltUtils.printStartInfo(customerQuery, "queryCustInfoByCustId");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+        init(customerQuery, "Q");
+
+        //调用接口服务
+        ResultInfo<CltCustomer> result = customerService.queryCustomerByCustId(customerQuery);
+
+        CltUtils.printEndInfo(result, "queryCustInfoByCustId", startTime);
+
+        return  result;
+    }
+
+
+
+    //查询客户列表
+    @PostMapping("/pageCltCustsInfo")
+    public   ResultInfo<Page<CltCustomer>>  queryAllCustomersInfo(@RequestBody  CustomerQuery customerQuery) throws Exception {
+
+        CltUtils.printStartInfo(customerQuery, "pageCltCustsInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        //调用接口服务
+        ResultInfo<Page<CltCustomer>>result = customerService.queryAllCustomersInfo(customerQuery);
+
+        CltUtils.printEndInfo(result, "pageCltCustsInfo", startTime);
+
+        return  result;
+    }
+
+
+    //根据客户简称查询客户记录
+    @PostMapping("/countCustomerByCustCode")
+    public ResultInfo<Integer> countCustomerByCustCode(@RequestBody  CustomerQuery customerQuery) throws Exception {
+
+        CltUtils.printStartInfo(customerQuery, "countCustomerByCustCode");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+        init(customerQuery, "QB");
+
+        //调用接口服务
+        ResultInfo<Integer> result = customerService.countCustomerByCustCode(customerQuery);
+
+        CltUtils.printEndInfo(result, "countCustomerByCustCode", startTime);
+
+        return  result;
+    }
+
+    //根据客户简称查询客户记录
+    @PostMapping("/queryCustomerByCustCode")
+    public ResultInfo<CltCustomer> queryCustomerByCustCode(@RequestBody  CustomerQuery customerQuery) throws Exception {
+
+        CltUtils.printStartInfo(customerQuery, "queryCustomerByCustCode");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+        init(customerQuery, "QB");
+
+        //调用接口服务
+        ResultInfo<CltCustomer> result = customerService.queryCustomerByCustCode(customerQuery);
+
+        CltUtils.printEndInfo(result, "queryCustomerByCustCode", startTime);
+
+        return  result;
+    }
+
+
+
+
+    //批量删除客户
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/deleteCustBatch")
+    public ResultInfo<Integer> deleteCustBatch(@RequestBody CustomerQuery customerQuery) throws Exception {
+
+        CltUtils.printStartInfo(customerQuery, "deleteCustBatch");
+
+        long startTime = System.currentTimeMillis();
+
+        Integer delCount = 0;
+
+        //参数校验
+        String custIds[] = customerQuery.getCustIds();
+
+        for (int i =0;i<custIds.length;i++){
+
+            String custId = (String)custIds[i];
+
+            customerQuery.setCustId(custId);
+
+            //根据客户ID查询出客户原始信息
+            ResultInfo<CltCustomer> resultCustomer = customerService.queryCustomerByCustId(customerQuery);
+
+            //根据客户ID查询出项目列表
+            ProjectQuery projectQuery = new ProjectQuery();
+
+            projectQuery.setCustId(custId);
+
+            ResultInfo<List<CltProject>> resultProject = projectService.queryCltProjectByCustId(projectQuery);
+
+            if(resultProject.getResultData()!=null){
+
+                //客户下挂属项目 不允许删除
+                if(resultProject.getResultData().size()>0){
+
+                    new GlobalException(ErrorConstants.ADD_CLT_DELETE_CUSTOMTER_ERROR_CODE,ErrorConstants.ADD_CLT_DELETE_CUSTOMTER_ERROR_MESSAGE);
+
+                    //如果客户下不挂属项目
+                }else{
+
+                    //1.删除客户
+                    customerService.deleteCustomerByCustId(customerQuery);
+                    //2.删除管理员 (loginNo)
+                    UserAndLoginQuery userAndLoginQuery = new UserAndLoginQuery();
+                    userAndLoginQuery.setLoginNo(customerQuery.getCustCode()+"_admin");
+                    ResultInfo<CltUserLogin> loginResultInfo =  userService.queryCltUserLoginByLoginNo(userAndLoginQuery);
+                    String userIds[] = {loginResultInfo.getResultData().getUserId()};
+                    userAndLoginQuery.setUserIds(userIds);
+                    userService.deleteUsersByUserIds(userAndLoginQuery);
+
+                    //3.删除机构 (parantOrgId  custId)
+                    OrgQuery orgQuery = new OrgQuery();
+                    orgQuery.setParentOrgId("0");
+                    orgQuery.setCustId(customerQuery.getCustId());
+                    orgService.delteCltOrgByParentorgIdAndCustId(orgQuery);
+
+                    delCount = delCount+1;
+                }
+
+            }
+
+        }
+
+        CltUtils.printEndInfo(delCount, "deleteCustBatch", startTime);
+
+        return  new ResultInfo<Integer>(ResultCode.SUCCESS,delCount);
+    }
+
+    //批量启用/禁用客户
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/disEnableBatchCustomerByCustId")
+    public ResultInfo<Integer> disEnableBatchCustomerByCustId(@RequestBody List<CustomerQuery> customerQueryList) throws Exception {
+
+        CltUtils.printStartInfo(customerQueryList, "disEnableBatchCustomerByCustId");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<CltCustomer>  resultInfo = null;
+
+        String  userStatus = "1";
+
+        //参数校验
+
+        for (int i = 0; i <customerQueryList.size() ; i++) {
+
+            CustomerQuery customerQuery = (CustomerQuery)customerQueryList.get(i);
+
+            resultInfo = customerService.queryCustomerByCustId(customerQuery);
+
+            String  cusStatus = customerQuery.getStatus();
+
+            //客户启用/禁用
+            customerService.disEnableBatchCustomerByCustId(customerQuery);
+
+            //管理员用户启用/禁用
+            UserAndLoginQuery userAndLoginQuery = new UserAndLoginQuery();
+            userAndLoginQuery.setAccess_token(customerQuery.getAccess_token());
+            if("1".equals(cusStatus)){
+                userStatus = "2";
+            }else if("2".equals(cusStatus)){
+                userStatus = "3";
+            }
+            userAndLoginQuery.setStatus(userStatus);
+            userAndLoginQuery.setLoginNo(resultInfo.getResultData().getCustCode()+"_admin");
+            userService.updateCltUserLoginByLoginNo(userAndLoginQuery);
+
+
+        }
+
+        CltUtils.printEndInfo(resultInfo, "disEnableBatchCustomerByCustId", startTime);
+
+        return  new ResultInfo<Integer>(ResultCode.SUCCESS,1);
+    }
+
+
+
+    //参数校验的方法
+
+    public static void init(CustomerQuery customerQuery, String funcCode) throws Exception {
+
+        ParamVerifyUtil paramVerifyUtil = new ParamVerifyUtil();
+
+        Map<String, Object> dataMap = CltUtils.beanToMap(customerQuery);
+
+        if ("U".equals(funcCode)) {
+
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "custId");
+        } else if ("Q".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "custId");
+
+        }else if ("QB".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "custCode");
+
+        }
+    }
+
+
+    //新增客户管理员
+    public   ResultInfo<UserAndLoginQuery>  addCustAdminUser(CltCustomer cltCustomer,String accessToken) throws Exception {
+
+        CltUtils.printStartInfo(cltCustomer, "addCustAdminUser");
+
+        long startTime = System.currentTimeMillis();
+        //添加客户管理员的信息
+        UserAndLoginQuery userAndLoginQuery = new UserAndLoginQuery();
+
+        userAndLoginQuery.setAccess_token(accessToken);
+        //中文名
+        userAndLoginQuery.setUserChnName(cltCustomer.getContactsName() + "管理员");
+
+        //登录号:客户简称+_admin
+        userAndLoginQuery.setLoginNo(cltCustomer.getCustCode() + "_admin");
+        //用户类型 默认为机构类型
+        userAndLoginQuery.setUserType("2");
+        //是否为超级管理员为Y
+        userAndLoginQuery.setIsSuper("Y");
+        //性别默认为男
+        userAndLoginQuery.setGender("1");
+        //默认一个邮件
+        userAndLoginQuery.setEmail("admin@163.com");
+        //默认一个手机号
+        userAndLoginQuery.setCellPhone("18000000000");
+        //设置客户号
+        userAndLoginQuery.setCustId(cltCustomer.getCustId());
+
+        userAndLoginQuery.setFuncCode("0");
+
+        //保存超级管理员新信息
+        ResultInfo<CltUserAndLogin> resultInfo = userService.addUserInfo(userAndLoginQuery);
+
+        userAndLoginQuery.setUserId(resultInfo.getResultData().getUserId());
+
+        BeanUtil.copyProperties(resultInfo.getResultData(),userAndLoginQuery);
+
+        CltUtils.printEndInfo(resultInfo, "addCustAdminUser", startTime);
+
+        return  new ResultInfo<>(ResultCode.SUCCESS, userAndLoginQuery);
+
+
+    }
+
+    //添加用户角色信息
+    public   ResultInfo<Integer>  addUserRoleInfo(CltCustomer cltCustomer,String userId,String accessToken) throws Exception{
+
+        CltUtils.printStartInfo(cltCustomer, "addUserRoleInfo");
+
+        long startTime = System.currentTimeMillis();
+        //根据角色代码去查询出客户管理员对应的角色ID
+        RoleQuery roleQuery=new RoleQuery();
+
+        roleQuery.setAccess_token(accessToken);
+
+        roleQuery.setRoleCode(CommonConstants.ROLE_CUSTADMIN);
+
+        ResultInfo<CltRole> resultRole= roleService.queryCltRoleByRoleCode(roleQuery);
+
+        List<UserRoleQuery> userRoleQueryList = new ArrayList<UserRoleQuery>();
+
+        UserRoleQuery userRoleQuery = new UserRoleQuery();
+
+        userRoleQuery.setUserId(userId);
+
+        userRoleQuery.setRoleId(resultRole.getResultData().getRoleId());
+
+        userRoleQueryList.add(userRoleQuery);
+
+        ResultInfo<Integer> resultUserRole = userRoleService.addUserRoles(userRoleQueryList);
+
+        CltUtils.printEndInfo(resultUserRole, "addUserRoleInfo", startTime);
+
+        return  resultUserRole;
+
+    }
+
+    //增加机构
+    public    ResultInfo<OrgQuery>  addOrgInfo(CltCustomer cltCustomer,String accessToken) throws Exception {
+
+        CltUtils.printStartInfo(cltCustomer, " web  addOrgInfo");
+
+        long startTime = System.currentTimeMillis();
+        //新增机构
+        OrgQuery orgQuery = new OrgQuery();
+        //机构根节点
+        orgQuery.setOrgName(cltCustomer.getCustName());
+
+        orgQuery.setAccess_token(accessToken);
+
+        orgQuery.setCustId(cltCustomer.getCustId());
+
+        orgQuery.setParentOrgId("0");
+
+        orgQuery.setOrgGradation("0");
+
+        orgQuery.setFunCode("0");
+
+        orgQuery.setOrgSeq(1);
+        //保存机构
+        ResultInfo<CltOrg> cltOrgResultInfo = orgService.addCltOrgInfo(orgQuery);
+
+        orgQuery.setOrgId(cltOrgResultInfo.getResultData().getOrgId());
+
+        CltUtils.printEndInfo(cltOrgResultInfo, "web addOrgInfo", startTime);
+
+        BeanUtil.copyProperties(cltOrgResultInfo.getResultData(),orgQuery);
+
+        return new ResultInfo<OrgQuery>(cltOrgResultInfo.getResultCode(),cltOrgResultInfo.getResultMsg(),orgQuery);
+
+    }
+
+}
+
+
+

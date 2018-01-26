@@ -1,0 +1,110 @@
+package net.northking.cloudplatform.controller.testexecute;
+
+import net.northking.cloudplatform.domain.testexecute.CltAttach;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.feign.testexecute.AttachFeignClient;
+import net.northking.cloudplatform.query.testexecute.CltAttachQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.utils.UUIDUtil;
+import net.northking.httpfiletrans.client.HttpUpload;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import sun.misc.BASE64Decoder;
+
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+@RestController
+public class AttachController{
+
+    @Autowired
+    private AttachFeignClient attachFeignClient;
+
+    @Value("${defaultImage.host}")
+    private String host;
+
+    @Value("${defaultImage.port}")
+    private String port;
+
+    @Value("${defaultImage.path}")
+    private String path;
+
+    /**
+     * @return
+     * @Description: 解密图片并上传到服务器同时添加到数据库
+     * @Author:
+     * @CreateTime:
+     */
+    @PostMapping("/acceptImage")
+    public ResultInfo<Integer> getImageStr(@RequestBody CltAttachQuery query) {
+
+        BASE64Decoder decoder = new BASE64Decoder();
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+            String files = sdf.format(new Date());
+            String name = UUIDUtil.getUUID();
+            String filePath = "TEMP/"+files+"/"+name+".jpg";
+            String uploadPath = "?method=upload&IsCreateDir=TRUE&FilePath=";
+
+            // 解密
+            byte[] b = decoder.decodeBuffer(query.getAttachName());
+            // 处理数据
+            for (int i = 0; i < b.length; ++i) {
+                if (b[i] < 0) {
+                    b[i] += 256;
+                }
+            }
+            InputStream in = new ByteArrayInputStream(b);
+            long size = new HttpUpload().putHttpFile(host, Integer.valueOf(port),
+                    path+uploadPath+filePath,
+                    in,1024, 1024, 1);
+            query.setAttachSize((float) size);
+            query.setAttachPath(filePath);
+            query.setAttachName(name);
+            ResultInfo<Integer> result = attachFeignClient.addCltAttach(query);
+            return result;
+        } catch (Exception e) {
+            throw new GlobalException(ResultCode.EXCEPTION.code(), "添加附件失败");
+        }
+    }
+
+
+    /**
+     * 查询图片列表
+     * @param query
+     * @return
+     */
+    @PostMapping("/queryAttachs")
+    public ResultInfo<String> getImageByFuncId(@RequestBody CltAttachQuery query){
+
+        ResultInfo<List<CltAttach>> result = attachFeignClient.findCltAttach(query);
+        String url ="";
+        for (CltAttach clt:result.getResultData()) {
+            url = url+clt.getAttachPath()+",";
+        }
+
+        return new ResultInfo<String>(ResultCode.SUCCESS,ResultCode.SUCCESS.code(),url);
+    }
+
+    /**
+     * 根据操作步骤id删除图片列表
+     * @param query
+     * @return
+     */
+    @PostMapping("/deleteAttachs")
+    public ResultInfo<Integer> delImageByFuncId(@RequestBody CltAttachQuery query){
+
+        ResultInfo<Integer> result = attachFeignClient.delCltAttach(query);
+
+        return result;
+    }
+
+
+}

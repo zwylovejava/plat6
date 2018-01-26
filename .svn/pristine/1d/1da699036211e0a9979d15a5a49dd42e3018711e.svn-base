@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.user.CltUserLoginMapper" >
+  <resultMap id="BaseResultMap" type="net.northking.cloudplatform.domain.user.CltUserLogin" >
+    <id column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="USER_TYPE" property="userType" jdbcType="VARCHAR" />
+    <result column="LOGIN_NO" property="loginNo" jdbcType="VARCHAR" />
+    <result column="USER_CHN_NAME" property="userChnName" jdbcType="VARCHAR" />
+    <result column="LOGIN_PWD" property="loginPwd" jdbcType="VARCHAR" />
+    <result column="PWD_STATUS" property="pwdStatus" jdbcType="CHAR" />
+    <result column="PWD_ERR_NUM" property="pwdErrNum" jdbcType="INTEGER" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="DATE" />
+    <result column="STATUS" property="status" jdbcType="VARCHAR" />
+    <result column="IS_SUPER" property="isSuper" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    USER_ID, USER_TYPE, LOGIN_NO, USER_CHN_NAME, LOGIN_PWD, PWD_STATUS, PWD_ERR_NUM, 
+    UPDATE_DATE, STATUS, IS_SUPER
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.northking.cloudplatform.domain.user.CltUserLoginExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CLT_USER_LOGIN
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CLT_USER_LOGIN
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CLT_USER_LOGIN
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.northking.cloudplatform.domain.user.CltUserLoginExample" >
+    delete from CLT_USER_LOGIN
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.northking.cloudplatform.domain.user.CltUserLogin" >
+    insert into CLT_USER_LOGIN (USER_ID, USER_TYPE, LOGIN_NO, 
+      USER_CHN_NAME, LOGIN_PWD, PWD_STATUS, 
+      PWD_ERR_NUM, UPDATE_DATE, STATUS, 
+      IS_SUPER)
+    values (#{userId,jdbcType=VARCHAR}, #{userType,jdbcType=VARCHAR}, #{loginNo,jdbcType=VARCHAR}, 
+      #{userChnName,jdbcType=VARCHAR}, #{loginPwd,jdbcType=VARCHAR}, #{pwdStatus,jdbcType=CHAR}, 
+      #{pwdErrNum,jdbcType=INTEGER}, #{updateDate,jdbcType=DATE}, #{status,jdbcType=VARCHAR}, 
+      #{isSuper,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.northking.cloudplatform.domain.user.CltUserLogin" >
+    insert into CLT_USER_LOGIN
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="userType != null" >
+        USER_TYPE,
+      </if>
+      <if test="loginNo != null" >
+        LOGIN_NO,
+      </if>
+      <if test="userChnName != null" >
+        USER_CHN_NAME,
+      </if>
+      <if test="loginPwd != null" >
+        LOGIN_PWD,
+      </if>
+      <if test="pwdStatus != null" >
+        PWD_STATUS,
+      </if>
+      <if test="pwdErrNum != null" >
+        PWD_ERR_NUM,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="isSuper != null" >
+        IS_SUPER,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="userType != null" >
+        #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="loginNo != null" >
+        #{loginNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userChnName != null" >
+        #{userChnName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null" >
+        #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdStatus != null" >
+        #{pwdStatus,jdbcType=CHAR},
+      </if>
+      <if test="pwdErrNum != null" >
+        #{pwdErrNum,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="isSuper != null" >
+        #{isSuper,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.northking.cloudplatform.domain.user.CltUserLoginExample" resultType="java.lang.Integer" >
+    select count(*) from CLT_USER_LOGIN
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CLT_USER_LOGIN
+    <set >
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userType != null" >
+        USER_TYPE = #{record.userType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginNo != null" >
+        LOGIN_NO = #{record.loginNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userChnName != null" >
+        USER_CHN_NAME = #{record.userChnName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginPwd != null" >
+        LOGIN_PWD = #{record.loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pwdStatus != null" >
+        PWD_STATUS = #{record.pwdStatus,jdbcType=CHAR},
+      </if>
+      <if test="record.pwdErrNum != null" >
+        PWD_ERR_NUM = #{record.pwdErrNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.updateDate != null" >
+        UPDATE_DATE = #{record.updateDate,jdbcType=DATE},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isSuper != null" >
+        IS_SUPER = #{record.isSuper,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CLT_USER_LOGIN
+    set USER_ID = #{record.userId,jdbcType=VARCHAR},
+      USER_TYPE = #{record.userType,jdbcType=VARCHAR},
+      LOGIN_NO = #{record.loginNo,jdbcType=VARCHAR},
+      USER_CHN_NAME = #{record.userChnName,jdbcType=VARCHAR},
+      LOGIN_PWD = #{record.loginPwd,jdbcType=VARCHAR},
+      PWD_STATUS = #{record.pwdStatus,jdbcType=CHAR},
+      PWD_ERR_NUM = #{record.pwdErrNum,jdbcType=INTEGER},
+      UPDATE_DATE = #{record.updateDate,jdbcType=DATE},
+      STATUS = #{record.status,jdbcType=VARCHAR},
+      IS_SUPER = #{record.isSuper,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.northking.cloudplatform.domain.user.CltUserLogin" >
+    update CLT_USER_LOGIN
+    <set >
+      <if test="userType != null" >
+        USER_TYPE = #{userType,jdbcType=VARCHAR},
+      </if>
+      <if test="loginNo != null" >
+        LOGIN_NO = #{loginNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userChnName != null" >
+        USER_CHN_NAME = #{userChnName,jdbcType=VARCHAR},
+      </if>
+      <if test="loginPwd != null" >
+        LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdStatus != null" >
+        PWD_STATUS = #{pwdStatus,jdbcType=CHAR},
+      </if>
+      <if test="pwdErrNum != null" >
+        PWD_ERR_NUM = #{pwdErrNum,jdbcType=INTEGER},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=DATE},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="isSuper != null" >
+        IS_SUPER = #{isSuper,jdbcType=CHAR},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.northking.cloudplatform.domain.user.CltUserLogin" >
+    update CLT_USER_LOGIN
+    set USER_TYPE = #{userType,jdbcType=VARCHAR},
+      LOGIN_NO = #{loginNo,jdbcType=VARCHAR},
+      USER_CHN_NAME = #{userChnName,jdbcType=VARCHAR},
+      LOGIN_PWD = #{loginPwd,jdbcType=VARCHAR},
+      PWD_STATUS = #{pwdStatus,jdbcType=CHAR},
+      PWD_ERR_NUM = #{pwdErrNum,jdbcType=INTEGER},
+      UPDATE_DATE = #{updateDate,jdbcType=DATE},
+      STATUS = #{status,jdbcType=VARCHAR},
+      IS_SUPER = #{isSuper,jdbcType=CHAR}
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </update>
+</mapper>

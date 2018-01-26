@@ -1,0 +1,159 @@
+package net.northking.cloudplatform.service.impl;
+
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.dao.base.BaseServiceImpl;
+import net.northking.cloudplatform.dao.testexecute.*;
+import net.northking.cloudplatform.domain.testexecute.*;
+
+import net.northking.cloudplatform.dto.testexecute.TestCaseColum;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.query.testexecute.TestCaseQuery;
+import net.northking.cloudplatform.query.testexecute.TestCaseSetQuery;
+import net.northking.cloudplatform.service.TestCaseService;
+import net.northking.cloudplatform.utils.PageUtil;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.method.P;
+import org.springframework.stereotype.Service;
+
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
+import java.util.*;
+
+@Service
+public class TestCaseServcieImpl extends BaseServiceImpl<CltCaseSet,CltCaseSetExample,String>implements TestCaseService {
+    @Autowired
+    private CltCaseSetMapper cltCaseSetMapper;
+    @Autowired
+    private CltTestCaseMapper cltTestCaseMapper;
+    @Autowired
+    private CltTestCaseStepMapper cltTestCaseStepMapper;
+    @Autowired
+    private CltAppFuncMapper cltAppFuncMapper;
+    @Autowired
+    private CltTestStepDataMapper cltTestStepDataMapper;
+
+    @Autowired
+    private CltCaseItemSetupMapper cltCaseItemSetupMapper;
+
+    private Logger logger = LoggerFactory.getLogger(getClass());
+    @Override
+    public List<CltCaseSet> queryTestCaseSetById(TestCaseSetQuery testCaseSetQuery) {
+        List<CltCaseSet> listCaseSet=null;
+        try {
+             listCaseSet = cltCaseSetMapper.queryTestCaseSetById(testCaseSetQuery);
+
+        }catch (Exception e){
+            logger.error("查询用例集失败",e);
+            logger.info("查询用例集失败");
+        }
+
+
+        return listCaseSet;
+    }
+
+    @Override
+    public TestCaseColum  queryTestCaseById(TestCaseSetQuery testCaseSetQuery) {
+        List<CltTestCase> cltTestCaseList=null;
+        Map<String,List<String>> listMap = null;
+        TestCaseColum testCaseColum = new TestCaseColum();
+        try{
+            PageUtil.startPage(testCaseSetQuery);
+            cltTestCaseList = cltTestCaseMapper.queryTestCaseById(testCaseSetQuery);
+            Page<CltTestCase> page = new Page<>(cltTestCaseList);
+
+
+            List<CltCaseItemSetup> cltCaseItemSetups=null;
+            if(cltTestCaseList!=null&&cltTestCaseList.size()>0){
+                String projId = cltTestCaseList.get(0).getProjId();
+                //根据proId查询出列名
+                CltCaseItemSetupExample cltCaseItemSetupExample = new CltCaseItemSetupExample();
+                CltCaseItemSetupExample.Criteria criteria = cltCaseItemSetupExample.createCriteria();
+                criteria.andProIdEqualTo(projId);
+                cltCaseItemSetups = cltCaseItemSetupMapper.selectByExample(cltCaseItemSetupExample);
+                Iterator<CltCaseItemSetup> iterator = cltCaseItemSetups.iterator();
+                while (iterator.hasNext()){
+                    CltCaseItemSetup cltCaseItemSetup =  iterator.next();
+                    String columnName = cltCaseItemSetup.getColumnName();
+                    String substring = columnName.substring(0, columnName.length() - 1);
+                    if(!"userDefinedIdx".equalsIgnoreCase(substring)){
+                        iterator.remove();
+                    }
+                }
+            }
+
+            testCaseColum.setCltTestCases(cltTestCaseList);
+            testCaseColum.setCltCaseItemSetupList(cltCaseItemSetups);
+            testCaseColum.setPage(page);
+
+
+/*            listMap  = new HashMap<>();
+            Class<?> cltTestCaseClass = CltTestCase.class;
+            //通过反射获取属性名称和查询出的如果一样就把对于的属性值赋值到Map
+            if(cltCaseItemSetups!=null&&cltCaseItemSetups.size()>0){
+                for(CltCaseItemSetup cltCaseItemSetup:cltCaseItemSetups){
+                    String columnName = cltCaseItemSetup.getColumnName();
+                    for(CltTestCase cltTestCase:cltTestCaseList){
+                        String substring = columnName.substring(0, columnName.length() - 1);
+                        if(substring.equalsIgnoreCase("userDefinedIdx")){
+                            String methName="get"+columnName.substring(0,1).toUpperCase()+columnName.substring(1);
+                            Method method = cltTestCaseClass.getMethod(methName);
+                            Object invoke = method.invoke(cltTestCase);
+                            if (invoke!=null) {
+                                String str = (String) invoke;
+                                String name = cltCaseItemSetup.getLabelName();
+                                if(listMap.containsKey(name)){
+                                    List<String> listVal = listMap.get(name);
+                                    listVal.add(str);
+                                }else {
+                                    List<String> list = new ArrayList<>();
+                                    list.add(str);
+                                    listMap.put(name,list);
+                                }
+                            }
+                        }
+
+                    }
+                }
+            }*/
+
+
+
+        }catch (Exception e){
+            logger.error("查询用例失败",e);
+            logger.info("查询用例失败");
+            throw new GlobalException("没有查询到用例信息",e.getMessage());
+        }
+
+        return testCaseColum;
+    }
+
+    @Override
+    public CltTestCase queryTestCaseInfoById(TestCaseQuery testCaseQuery) {
+        CltTestCase cltTestCase = cltTestCaseMapper.selectByPrimaryKey(testCaseQuery.getId());
+        if(cltTestCase!=null){
+            CltTestCaseStepExample cltTestCaseStepExample = new CltTestCaseStepExample();
+            CltTestCaseStepExample.Criteria criteria = cltTestCaseStepExample.createCriteria();
+            criteria.andCaseIdEqualTo(testCaseQuery.getId());
+
+            List<CltTestCaseStep> cltTestCaseSteps = cltTestCaseStepMapper.selectByExample(cltTestCaseStepExample);
+            List<CltAppFunc> lisAppFunc = new ArrayList<>();
+            for(CltTestCaseStep cltTestCaseStep:cltTestCaseSteps){
+                String transId = cltTestCaseStep.getTransId();
+                CltAppFunc cltAppFunc = cltAppFuncMapper.selectByPrimaryKey(transId);
+                //根据transId和CaseId从查询出stepData
+                if(cltAppFunc!=null){
+                    List<CltTestStepData> cltTestStepData = cltTestStepDataMapper.queryTestStepDataBytsId(transId, testCaseQuery.getId());
+                    cltAppFunc.setCltTestStepData(cltTestStepData);
+                    lisAppFunc.add(cltAppFunc);
+                }
+            }
+            cltTestCase.setCltAppFunc(lisAppFunc);
+        }
+
+        return cltTestCase;
+    }
+}

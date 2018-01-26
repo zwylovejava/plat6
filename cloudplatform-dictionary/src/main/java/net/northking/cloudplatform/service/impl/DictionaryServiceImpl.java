@@ -1,0 +1,461 @@
+package net.northking.cloudplatform.service.impl;
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.dao.dictionary.CltDictionaryItemMapper;
+import net.northking.cloudplatform.dao.dictionary.CltDictionaryTypeMapper;
+import net.northking.cloudplatform.domain.dictionary.CltDictionaryItem;
+import net.northking.cloudplatform.domain.dictionary.CltDictionaryType;
+import net.northking.cloudplatform.domain.dictionary.CltDictionaryTypeExample;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.query.dictionary.DictionaryItemQuery;
+import net.northking.cloudplatform.query.dictionary.DictionaryTypeQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.service.DictionaryService;
+import net.northking.cloudplatform.utils.BeanUtil;
+import net.northking.cloudplatform.utils.PageUtil;
+import net.northking.cloudplatform.utils.UUIDUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import java.util.List;
+
+/**
+ * @Title:
+ * @Description: 数据字典service实现层
+ * @Company: Northking
+ * @Author: HBH
+ * @CreateDate: 2017-12-12 15:49
+ * @UpdateUser:
+ * @Version:0.1
+ */
+
+@Service
+public class DictionaryServiceImpl implements DictionaryService {
+
+    @Autowired
+    private CltDictionaryTypeMapper cltDictionaryTypeMapper;
+
+    @Autowired
+    private CltDictionaryItemMapper cltDictionaryItemMapper;
+
+    //日志
+    private final static Logger logger = LoggerFactory.getLogger(DictionaryServiceImpl.class);
+
+
+    //添加字典类型表
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer addDictionaryType(DictionaryTypeQuery dictionaryTypeQuery) throws Exception {
+
+        Integer addNum=0;
+
+        String typeCode=dictionaryTypeQuery.getTypeCode();
+
+         CltDictionaryType dictionaryType= cltDictionaryTypeMapper.queryCltDictionaryTypeByTypeCode(typeCode);
+
+         if(dictionaryType!=null){
+             throw new GlobalException(ResultCode.INVALID_PARAM.code(),typeCode+":该类型编码已经存在!请填写其他编码!" );
+         }
+
+             CltDictionaryType cltDictionaryType=new CltDictionaryType();
+
+            BeanUtil.copyProperties(dictionaryTypeQuery,cltDictionaryType);
+
+        try{
+
+            //字典类型ID
+            cltDictionaryType.setTypeId(UUIDUtil.getUUID());
+            //状态:1为有效 ;2 为无效
+            cltDictionaryType.setStatus("1");
+            //存进数据库
+            addNum=cltDictionaryTypeMapper.insertSelective(cltDictionaryType);
+
+            return addNum;
+
+        }catch (Exception e){
+
+            logger.error("addDictionaryType" , e);
+
+            throw new GlobalException(ErrorConstants.ADD_CLT_DICTIONARYTYPE_ERROR_CODE , ErrorConstants.ADD_CLT_DICTIONARYTYPE_ERROR_MESSAGE);
+        }
+
+
+    }
+
+
+
+
+    //添加字典明细表
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer addDictionaryItem(DictionaryItemQuery dictionaryItemQuery) throws Exception {
+
+        Integer addNum=0;
+
+        CltDictionaryItem cltDictionaryItem=new CltDictionaryItem();
+
+        BeanUtil.copyProperties(dictionaryItemQuery,cltDictionaryItem);
+
+        try{
+               //字典条目ID
+            cltDictionaryItem.setItemId(UUIDUtil.getUUID());
+
+            addNum=cltDictionaryItemMapper.insertSelective(cltDictionaryItem);
+
+            return addNum;
+
+        }catch (Exception e){
+
+            logger.error("addDictionaryItem" , e);
+
+            throw new GlobalException(ErrorConstants.ADD_CLT_DICTIONARYITEM_ERROR_CODE , ErrorConstants.ADD_CLT_DICTIONARYITEM__ERROR_MESSAGE);
+        }
+
+}
+
+
+    //删除字典类型表
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer deleteDictionaryType(DictionaryTypeQuery dictionaryTypeQuery) throws Exception {
+
+             Integer deleteNum=0;
+
+             int count=0;
+
+        try{
+
+            //根据typeId查询字典明细表
+            List<CltDictionaryItem> cltDictionaryItems=cltDictionaryItemMapper.queryDictionaryItemByTypeId(dictionaryTypeQuery.getTypeId());
+
+            if(cltDictionaryItems !=null && cltDictionaryItems.size()>0){
+                //删除所有的关联的字典明细
+                for (int i = 0; i < cltDictionaryItems.size(); i++){
+
+                    cltDictionaryItemMapper.deleteByPrimaryKey(cltDictionaryItems.get(i).getItemId());
+
+                    count++;
+                }
+                //再删除字典类型
+                deleteNum=cltDictionaryTypeMapper.deleteByPrimaryKey(dictionaryTypeQuery.getTypeId());
+
+                return deleteNum+count;
+            }
+
+            deleteNum=cltDictionaryTypeMapper.deleteByPrimaryKey(dictionaryTypeQuery.getTypeId());
+
+            return deleteNum;
+
+        }catch (Exception e){
+
+            logger.error("deleteDictionaryType" , e);
+
+            throw new GlobalException(ErrorConstants.DELETE_CLT_DICTIONARYTYPE_ERROR_CODE , ErrorConstants.DELETE_CLT_DICTIONARYTYPE_ERROR_MESSAGE);
+        }
+
+    }
+
+
+
+    //删除字典明细表
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer deleteDictionaryItem(DictionaryItemQuery dictionaryItemQuery) throws Exception {
+
+        Integer deleteNum=0;
+
+        try{
+
+            deleteNum=cltDictionaryItemMapper.deleteByPrimaryKey(dictionaryItemQuery.getItemId());
+
+            return deleteNum;
+
+        }catch (Exception e){
+
+            logger.error("deleteDictionaryItem" , e);
+
+            throw new GlobalException(ErrorConstants.DELETE_CLT_DICTIONARYITEM__ERROR_CODE , ErrorConstants.DELETE_CLT_DICTIONARYITEM__ERROR_MESSAGE);
+        }
+
+    }
+
+
+
+    //修改字典类型表
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer updateDictionaryType(DictionaryTypeQuery dictionaryTypeQuery) throws Exception {
+
+            Integer updateNum=0;
+
+        try{
+            CltDictionaryType cltDictionaryType=new CltDictionaryType();
+
+            BeanUtil.copyProperties(dictionaryTypeQuery,cltDictionaryType);
+
+            updateNum=cltDictionaryTypeMapper.updateByPrimaryKeySelective(cltDictionaryType);
+
+            return updateNum;
+        }catch (Exception e){
+
+            logger.error("updateDictionaryType" , e);
+            throw new GlobalException(ErrorConstants.UPDATE_CLT_DICTIONARYTYPE_ERROR_CODE , ErrorConstants.UPDATE_CLT_DICTIONARYTYPE_ERROR_MESSAGE);
+        }
+
+    }
+
+
+    //修改字典明细表
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer updateDictionaryItem(DictionaryItemQuery dictionaryItemQuery) throws Exception {
+
+        Integer updateNum=0;
+
+        try{
+
+                CltDictionaryItem cltDictionaryItem=new CltDictionaryItem();
+
+                BeanUtil.copyProperties(dictionaryItemQuery,cltDictionaryItem);
+
+                updateNum=cltDictionaryItemMapper.updateByPrimaryKeySelective(cltDictionaryItem);
+
+                 return updateNum;
+
+        }catch (Exception e){
+
+            logger.error("updateDictionaryItem" , e);
+            throw new GlobalException(ErrorConstants.UPDATE_CLT_DICTIONARYITEM__ERROR_CODE , ErrorConstants.UPDATE_CLT_DICTIONARYITEM__ERROR_MESSAGE);
+        }
+
+    }
+
+
+
+    //根据字典类型Id查询字典明细列表
+    @Override
+    public List<CltDictionaryItem> queryCltDictionaryItemsByTypeId(DictionaryItemQuery dictionaryItemQuery) {
+
+          String typeId=dictionaryItemQuery.getTypeId();
+
+
+        try {
+
+            List<CltDictionaryItem> cltDictionaryItems = cltDictionaryItemMapper.queryDictionaryItemByTypeId(typeId);
+
+            return cltDictionaryItems;
+
+        }catch (Exception e){
+
+            logger.error("queryCltDictionaryTypeAndItemsByTypeId" , e);
+            throw new GlobalException(ErrorConstants.QUERY_CLT_DICTIONARYITEM_BYTYPEID_ERROR_CODE , ErrorConstants.QUERY_CLT_DICTIONARYITEM_BYTYPEID_ERROR_MESSAGE);
+        }
+
+    }
+
+    //查询所有的数据类型列表
+    @Override
+    public Page<CltDictionaryType> queryDictionaryTypeList(DictionaryTypeQuery dictionaryTypeQuery) throws Exception {
+        try {
+            dictionaryTypeQuery.validate();
+            PageUtil.startPage(dictionaryTypeQuery);//获取分页信息
+            CltDictionaryTypeExample typeExample  = assemblyExample(dictionaryTypeQuery); //组装请求参数
+            List<CltDictionaryType>  dictionaryTypes = cltDictionaryTypeMapper.selectByExample(typeExample);
+            return new Page<>(dictionaryTypes);
+        } catch (Exception e) {
+            logger.error("queryDictionaryTypeList", e);
+            throw new GlobalException(ErrorConstants.QUERY_CLT_DICTIONARYTYPE_LIST_ERROR_CODE, ErrorConstants.QUERY_CLT_DICTIONARYTYPE_LIST_ERROR_MESSAGE);
+        }
+
+    }
+
+
+    //批量删除字典类型
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer deleteDictionaryTypeBatch(DictionaryTypeQuery dictionaryTypeQuery) throws Exception {
+
+
+        String[] typeIds=dictionaryTypeQuery.getTypeIds();
+
+        Integer typeCount=0;
+
+        Integer itemCount=0;
+
+        try {
+
+            for (int i = 0; i < typeIds.length; i++) {
+
+                String typeId = typeIds[i];
+                //根据typeId查询字典明细表
+                List<CltDictionaryItem> cltDictionaryItems = cltDictionaryItemMapper.queryDictionaryItemByTypeId(typeId);
+
+                if (cltDictionaryItems != null && cltDictionaryItems.size() > 0) {
+
+                    //删除所有的关联的字典明细
+                    for (int y = 0; y < cltDictionaryItems.size(); y++) {
+
+                        cltDictionaryItemMapper.deleteByPrimaryKey(cltDictionaryItems.get(y).getItemId());
+
+                        itemCount++;
+                    }
+
+                }
+                   cltDictionaryTypeMapper.deleteByPrimaryKey(typeId);
+
+                        typeCount++;
+
+            }
+
+            return itemCount+typeCount;
+
+            }catch (Exception e){
+
+            logger.error("deleteDictionaryTypeBatch" , e);
+            throw new GlobalException(ErrorConstants.DELETE_CLT_DICTIONARYTYPE_BATCH_ERROR_CODE , ErrorConstants.DELETE_CLT_DICTIONARYTYPE_BATCH_ERROR_MESSAGE);
+        }
+
+    }
+
+
+    //批量删除数据明细表
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer deleteDictionaryItemBatch(DictionaryItemQuery dictionaryItemQuery) throws Exception {
+
+
+               String[] itemIds=dictionaryItemQuery.getItemIds();
+
+               Integer count=0;
+
+        for (int i = 0; i < itemIds.length; i++) {
+
+            String itemId = itemIds[i];
+
+            try{
+                cltDictionaryItemMapper.deleteByPrimaryKey(itemId);
+
+                count++;
+
+            }catch (Exception e){
+
+                logger.error("deleteDictionaryItemBatch" , e);
+
+                throw new GlobalException(ErrorConstants.DELETE_CLT_DICTIONARYITEM_BATCH_ERROR_CODE , ErrorConstants.DELETE_CLT_DICTIONARYITEM_BATCH_ERROR_MESSAGE);
+
+            }
+
+        }
+        return count;
+
+    }
+
+
+    //启用禁用
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer disEnableDictionary(DictionaryTypeQuery dictionaryTypeQuery) throws Exception {
+
+        Integer updateNum = 0;
+
+        try {
+
+            CltDictionaryType cltDictionaryType=new CltDictionaryType();
+
+            BeanUtil.copyProperties(dictionaryTypeQuery,cltDictionaryType);
+
+            updateNum = cltDictionaryTypeMapper.updateByPrimaryKeySelective(cltDictionaryType);
+
+        } catch (Exception e) {
+            logger.error("disEnableDictionary", e);
+            throw new GlobalException(ErrorConstants.DISENABLE_CLT_DICTIONARY_ERROR_CODE, ErrorConstants.DISENABLE_CLT_DICTIONARY_ERROR_MESSAGE);
+
+        }
+        return updateNum;
+
+    }
+
+    //调整字典明细顺序
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer updateDictionaryItemOrderSeq(List<DictionaryItemQuery> dictionaryItemQueries) throws Exception {
+
+        Integer count=0;
+
+         CltDictionaryItem cltDictionaryItem=new CltDictionaryItem();
+
+        for (int i = 0; i < dictionaryItemQueries.size(); i++) {
+            DictionaryItemQuery dictionaryItemQuery = (DictionaryItemQuery) dictionaryItemQueries.get(i);
+             BeanUtil.copyProperties(dictionaryItemQuery,cltDictionaryItem);
+
+             try{
+                 int updateNum = cltDictionaryItemMapper.updateByPrimaryKeySelective(cltDictionaryItem);
+
+                 if(updateNum==1){
+                     count++;
+                 }
+             }catch (Exception e){
+
+                 logger.error("updateDictionaryItemOrderSeq", e);
+                 throw new GlobalException(ErrorConstants.UPDATE_CLT_DICTIONARY_ITEM_OEDERSQL_ERROR_CODE, ErrorConstants.UPDATE_CLT_DICTIONARY_ITEM_OEDERSQL_ERROR_MESSAGE);
+
+             }
+        }
+
+        return count;
+    }
+
+
+    //根据typeCode查询明细表
+    @Override
+    public   List<CltDictionaryItem> queryCltDictionaryItemByTypeCode(DictionaryItemQuery dictionaryItemQuery) {
+
+           String typeCode=dictionaryItemQuery.getTypeCode();
+
+           CltDictionaryType cltDictionaryType = cltDictionaryTypeMapper.queryCltDictionaryTypeByTypeCode(typeCode);
+
+        try {
+
+            List<CltDictionaryItem> cltDictionaryItems = cltDictionaryItemMapper.queryDictionaryItemByTypeId(cltDictionaryType.getTypeId());
+
+            return cltDictionaryItems;
+
+        }catch (Exception e){
+
+            logger.error("queryCltDictionaryItemByTypeCode" , e);
+            throw new GlobalException(ErrorConstants.QUERY_CLT_DICTIONARYITEM_BYTYPEID_ERROR_CODE , ErrorConstants.QUERY_CLT_DICTIONARYITEM_BYTYPEID_ERROR_MESSAGE);
+        }
+
+    }
+
+    /**
+     * 装配查询参数
+     *
+     * @param
+     * @return
+     */
+    private CltDictionaryTypeExample assemblyExample(DictionaryTypeQuery dictionaryTypeQuery) {
+        CltDictionaryTypeExample example = new CltDictionaryTypeExample();
+        example.setOrderByClause(dictionaryTypeQuery.getOrderByClause());
+        CltDictionaryTypeExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.hasText(dictionaryTypeQuery.getTypeName())){
+            criteria.andTypeNameLike("%"+dictionaryTypeQuery.getTypeName()+"%");
+        }
+        return example;
+    }
+
+
+
+
+
+
+}
+
+

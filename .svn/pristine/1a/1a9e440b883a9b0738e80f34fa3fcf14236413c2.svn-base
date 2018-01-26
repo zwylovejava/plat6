@@ -1,0 +1,33 @@
+#spring:
+#  application:
+#    name: cloudtest-user
+#  cloud:
+#    bus:
+#      trace:
+#        enabled: true
+#  rabbitmq:
+#    host: 192.168.0.100
+#    port: 5672
+#    username: northking
+#    password: 123456
+#management:
+#  security:
+#    enabled: false
+server:
+  port: 18092
+eureka:
+   client:
+     healthcheck:
+       enabled: true
+
+jwt:
+  expire: 3600 #过期时间
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 5000

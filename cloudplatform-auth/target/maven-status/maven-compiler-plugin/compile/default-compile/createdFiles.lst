@@ -1,0 +1,8 @@
+net\northking\cloudplatform\CloudPlatFormAuthApplication.class
+net\northking\cloudplatform\controller\UserController.class
+net\northking\cloudplatform\config\AuthorizationServerConfig.class
+net\northking\cloudplatform\config\SecurityConfig.class
+net\northking\cloudplatform\endpoint\RevokeTokenEndpoint.class
+net\northking\cloudplatform\security\SecurityUtils.class
+net\northking\cloudplatform\config\ResourceServerConfig.class
+net\northking\cloudplatform\security\DomainUserDetailsService.class

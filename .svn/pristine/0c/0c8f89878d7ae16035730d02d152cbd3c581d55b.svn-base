@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/cloud_platform.iml" filepath="$PROJECT_DIR$/cloud_platform.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloudplatform-api/cloudplatform-api.iml" filepath="$PROJECT_DIR$/cloudplatform-api/cloudplatform-api.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloudplatform-assist/cloudplatform-assist.iml" filepath="$PROJECT_DIR$/cloudplatform-assist/cloudplatform-assist.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloudplatform-auth/cloudplatform-auth.iml" filepath="$PROJECT_DIR$/cloudplatform-auth/cloudplatform-auth.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloudplatform-cust/cloudplatform-cust.iml" filepath="$PROJECT_DIR$/cloudplatform-cust/cloudplatform-cust.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloudplatform-dao/cloudplatform-dao.iml" filepath="$PROJECT_DIR$/cloudplatform-dao/cloudplatform-dao.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloudplatform-eureka/cloudplatform-eureka.iml" filepath="$PROJECT_DIR$/cloudplatform-eureka/cloudplatform-eureka.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloudplatform-gateway/cloudplatform-gateway.iml" filepath="$PROJECT_DIR$/cloudplatform-gateway/cloudplatform-gateway.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloudplatform-testcase/cloudplatform-testcase.iml" filepath="$PROJECT_DIR$/cloudplatform-testcase/cloudplatform-testcase.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloudplatform-testexecute/cloudplatform-testexecute.iml" filepath="$PROJECT_DIR$/cloudplatform-testexecute/cloudplatform-testexecute.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloudplatform-web/cloudplatform-web.iml" filepath="$PROJECT_DIR$/cloudplatform-web/cloudplatform-web.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloudplatform-workjob/cloudplatform-workjob.iml" filepath="$PROJECT_DIR$/cloudplatform-workjob/cloudplatform-workjob.iml" />
+      <module fileurl="file://$PROJECT_DIR$/cloudplatform_project/cloudplatform_project.iml" filepath="$PROJECT_DIR$/cloudplatform_project/cloudplatform_project.iml" />
+      <module fileurl="file://$PROJECT_DIR$/clouplatform-user/clouplatform-user.iml" filepath="$PROJECT_DIR$/clouplatform-user/clouplatform-user.iml" />
+    </modules>
+  </component>
+</project>

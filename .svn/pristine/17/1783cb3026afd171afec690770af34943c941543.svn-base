@@ -1,0 +1,17 @@
+server:
+  port: 8101
+eureka:
+   client:
+     healthcheck:
+       enabled: true
+jwt:
+  expire: 3600  #过期时间
+# 关于springcloud-hystrix机制 http://www.jianshu.com/p/b8d21248c9b1
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 5000

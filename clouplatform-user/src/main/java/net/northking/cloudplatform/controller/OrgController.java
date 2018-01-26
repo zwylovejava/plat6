@@ -1,0 +1,309 @@
+package net.northking.cloudplatform.controller;
+
+import net.northking.cloudplatform.assist.RedisUtil;
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.SuccessConstants;
+import net.northking.cloudplatform.dao.user.CltUserMapper;
+import net.northking.cloudplatform.domain.user.CltOrg;
+import net.northking.cloudplatform.domain.user.CltUser;
+import net.northking.cloudplatform.domain.user.CltUserLogin;
+import net.northking.cloudplatform.query.user.OrgQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.OrgService;
+import net.northking.cloudplatform.utils.BeanUtil;
+import net.northking.cloudplatform.utils.CltUtils;
+import net.northking.cloudplatform.utils.ParamVerifyUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Map;
+
+/**
+ * 机构信息控制层
+ * Created by Administrator on 2017/11/16 0016.
+ */
+@RestController
+public class OrgController {
+
+    @Autowired
+    private OrgService orgService;
+
+    @Autowired
+    private RedisUtil redisUtil;
+
+    @Autowired
+    private CltUserMapper cltUserMapper;
+
+    private final static Logger logger = LoggerFactory.getLogger(OrgController.class);
+
+    //新增机构
+    @PostMapping("/addCltOrg")
+    public ResultInfo<CltOrg> addCltOrg(@RequestBody OrgQuery orgQuery) throws Exception {
+
+        CltUtils.printStartInfo(orgQuery, "addCltOrg");
+
+        long startTime = System.currentTimeMillis();
+
+        Integer updateResult = null;
+
+        CltOrg cltOrg = new CltOrg();
+        BeanUtil.copyProperties(orgQuery, cltOrg);
+
+        //参数校验
+        init(orgQuery, "A");
+
+        String funcCode  = (String)orgQuery.getFunCode();  //0 - 新增客户来源（云平台管理）   1-新增机构来源（客户管理）
+
+        //获取用户超级管理员字段标志 （redis获取用户数据）
+        CltUserLogin cltUserLogin = (CltUserLogin) redisUtil.get(orgQuery.getAccess_token());
+
+        //根据用户的id查询用户表
+        if(cltUserLogin!=null){
+            CltUser cltUser=cltUserMapper.selectByPrimaryKey(cltUserLogin.getUserId());
+            String custId=cltUser.getCustId();
+
+            if ("1".equals(funcCode)){
+                cltOrg.setCustId(custId);
+            }
+
+            cltOrg.setCreateUser(cltUserLogin.getUserId());
+        }
+
+        //调用数据库 添加
+        CltOrg cltOrgResult = orgService.addCltOrg(cltOrg);
+
+        String parentOrgId = cltOrg.getParentOrgId();
+
+        if(cltOrgResult !=null&&!"0".equals(parentOrgId)){
+
+            cltOrg = new CltOrg();
+
+            cltOrg.setOrgId(parentOrgId);
+
+            cltOrg.setIsLeaf("N");
+
+            //调用数据库 修改
+             orgService.updateCltOrg(cltOrg);
+        }
+
+        CltUtils.printEndInfo(cltOrgResult, "addCltOrg", startTime);
+
+        return new ResultInfo<CltOrg>(ResultCode.SUCCESS, SuccessConstants.ADD_CLT_ORG_INFO_SUCCESS, cltOrgResult);
+    }
+
+
+    //修改机构
+    @PostMapping("/updateCltOrg")
+    public ResultInfo<Integer> updateCltOrg(@RequestBody OrgQuery orgQuery) throws Exception {
+
+        CltUtils.printStartInfo(orgQuery, "updateCltOrg");
+
+        //获取用户超级管理员字段标志 （redis获取用户数据）
+        CltUserLogin cltUserLogin = (CltUserLogin) redisUtil.get(orgQuery.getAccess_token());
+
+        //根据用户的id查询用户表
+        if(cltUserLogin!=null){
+           orgQuery.setUpdateUser(cltUserLogin.getUserId());
+        }
+
+        long startTime = System.currentTimeMillis();
+
+        CltOrg cltOrg = new CltOrg();
+
+        BeanUtil.copyProperties(orgQuery, cltOrg);
+
+        //参数校验
+        init(orgQuery, "U");
+
+        //调用数据库
+        Integer result = orgService.updateCltOrg(cltOrg);
+
+        CltUtils.printEndInfo(result, "updateCltOrg", startTime);
+
+        return new ResultInfo<Integer>(ResultCode.SUCCESS,SuccessConstants.UPDATE_CLT_ORG_INFO_SUCCESS, result);
+    }
+
+    //删除机构
+    @PostMapping("/deleteCltOrg")
+    public ResultInfo<Integer> deleteCltOrgInfo(@RequestBody OrgQuery orgQuery) throws Exception {
+
+        CltUtils.printStartInfo(orgQuery, "deleteCltOrg");
+
+        long startTime = System.currentTimeMillis();
+
+        CltUserLogin cltUserLogin = (CltUserLogin) redisUtil.get(orgQuery.getAccess_token());
+
+        if(cltUserLogin!=null){
+            CltUser cltUser=cltUserMapper.selectByPrimaryKey(cltUserLogin.getUserId());
+
+            String custId=cltUser.getCustId();
+
+            orgQuery.setCustId(custId);
+        }
+
+
+        CltOrg cltOrg = new CltOrg();
+
+        BeanUtil.copyProperties(orgQuery, cltOrg);
+
+        //参数校验
+        init(orgQuery, "D");
+
+        //调用数据库
+        Integer result = orgService.deleteCltOrg(cltOrg);
+
+        CltUtils.printEndInfo(result, "deleteCltOrg", startTime);
+
+        return new ResultInfo<Integer>(ResultCode.SUCCESS, SuccessConstants.DELETE_CLT_ORG_INFO_BY_ORG_ID_SUCCESS,result);
+    }
+
+    //根据机构ID查询机构详细信息
+    @PostMapping("/queryCltOrgByOrgId")
+    public ResultInfo<CltOrg> queryCltOrgByOrgId(@RequestBody OrgQuery orgQuery) throws Exception {
+
+        CltUtils.printStartInfo(orgQuery, "queryCltOrgByOrgId");
+
+
+        long startTime = System.currentTimeMillis();
+
+        CltOrg cltOrg = new CltOrg();
+
+        BeanUtil.copyProperties(orgQuery, cltOrg);
+
+        //参数校验
+        init(orgQuery, "Q_ID");
+
+        //调用数据接口
+        CltOrg queryCltOrg = orgService.queryCltOrgByOrgId(cltOrg.getOrgId());
+
+        CltUtils.printEndInfo(queryCltOrg, "queryCltOrgByOrgId", startTime);
+
+        return new ResultInfo<CltOrg>(ResultCode.SUCCESS,SuccessConstants.QUERY_CLT_ORG_INFO_BY_ORG_ID_SUCCESS, queryCltOrg);
+    }
+
+    //查询机构
+    @PostMapping("/queryCltOrg")
+    public ResultInfo<Page<CltOrg>> queryCltOrg(@RequestBody OrgQuery orgQuery) throws Exception {
+
+        CltUtils.printStartInfo(orgQuery, "queryCltOrg");
+
+        //获取用户超级管理员字段标志 （redis获取用户数据）
+        CltUserLogin cltUserLogin = (CltUserLogin) redisUtil.get(orgQuery.getAccess_token());
+
+        //根据用户的id查询用户表
+        if(cltUserLogin!=null){
+            CltUser cltUser=cltUserMapper.selectByPrimaryKey(cltUserLogin.getUserId());
+            String custId=cltUser.getCustId();
+            orgQuery.setCustId(custId);
+        }
+
+        long startTime = System.currentTimeMillis();
+
+        CltOrg cltOrg = new CltOrg();
+
+        BeanUtil.copyProperties(orgQuery, cltOrg);
+
+        //参数校验
+        init(orgQuery, "Q");
+
+        //调用数据接口
+        Page<CltOrg> page = orgService.queryCltOrg(cltOrg);
+
+        CltUtils.printEndInfo(page, "queryCltOrg", startTime);
+
+        return new ResultInfo<Page<CltOrg>>(ResultCode.SUCCESS, SuccessConstants.QUERY_ORG_LIST_SUCCESS,page);
+    }
+
+    //根据父机构ID和客户ID修改机构
+    @PostMapping("/updateCltOrgByParentorgIdAndCustId")
+    public ResultInfo<Integer> updateCltOrgByParentorgIdAndCustId(@RequestBody OrgQuery orgQuery) throws Exception {
+
+        CltUtils.printStartInfo(orgQuery, "updateCltOrg");
+
+     //获取用户超级管理员字段标志 （redis获取用户数据）
+        CltUserLogin cltUserLogin = (CltUserLogin) redisUtil.get(orgQuery.getAccess_token());
+
+        //根据用户的id查询用户表
+        if(cltUserLogin!=null){
+            orgQuery.setUpdateUser(cltUserLogin.getUserId());
+        }
+
+        long startTime = System.currentTimeMillis();
+
+        CltOrg cltOrg = new CltOrg();
+
+        BeanUtil.copyProperties(orgQuery, cltOrg);
+
+        //参数校验
+        init(orgQuery, "U_ID");
+
+        //调用数据库
+        Integer result = orgService.updateCltOrgByParentorgIdAndCustId(cltOrg);
+
+        CltUtils.printEndInfo(result, "updateCltOrg", startTime);
+
+        return new ResultInfo<Integer>(ResultCode.SUCCESS,SuccessConstants.UPDATE_CLT_ORG_BY_PARENT_ID_AND_CUST_ID_SUCCESS, result);
+    }
+
+
+    //根据客户ID和parentOrgId删除机构信息
+    @PostMapping("/delteCltOrgByParentorgIdAndCustId")
+    public ResultInfo<Integer> delteCltOrgByParentorgIdAndCustId(@RequestBody OrgQuery orgQuery) throws Exception {
+
+        CltUtils.printStartInfo(orgQuery, "updateCltOrg");
+
+        long startTime = System.currentTimeMillis();
+
+
+        //参数校验
+        init(orgQuery, "D_ID");
+
+        //调用数据库
+        Integer result = orgService.delteCltOrgByParentorgIdAndCustId(orgQuery);
+
+        CltUtils.printEndInfo(result, "delteCltOrgByParentorgIdAndCustId", startTime);
+
+        return new ResultInfo<>(ResultCode.SUCCESS, SuccessConstants.DELETE_CLT_ORG_BY_PARENT_ID_AND_CUST_ID_SUCCESS,result);
+    }
+
+
+
+    //参数校验的方法
+    public static void init(OrgQuery orgQuery, String funcCode) throws Exception {
+
+        ParamVerifyUtil paramVerifyUtil = new ParamVerifyUtil();
+
+        Map<String,Object> dataMap = CltUtils.beanToMap(orgQuery);
+
+        if ("A".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "orgName", "orgSeq", "orgGradation","funCode");
+
+        } else if ("U".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "orgId");
+
+        } else if ("D".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "orgId", "isLeaf");
+
+
+        }else if("Q_ID".equals(funcCode)){
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "orgId");
+
+        }else if("U_ID".equals(funcCode)){
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "parentOrgId","custId");
+        } else if("D_ID".equals(funcCode)){
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "parentOrgId","custId");
+        }
+    }
+
+}

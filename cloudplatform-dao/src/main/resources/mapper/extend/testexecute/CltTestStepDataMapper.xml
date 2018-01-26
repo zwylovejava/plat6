@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.testexecute.CltTestStepDataMapper" >
+    <select id="queryTestStepDataById" resultType="net.northking.cloudplatform.dto.testexecute.StepDataInfo">
+          SELECT a.TYPE,a.VALUE,b.MEMO,b.NAME,b.CODE FROM CLT_TEST_STEP_DATA a LEFT JOIN CLT_APP_BIZ_PARAM b ON a.PARAM_ID=b.ID WHERE a.CASE_ID=#{caseId} AND a.STEP_ID=#{stepId} ORDER BY a.TYPE ASC
+
+    </select>
+
+    <select id="queryTestStepDataBytsId" resultType="net.northking.cloudplatform.domain.testexecute.CltTestStepData">
+
+      SELECT b.TYPE,b.VALUE,c.NAME APP_BIZ_NMAE
+      FROM  CLT_TEST_CASE_STEP a,CLT_TEST_STEP_DATA b,CLT_APP_BIZ_PARAM c
+      WHERE a.ID=b.STEP_ID AND c.ID=b.PARAM_ID  AND a.CASE_ID=#{caseId} AND a.TRANS_ID=#{transId}
+
+    </select>
+
+</mapper>

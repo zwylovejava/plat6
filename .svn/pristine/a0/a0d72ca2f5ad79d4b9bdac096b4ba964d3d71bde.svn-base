@@ -1,0 +1,216 @@
+package net.northking.cloudplatform.controller;
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.domain.testbug.CltTestBug;
+import net.northking.cloudplatform.domain.testexecute.CltJob;
+import net.northking.cloudplatform.dto.testexecute.JobPlan;
+import net.northking.cloudplatform.dto.testexecute.JobPlanQuery;
+import net.northking.cloudplatform.query.testexecute.JobQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.JobService;
+import net.northking.cloudplatform.utils.CltUtils;
+import net.northking.cloudplatform.utils.PageUtil;
+import net.northking.cloudplatform.utils.ParamVerifyUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import java.util.List;
+import java.util.Map;
+
+/**
+* @Title:
+* @Description: CltJob控制层
+* @Company: Northking
+* @Author: HBH
+* @CreateDate: 2017-12-19 18:57
+* @UpdateUser:
+* @Version:0.1
+*/
+
+@RestController
+public class JobController {
+    //注入service
+    @Autowired
+    private JobService jobService;
+
+    //日志
+    private final static Logger logger = LoggerFactory.getLogger(JobController.class);
+
+    /**
+     * @Author:HBH
+     * @Description: 指定测试主管
+     * @Date:19:14 2017/12/19
+     * @param1:
+     * @param2:
+     * @return:
+     */
+    @PostMapping("/addTestManager")
+    public ResultInfo<Integer> addTestManager(@RequestBody JobQuery jobQuery) throws Exception {
+
+        logger.info(" addTestManager start paramData" + jobQuery.toString());
+
+        init(jobQuery,"addTestManager");
+
+        Integer result = jobService.addTestManager(jobQuery);
+
+        logger.info(" addTestManager end paramData");
+
+        return  new ResultInfo<>(ResultCode.SUCCESS, "指定测试主管成功!", result);
+
+    }
+
+
+    /**
+     * @Author:HBH
+     * @Description: 查询任务详情
+     * @Date:12:01 2017/12/20
+     * @param1:
+     * @param2:
+     * @return:
+     */
+    @PostMapping("/queryJobByJobId")
+    public ResultInfo<CltJob> queryJobByJobId(@RequestBody JobQuery jobQuery) throws Exception {
+
+        logger.info(" queryJobByJobId start paramData" + jobQuery.toString());
+
+        init(jobQuery,"Q");
+
+        CltJob result = jobService.queryJobByJobId(jobQuery);
+
+        logger.info(" queryJobByJobId end paramData");
+
+        return  new ResultInfo<>(ResultCode.SUCCESS, "查询任务详情成功!", result);
+
+    }
+
+    /**
+     * @Author:HBH
+     * @Description: 根据测试主管ID查询任务记录数
+     * @Date:14:13 2017/12/20
+     * @param1:
+     * @param2:
+     * @return:
+     */
+    @PostMapping("/countJobByManagerId")
+    public ResultInfo<Integer> queryJobByManagerId(@RequestBody JobQuery jobQuery) throws Exception {
+
+        logger.info(" queryJobByManagerId start paramData" + jobQuery.toString());
+
+        init(jobQuery,"countJobByManagerId");
+
+        Integer result = jobService.countJobByManagerId(jobQuery);
+
+        logger.info(" queryJobByManagerId end paramData");
+
+        return  new ResultInfo<>(ResultCode.SUCCESS, "根据测试主管ID查询任务记录数成功!", result);
+
+    }
+
+
+    //根据角色查询执行计划
+    @PostMapping("/queryPlanList")
+    public ResultInfo<Page<JobPlan>> queryPlanList(@RequestBody JobPlanQuery jobPlanQuery){
+
+        logger.info("queryPlanList start paramData");
+
+        PageUtil.startPage(jobPlanQuery);
+
+        List<JobPlan> jobQueries = jobService.queryPlanList(jobPlanQuery);
+
+        Page<JobPlan> page = new Page<>(jobQueries);
+
+        logger.info("queryPlanList end paramData");
+
+        return new ResultInfo<>(ResultCode.SUCCESS,"查询任务详情成功!",page);
+    }
+
+
+    //-----------------------------------------------------------------------------------------
+
+    /**
+     * 生成测试执行任务,压队列
+     * @param jobQuery
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/genTestExecuteJob")
+    public ResultInfo<Integer> genTestExecuteJob(@RequestBody JobQuery jobQuery) throws Exception {
+
+        init(jobQuery,"Q");
+
+        return new ResultInfo<>(ResultCode.SUCCESS,"生成测试任务成功!",jobService.genTestExecuteJob(jobQuery));
+    }
+
+    @PostMapping("/queryBugByBatchId")
+    public ResultInfo<List<CltTestBug>> queryBugByBatchId(@RequestBody JobQuery jobQuery) throws Exception {
+
+        init(jobQuery,"queryBugByBatchId");
+
+        List<CltTestBug> testBugList = jobService.queryBugByBatchId(jobQuery.getBatchId());
+
+        return new ResultInfo<>(ResultCode.SUCCESS,testBugList);
+    }
+
+
+
+
+    /**
+     * @Author:HBH
+     * @Description: 检验参数的方法
+     * @Date:19:17 2017/12/19
+     * @param1:
+     * @param2:
+     * @return:
+     */
+    public static void init(JobQuery jobQuery, String funcCode) throws Exception {
+
+        ParamVerifyUtil paramVerifyUtil = new ParamVerifyUtil();
+
+        Map<String, Object> dataMap = CltUtils.beanToMap(jobQuery);
+
+        if ("addTestManager".equals(funcCode)) {
+
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "jobId", "managerId");
+        } else if ("Q".equals(funcCode)) {
+
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "jobId");
+        }else if ("countJobByManagerId".equals(funcCode)) {
+
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "managerId");
+        }else if ("queryBugByBatchId".equals(funcCode)) {
+
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "batchId");
+        }
+
+    }
+
+    //查询已压队列的任务
+    @PostMapping("/queryExecuteing")
+    public ResultInfo<Page<CltJob>> queryJobPlanAna(@RequestBody JobQuery jobQuery){
+        logger.info("queryJobPlanAna start paramData");
+
+        PageUtil.startPage(jobQuery);
+
+        List<CltJob> jobQueries = jobService.queryJobPlanAna(jobQuery);
+
+        Page<CltJob> page = new Page<>(jobQueries);
+        if(jobQueries==null){
+            return new ResultInfo<>(ResultCode.SUCCESS,"没有查询到数据!",page);
+        }
+        if(jobQueries.size()<1){
+            return new ResultInfo<>(ResultCode.SUCCESS,"没有查询到数据!",page);
+        }
+        logger.info("queryPlanList end paramData");
+
+        return new ResultInfo<>(ResultCode.SUCCESS,"查询成功!",page);
+    }
+
+
+}

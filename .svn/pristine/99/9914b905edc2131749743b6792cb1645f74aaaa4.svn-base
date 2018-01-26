@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.testexecute.CltCaseSetMapper" >
+    <select id="queryTestCaseSetById" resultType="net.northking.cloudplatform.domain.testexecute.CltCaseSet">
+        SELECT <include refid="Base_Column_List"/> FROM CLT_CASE_SET WHERE BATCH_ID=#{batchId}
+    </select>
+
+    <select id="queryTestCaseSetByCaseId" resultType="net.northking.cloudplatform.domain.testexecute.CltCaseSet">
+        SELECT b.*
+        FROM CLT_CASE_SET_REL a ,CLT_CASE_SET b
+        WHERE a.CASE_SET_ID=b.CASE_SET_ID AND a.CASE_ID=#{caseId};
+    </select>
+
+
+</mapper>

@@ -1,0 +1,164 @@
+package net.northking.cloudplatform.service.impl;
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.dao.testbug.CltTestBugMapper;
+import net.northking.cloudplatform.domain.testbug.CltTestBug;
+import net.northking.cloudplatform.domain.testbug.CltTestBugExample;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.query.testbug.TestBugQuery;
+import net.northking.cloudplatform.service.TestBugService;
+import net.northking.cloudplatform.utils.BeanUtil;
+import net.northking.cloudplatform.utils.PageUtil;
+import net.northking.cloudplatform.utils.UUIDUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import java.util.Date;
+import java.util.List;
+
+/**
+ * @Title:
+ * @Description: CltBug业务逻辑层实现类
+ * @Company: Northking
+ * @Author: HBH
+ * @CreateDate: 2017-12-25 13:37
+ * @UpdateUser:
+ * @Version:0.1
+ */
+
+@Service
+public class TestBugServiceImpl implements TestBugService{
+
+    //注入mapper
+    @Autowired
+    private CltTestBugMapper cltTestBugMapper;
+
+    //日志
+    private final static Logger logger = LoggerFactory.getLogger(TestBugServiceImpl.class);
+
+
+  //创建测试缺陷
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public Integer addTestBug(TestBugQuery testBugQuery) throws Exception {
+
+        Integer addNum=0;
+
+        try {
+
+            CltTestBug cltTestBug=new CltTestBug();
+            //复制属性到cltTestBug
+            BeanUtil.copyProperties(testBugQuery,cltTestBug);
+            //bugId
+            cltTestBug.setBugId(UUIDUtil.getUUID());
+            //创建时间
+            cltTestBug.setCreateDate(new Date());
+            //缺陷状态(默认为1:待分配)
+           // cltTestBug.setStatus("1");
+              //存进数据库
+            addNum= cltTestBugMapper.insertSelective(cltTestBug);
+
+            return addNum;
+
+        }catch (Exception e){
+            logger.error("addTestBug" , e);
+            throw new GlobalException(ErrorConstants.ADD_TEST_BUG_ERROR_CODE , ErrorConstants.ADD_TEST_BUG_ERROR_ERROR_MESSAGE);
+        }
+
+    }
+
+
+    //查询缺陷列表
+    @Override
+    public Page<CltTestBug> queryTestBugList(TestBugQuery testBugQuery) throws Exception {
+        try {
+            testBugQuery.validate();
+            PageUtil.startPage(testBugQuery);//获取分页信息
+            CltTestBugExample testBugExample  = assemblyExample(testBugQuery); //组装请求参数
+            List<CltTestBug> testBugs = cltTestBugMapper.selectByExample(testBugExample);
+            return new Page<>(testBugs);
+        } catch (Exception e) {
+            logger.error("queryTestBugList", e);
+            throw new GlobalException(ErrorConstants.QUERY_TEST_BUG_LIST_ERROR_CODE, ErrorConstants.QUERY_TEST_BUG_LIST_ERROR_MESSAGE);
+        }
+
+
+    }
+
+
+
+    //查询缺陷详情
+    @Override
+    public CltTestBug queryBugByBugId(String bugId) throws Exception {
+        try {
+            CltTestBug cltTestBug = cltTestBugMapper.selectByPrimaryKey(bugId);
+            return cltTestBug;
+        } catch (Exception e) {
+            logger.error("queryBugByBugId", e);
+            throw new GlobalException(ErrorConstants.QUWERY_CLT_CUSTOMER_BYCUSTID_ERROR_CODE, ErrorConstants.QUWERY_CLT_CUSTOMER_BYCUSTID_ERROR_MESSAGE);
+        }
+
+    }
+
+    @Override
+    public List<CltTestBug> queryTestBugById(TestBugQuery testBugQuery) {
+        //根据StepId和caseId判断缺陷是否已添加
+        CltTestBugExample cltTestBugExample = new CltTestBugExample();
+        CltTestBugExample.Criteria criteria = cltTestBugExample.createCriteria();
+        criteria.andCaseIdEqualTo(testBugQuery.getCaseId());
+        criteria.andStepIdEqualTo(testBugQuery.getStepId());
+        List<CltTestBug> testBugList = cltTestBugMapper.selectByExample(cltTestBugExample);
+        return testBugList;
+    }
+
+    @Override
+    public List<CltTestBug> queryTestBugByBathId(TestBugQuery testBugQuery) {
+        CltTestBugExample cltTestBugExample = new CltTestBugExample();
+        CltTestBugExample.Criteria criteria = cltTestBugExample.createCriteria();
+        criteria.andBatchIdEqualTo(testBugQuery.getBatchId());
+        List<CltTestBug> testBugList = cltTestBugMapper.selectByExample(cltTestBugExample);
+
+        return testBugList;
+    }
+
+
+    /**
+     * 装配查询参数
+     *
+     * @param
+     * @return
+     */
+    private CltTestBugExample assemblyExample(TestBugQuery testBugQuery) {
+        CltTestBugExample example = new CltTestBugExample();
+        example.setOrderByClause(testBugQuery.getOrderByClause());
+        CltTestBugExample.Criteria criteria = example.createCriteria();
+        if (StringUtils.hasText(testBugQuery.getBugGrade())){
+            criteria.andBugGradeEqualTo(testBugQuery.getBugGrade());
+        }
+        if (StringUtils.hasText(testBugQuery.getBugType())){
+            criteria.andBugTypeEqualTo(testBugQuery.getBugType());
+        }
+        if (testBugQuery.getCreateDate()!=null){
+            criteria.andCreateDateEqualTo(testBugQuery.getCreateDate());
+        }
+        if (testBugQuery.getHandleDate()!=null){
+            criteria.andHandleDateEqualTo(testBugQuery.getHandleDate());
+        }
+        return example;
+    }
+
+
+
+
+
+
+
+
+}

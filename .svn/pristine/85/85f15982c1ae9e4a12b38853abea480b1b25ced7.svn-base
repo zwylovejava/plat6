@@ -1,0 +1,56 @@
+package net.northking.cloudplatform.service.testexecute;
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.domain.testbug.CltTestBug;
+import net.northking.cloudplatform.domain.testexecute.CltBatch;
+import net.northking.cloudplatform.domain.testexecute.CltJob;
+import net.northking.cloudplatform.domain.testexecute.CltTestStepData;
+import net.northking.cloudplatform.dto.testexecute.JobPlan;
+import net.northking.cloudplatform.dto.testexecute.JobPlanQuery;
+import net.northking.cloudplatform.dto.testexecute.TestCaseStepData;
+import net.northking.cloudplatform.query.testexecute.BatchQuery;
+import net.northking.cloudplatform.query.testexecute.JobQuery;
+import net.northking.cloudplatform.query.testexecute.TestCaseStepQuery;
+import net.northking.cloudplatform.result.ResultInfo;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
+
+import java.util.List;
+
+/**
+ * Created by Administrator on 2017/12/20 0020.
+ * CLT_JOB  操作
+ */
+
+public interface JobService {
+
+    //新增任务信息
+    ResultInfo<Integer> addCltJobInfo(JobQuery jobQuery)throws Exception ;
+
+    //增加测试主管
+    ResultInfo<String> updateCltJobByManagerId(JobQuery jobQuery)throws Exception;
+
+    //查询任务信息 （根据角色获取平台管理员 测试主管）
+    ResultInfo<Page<JobPlan>> queryCltJobByRoleId(JobPlanQuery jobPlanQuery)throws Exception;
+
+    //根据任务ID查询任务详情
+    ResultInfo<CltJob> queryCltJobByJobId(JobQuery jobQuery)throws Exception;
+
+    //根据主管ID查询记录条数
+    ResultInfo<Integer> countNumCltJobByManagerId(JobQuery jobQuery)throws Exception;
+
+    //生成测试执行任务,压队列
+    ResultInfo<Integer> genTestExecuteJob(JobQuery jobQuery) throws Exception;
+
+    //执行测试步骤
+    ResultInfo<List<CltTestStepData>> quryStepDataByCaseId(TestCaseStepQuery testCaseStepQuery) throws Exception;
+
+    //根据批次ID查询测试缺陷
+    ResultInfo<List<CltTestBug>> queryBugByBatchId(JobQuery jobQuery) throws Exception;
+
+    //查询正在执行中的项目
+    ResultInfo<Page<CltJob>> queryExecuting(JobQuery jobQuery)throws Exception;
+
+    //查询已关闭的项目
+    ResultInfo<Page<CltJob>> queryExecutedProject(JobQuery jobQuery);
+}

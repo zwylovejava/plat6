@@ -1,0 +1,262 @@
+package net.northking.cloudplatform.controller.testexecute;
+
+
+import com.codingapi.tx.annotation.TxTransaction;
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.domain.testbug.CltTestBug;
+import net.northking.cloudplatform.domain.testexecute.CltBatch;
+import net.northking.cloudplatform.domain.testexecute.CltJob;
+import net.northking.cloudplatform.domain.testexecute.CltTestStepData;
+import net.northking.cloudplatform.domain.user.CltFunc;
+import net.northking.cloudplatform.dto.testexecute.JobPlan;
+import net.northking.cloudplatform.dto.testexecute.JobPlanQuery;
+import net.northking.cloudplatform.dto.testexecute.StepDataInfo;
+import net.northking.cloudplatform.dto.testexecute.TestCaseStepData;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.feign.testexecute.JobFeignClient;
+import net.northking.cloudplatform.feign.user.FuncFeignClient;
+import net.northking.cloudplatform.query.testexecute.BatchQuery;
+import net.northking.cloudplatform.query.testexecute.JobQuery;
+import net.northking.cloudplatform.query.testexecute.TestCaseStepQuery;
+import net.northking.cloudplatform.query.user.FuncRoleQuery;
+import net.northking.cloudplatform.query.user.UserAndLoginQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.result.ResultInfo;
+import net.northking.cloudplatform.service.testexecute.JobService;
+import net.northking.cloudplatform.utils.CltUtils;
+import net.northking.cloudplatform.utils.ParamVerifyUtil;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @Title:
+ * @Description:任务信息控制层
+ * @Company: Northking
+ * @Author: suny
+ * @CreateDate: 2017-12-07 17:04
+ * @UpdateUser:
+ * @Version:0.1
+ */
+@RestController
+public class JobController {
+    @Autowired
+    private JobService jobService;
+
+    private final static Logger logger = LoggerFactory.getLogger(JobController.class);
+
+    //增加任务信息
+    @TxTransaction
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/addCltJobInfo")
+    public ResultInfo<Integer> addCltJobInfo(@RequestBody JobQuery jobQuery) throws Exception {
+
+        CltUtils.printStartInfo(jobQuery, "Controller addCltJobInfo");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验
+
+        //调用微服务controller接口
+        ResultInfo<Integer> result  = jobService.addCltJobInfo(jobQuery);
+
+        CltUtils.printEndInfo(result, " Controller addCltJobInfo", startTime);
+
+        return  result;
+
+    }
+
+
+    //给任务分派主管
+    @TxTransaction
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/updateCltJobByManagerId")
+    public ResultInfo<String> updateCltJobByManagerId(@RequestBody JobQuery jobQuery) throws Exception {
+
+        CltUtils.printStartInfo(jobQuery, "Controller updateCltJobByManagerId");
+
+        long startTime = System.currentTimeMillis();
+
+        //参数校验  任务ID
+        init(jobQuery,"U_ManagerId");
+
+        //调用微服务controller接口
+        ResultInfo<String> result  = jobService.updateCltJobByManagerId(jobQuery);
+
+        CltUtils.printEndInfo(result, "Controller updateCltJobByManagerId", startTime);
+
+        return  result;
+
+    }
+
+    //根据角色查询任务信息
+    @PostMapping("/queryCltJobListByRoleId")
+    public ResultInfo<Page<JobPlan>> queryCltJobByRoleId(@RequestBody JobPlanQuery jobPlanQuery) throws Exception {
+
+        CltUtils.printStartInfo(jobPlanQuery, "Controller queryCltJobByRoleId");
+
+        long startTime = System.currentTimeMillis();
+
+        //调用微服务controller接口
+        ResultInfo<Page<JobPlan>> result  = jobService.queryCltJobByRoleId(jobPlanQuery);
+
+        CltUtils.printEndInfo(result, "Controller queryCltJobByRoleId", startTime);
+
+        return  result;
+
+    }
+
+    //参数校验的方法
+    public static void init(JobQuery jobQuery, String funcCode) throws Exception {
+
+        ParamVerifyUtil paramVerifyUtil = new ParamVerifyUtil();
+
+        Map<String,Object> dataMap = CltUtils.beanToMap(jobQuery);
+
+        if ("U_ManagerId".equals(funcCode)) {
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "jobId","managerId");
+
+
+        }else if("A".equals(funcCode)){
+            paramVerifyUtil.checkNullOrEmpty(dataMap, logger,
+                    "jobId");
+        }
+    }
+
+
+    /**
+     * 生成测试执行任务,压队列
+     * @param jobQuery
+     * @return
+     * @throws Exception
+     */
+    @TxTransaction
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/genTestExecuteJob")
+    public ResultInfo<Integer> genTestExecuteJob(@RequestBody JobQuery jobQuery) throws Exception {
+
+        CltUtils.printStartInfo(jobQuery, "Controller genTestExecuteJob");
+
+        long startTime = System.currentTimeMillis();
+
+        //必输项校验
+        init(jobQuery,"A");
+
+        //调用微服务controller接口
+        ResultInfo<Integer> result  = jobService.genTestExecuteJob(jobQuery);
+
+        CltUtils.printEndInfo(result, "Controller genTestExecuteJob", startTime);
+
+        return  result;
+
+    }
+
+    /**
+     * 执行测试步骤
+     * @param testCaseStepQuery
+     * @return
+     * @throws Exception
+     */
+    @TxTransaction
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    @PostMapping("/quryStepDataByCaseId")
+    public ResultInfo<TestCaseStepData> quryStepDataByCaseId(@RequestBody TestCaseStepQuery testCaseStepQuery) throws Exception {
+
+        CltUtils.printStartInfo(testCaseStepQuery, "Controller quryStepDataByCaseId");
+
+        long startTime = System.currentTimeMillis();
+
+        ResultInfo<List<CltTestStepData>> listResultInfo = jobService.quryStepDataByCaseId(testCaseStepQuery);
+
+        TestCaseStepData testCaseStepData = new TestCaseStepData();
+
+        testCaseStepData.setMessage(listResultInfo.getResultMsg());
+
+        List<CltTestStepData> resultDataList = listResultInfo.getResultData();
+
+        List<StepDataInfo> stepDataInfoList = new ArrayList<>();
+
+        if(resultDataList!=null&&resultDataList.size()>0){
+
+            for(CltTestStepData cltTestStepData:resultDataList){
+
+                StepDataInfo stepDataInfo = new StepDataInfo();
+
+                testCaseStepData.setStepId(cltTestStepData.getStepId());
+
+                testCaseStepData.setCaseId(cltTestStepData.getCaseId());
+
+                testCaseStepData.setMaxIdx(cltTestStepData.getMaxIdx());
+
+                testCaseStepData.setStepExecuteId(cltTestStepData.getStepExecuteId());
+
+                if(cltTestStepData.getCltAppBizParam()!=null){
+
+                    stepDataInfo.setMemo(cltTestStepData.getCltAppBizParam().getMemo());
+
+                    stepDataInfo.setName(cltTestStepData.getCltAppBizParam().getName());
+
+                    stepDataInfo.setCode(cltTestStepData.getCltAppBizParam().getCode());
+                }
+
+                stepDataInfo.setValue(cltTestStepData.getValue());
+
+                stepDataInfo.setType(cltTestStepData.getType());
+
+                stepDataInfoList.add(stepDataInfo);
+            }
+        }
+
+        testCaseStepData.setStepDataInfoList(stepDataInfoList);
+
+        CltUtils.printEndInfo(testCaseStepData, "Controller quryStepDataByCaseId", startTime);
+
+        return new ResultInfo<TestCaseStepData>(ResultCode.SUCCESS,testCaseStepData);
+    }
+
+    /**
+     * 根据批次ID查询测试缺陷
+     * @param jobQuery
+     * @return
+     * @throws Exception
+     */
+    @PostMapping("/queryBugByBatchId")
+    public ResultInfo<List<CltTestBug>> queryBugByBatchId(@RequestBody JobQuery jobQuery) throws Exception {
+
+        CltUtils.printStartInfo(jobQuery, "Controller queryBugByBatchId");
+
+        long startTime = System.currentTimeMillis();
+
+        //必输项校验
+        init(jobQuery,"A");
+
+        //调用微服务controller接口
+        ResultInfo<List<CltTestBug>> result  = jobService.queryBugByBatchId(jobQuery);
+
+        CltUtils.printEndInfo(result, "Controller queryBugByBatchId", startTime);
+
+        return  result;
+
+    }
+
+    //查询已压队列的任务
+    @PostMapping("/queryExecuteing")
+    public ResultInfo<Page<CltJob>> queryJobPlanAna(@RequestBody JobQuery jobQuery) throws Exception {
+        ResultInfo<Page<CltJob>> pageResultInfo = jobService.queryExecuting(jobQuery);
+        return  pageResultInfo;
+    }
+
+}

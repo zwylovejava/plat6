@@ -1,0 +1,52 @@
+server:
+  port: 8098
+eureka:
+   client:
+     healthcheck:
+       enabled: true
+
+hystrix:
+  command:
+    default:
+      execution:
+        isolation:
+          strategy: SEMAPHORE
+          thread:
+            timeoutInMilliseconds: 5000
+
+queue:
+  url:
+    prefix: http://#hostIP#:8180
+
+#ftp用户yunce的根目录
+ftpfile:
+  path: #ftpfile_path#
+
+
+#ftp服务器地址
+ftpserver:
+  ip: #hostIP#
+  port: 21
+
+#ftp用户，该用户的权限仅能在ftp服务器上的/home/yunce/目录下创建文件和目录
+ftpUser:
+  name: yunce
+  password: north.king
+
+#spring:
+  #rabbitmq:
+    #host: 192.168.0.100
+    #port: 5672
+    #username: cloud_test
+    #password: 123456
+    #virtual-host: /xiaodong
+
+spring:
+  rabbitmq:
+    host: #hostIP#
+    port: 5672
+    username: northking
+    password: 123456
+    virtual-host: /cloud
+
+

@@ -1,0 +1,27 @@
+package net.northking.cloudplatform.dto.testexecute;
+
+import net.northking.cloudplatform.domain.testexecute.CltCaseItemSetup;
+import net.northking.cloudplatform.domain.testexecute.CltTestCase;
+
+import java.util.List;
+
+public class TestCaseColum {
+    private List<CltCaseItemSetup> cltCaseItemSetupList;
+    private List<CltTestCase> cltTestCases;
+
+    public List<CltCaseItemSetup> getCltCaseItemSetupList() {
+        return cltCaseItemSetupList;
+    }
+
+    public void setCltCaseItemSetupList(List<CltCaseItemSetup> cltCaseItemSetupList) {
+        this.cltCaseItemSetupList = cltCaseItemSetupList;
+    }
+
+    public List<CltTestCase> getCltTestCases() {
+        return cltTestCases;
+    }
+
+    public void setCltTestCases(List<CltTestCase> cltTestCases) {
+        this.cltTestCases = cltTestCases;
+    }
+}

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.user.CltLoginLogMapper" >
+  <resultMap id="BaseResultMap" type="net.northking.cloudplatform.domain.user.CltLoginLog" >
+    <id column="LOG_ID" property="logId" jdbcType="VARCHAR" />
+    <result column="LOGIN_NO" property="loginNo" jdbcType="VARCHAR" />
+    <result column="USER_CHN_NAME" property="userChnName" jdbcType="VARCHAR" />
+    <result column="SESSION_ID" property="sessionId" jdbcType="VARCHAR" />
+    <result column="LOGIN_DATE" property="loginDate" jdbcType="DATE" />
+    <result column="EXIT_DATE" property="exitDate" jdbcType="DATE" />
+    <result column="LOGIN_IP" property="loginIp" jdbcType="VARCHAR" />
+    <result column="STAUTS" property="stauts" jdbcType="VARCHAR" />
+    <result column="PWD_LOGIN_NUM" property="pwdLoginNum" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    LOG_ID, LOGIN_NO, USER_CHN_NAME, SESSION_ID, LOGIN_DATE, EXIT_DATE, LOGIN_IP, STAUTS, 
+    PWD_LOGIN_NUM
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.northking.cloudplatform.domain.user.CltLoginLogExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CLT_LOGIN_LOG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CLT_LOGIN_LOG
+    where LOG_ID = #{logId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CLT_LOGIN_LOG
+    where LOG_ID = #{logId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.northking.cloudplatform.domain.user.CltLoginLogExample" >
+    delete from CLT_LOGIN_LOG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.northking.cloudplatform.domain.user.CltLoginLog" >
+    insert into CLT_LOGIN_LOG (LOG_ID, LOGIN_NO, USER_CHN_NAME, 
+      SESSION_ID, LOGIN_DATE, EXIT_DATE, 
+      LOGIN_IP, STAUTS, PWD_LOGIN_NUM
+      )
+    values (#{logId,jdbcType=VARCHAR}, #{loginNo,jdbcType=VARCHAR}, #{userChnName,jdbcType=VARCHAR}, 
+      #{sessionId,jdbcType=VARCHAR}, #{loginDate,jdbcType=DATE}, #{exitDate,jdbcType=DATE}, 
+      #{loginIp,jdbcType=VARCHAR}, #{stauts,jdbcType=VARCHAR}, #{pwdLoginNum,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="net.northking.cloudplatform.domain.user.CltLoginLog" >
+    insert into CLT_LOGIN_LOG
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        LOG_ID,
+      </if>
+      <if test="loginNo != null" >
+        LOGIN_NO,
+      </if>
+      <if test="userChnName != null" >
+        USER_CHN_NAME,
+      </if>
+      <if test="sessionId != null" >
+        SESSION_ID,
+      </if>
+      <if test="loginDate != null" >
+        LOGIN_DATE,
+      </if>
+      <if test="exitDate != null" >
+        EXIT_DATE,
+      </if>
+      <if test="loginIp != null" >
+        LOGIN_IP,
+      </if>
+      <if test="stauts != null" >
+        STAUTS,
+      </if>
+      <if test="pwdLoginNum != null" >
+        PWD_LOGIN_NUM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="logId != null" >
+        #{logId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginNo != null" >
+        #{loginNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userChnName != null" >
+        #{userChnName,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionId != null" >
+        #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginDate != null" >
+        #{loginDate,jdbcType=DATE},
+      </if>
+      <if test="exitDate != null" >
+        #{exitDate,jdbcType=DATE},
+      </if>
+      <if test="loginIp != null" >
+        #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="stauts != null" >
+        #{stauts,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdLoginNum != null" >
+        #{pwdLoginNum,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.northking.cloudplatform.domain.user.CltLoginLogExample" resultType="java.lang.Integer" >
+    select count(*) from CLT_LOGIN_LOG
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CLT_LOGIN_LOG
+    <set >
+      <if test="record.logId != null" >
+        LOG_ID = #{record.logId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginNo != null" >
+        LOGIN_NO = #{record.loginNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.userChnName != null" >
+        USER_CHN_NAME = #{record.userChnName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sessionId != null" >
+        SESSION_ID = #{record.sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.loginDate != null" >
+        LOGIN_DATE = #{record.loginDate,jdbcType=DATE},
+      </if>
+      <if test="record.exitDate != null" >
+        EXIT_DATE = #{record.exitDate,jdbcType=DATE},
+      </if>
+      <if test="record.loginIp != null" >
+        LOGIN_IP = #{record.loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stauts != null" >
+        STAUTS = #{record.stauts,jdbcType=VARCHAR},
+      </if>
+      <if test="record.pwdLoginNum != null" >
+        PWD_LOGIN_NUM = #{record.pwdLoginNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CLT_LOGIN_LOG
+    set LOG_ID = #{record.logId,jdbcType=VARCHAR},
+      LOGIN_NO = #{record.loginNo,jdbcType=VARCHAR},
+      USER_CHN_NAME = #{record.userChnName,jdbcType=VARCHAR},
+      SESSION_ID = #{record.sessionId,jdbcType=VARCHAR},
+      LOGIN_DATE = #{record.loginDate,jdbcType=DATE},
+      EXIT_DATE = #{record.exitDate,jdbcType=DATE},
+      LOGIN_IP = #{record.loginIp,jdbcType=VARCHAR},
+      STAUTS = #{record.stauts,jdbcType=VARCHAR},
+      PWD_LOGIN_NUM = #{record.pwdLoginNum,jdbcType=INTEGER}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.northking.cloudplatform.domain.user.CltLoginLog" >
+    update CLT_LOGIN_LOG
+    <set >
+      <if test="loginNo != null" >
+        LOGIN_NO = #{loginNo,jdbcType=VARCHAR},
+      </if>
+      <if test="userChnName != null" >
+        USER_CHN_NAME = #{userChnName,jdbcType=VARCHAR},
+      </if>
+      <if test="sessionId != null" >
+        SESSION_ID = #{sessionId,jdbcType=VARCHAR},
+      </if>
+      <if test="loginDate != null" >
+        LOGIN_DATE = #{loginDate,jdbcType=DATE},
+      </if>
+      <if test="exitDate != null" >
+        EXIT_DATE = #{exitDate,jdbcType=DATE},
+      </if>
+      <if test="loginIp != null" >
+        LOGIN_IP = #{loginIp,jdbcType=VARCHAR},
+      </if>
+      <if test="stauts != null" >
+        STAUTS = #{stauts,jdbcType=VARCHAR},
+      </if>
+      <if test="pwdLoginNum != null" >
+        PWD_LOGIN_NUM = #{pwdLoginNum,jdbcType=INTEGER},
+      </if>
+    </set>
+    where LOG_ID = #{logId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.northking.cloudplatform.domain.user.CltLoginLog" >
+    update CLT_LOGIN_LOG
+    set LOGIN_NO = #{loginNo,jdbcType=VARCHAR},
+      USER_CHN_NAME = #{userChnName,jdbcType=VARCHAR},
+      SESSION_ID = #{sessionId,jdbcType=VARCHAR},
+      LOGIN_DATE = #{loginDate,jdbcType=DATE},
+      EXIT_DATE = #{exitDate,jdbcType=DATE},
+      LOGIN_IP = #{loginIp,jdbcType=VARCHAR},
+      STAUTS = #{stauts,jdbcType=VARCHAR},
+      PWD_LOGIN_NUM = #{pwdLoginNum,jdbcType=INTEGER}
+    where LOG_ID = #{logId,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<groupId>net.northking.cloudplatform</groupId>
+	<artifactId>cloud_platform</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>cloud_platform</name>
+
+	<modules>
+		<module>cloudplatform-api</module>
+		<module>cloudplatform-rabbitmq</module>
+		<module>cloudplatform-dao</module>
+		<module>cloudplatform-gateway</module>
+		<module>cloudplatform-auth</module>
+		<module>cloudplatform-eureka</module>
+		<module>clouplatform-user</module>
+		<module>cloudplatform-assist</module>
+        <module>cloudplatform-web</module>
+        <module>cloudplatform-cust</module>
+		<module>cloudplatform-testexecute</module>
+        <module>cloudplatform_project</module>
+        <module>cloudplatform-testbug</module>
+        <module>cloudplatform-dictionary</module>
+    </modules>
+	<description>云测项目群顶级父项目</description>
+	<url>http://www.northking.net</url>
+	<organization>
+		<name>京北方信息技术股份有限公司</name>
+		<url>http://www.northking.net</url>
+	</organization>
+	<licenses>
+		<license>
+			<name>京北方信息技术股份有限公司版权所有</name>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+	<developers>
+		<developer>
+			<name>ITO-华南区</name>
+		</developer>
+	</developers>
+
+	<distributionManagement>
+		<repository>
+			<id>NK-HN-releases</id>
+			<name>京北方信息技术股份有限公司ITO-华南区Maven仓库，生产版本 Maven Releases Repository</name>
+			<url>http://192.168.0.100:7082/repository/maven-public/</url>
+		</repository>
+		<snapshotRepository>
+			<id>NK-HN-snapshots</id>
+			<name>京北方信息技术股份有限公司ITO-华南区Maven仓库，开发版本 Maven Snapshot Repository</name>
+			<url>http://192.168.0.100:7082/repository/maven-public/</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<java.version>1.8</java.version>
+		<spring-cloud.version>Dalston.SR4</spring-cloud.version>
+		<maven-resources-plugin.version>3.0.1</maven-resources-plugin.version>
+	</properties>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.8.RELEASE</version>
+		<relativePath/>
+		<!-- lookup parent from repository -->
+	</parent>
+
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.springframework.cloud</groupId>
+				<artifactId>spring-cloud-dependencies</artifactId>
+				<version>${spring-cloud.version}</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+		</dependencies>
+	</dependencyManagement>
+
+
+	<build>
+
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>${maven-resources-plugin.version}</version>
+				<executions>
+					<execution>
+						<id>default-resources</id>
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/classes</outputDirectory>
+							<useDefaultDelimiters>false</useDefaultDelimiters>
+							<delimiters>
+								<delimiter>#</delimiter>
+							</delimiters>
+							<resources>
+								<resource>
+									<directory>src/main/resources/</directory>
+									<filtering>true</filtering>
+									<includes>
+										<include>*.yml</include>
+										<include>*.properties</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>src/main/resources/</directory>
+									<filtering>false</filtering>
+									<excludes>
+										<exclude>*.yml</exclude>
+										<exclude>*.properties</exclude>
+									</excludes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+	<profiles>
+		<profile>
+			<id>Dev</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<properties>
+				<spring.profiles.active>dev</spring.profiles.active>
+				<hostIP_eureka>localhost</hostIP_eureka>
+				<hostIP>192.168.0.100</hostIP>
+				<datasource_url>jdbc:mysql://192.168.0.100:3306/cloud_platform</datasource_url>
+				<datasource_username>cloud_platform</datasource_username>
+				<datasource_password>northking</datasource_password>
+				<ftpfile_path>/</ftpfile_path>
+			</properties>
+		</profile>
+		<profile>
+			<id>Test</id>
+			<properties>
+				<spring.profiles.active>test</spring.profiles.active>
+				<hostIP_eureka>192.168.0.100</hostIP_eureka>
+				<hostIP>192.168.0.100</hostIP>
+				<datasource_url>jdbc:mysql://192.168.0.100:3306/cloud_platform_cs</datasource_url>
+				<datasource_username>root</datasource_username>
+				<datasource_password>cloud_test</datasource_password>
+				<ftpfile_path>/</ftpfile_path>
+			</properties>
+		</profile>
+		<profile>
+			<id>Demo</id>
+			<properties>
+				<spring.profiles.active>demo</spring.profiles.active>
+				<hostIP_eureka>localhost</hostIP_eureka>
+				<hostIP>localhost</hostIP>
+				<datasource_url>jdbc:mysql://localhost:3306/cloud_platform</datasource_url>
+				<datasource_username>root</datasource_username>
+				<datasource_password>cloud_test</datasource_password>
+				<ftpfile_path>/opt/reconciliation/</ftpfile_path>
+			</properties>
+		</profile>
+	</profiles>
+
+</project>

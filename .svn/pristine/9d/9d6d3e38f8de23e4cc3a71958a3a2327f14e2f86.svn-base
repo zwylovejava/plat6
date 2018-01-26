@@ -1,0 +1,352 @@
+package net.northking.cloudplatform.service.impl;
+
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.dao.base.BaseServiceImpl;
+import net.northking.cloudplatform.dao.user.CltOrgMapper;
+import net.northking.cloudplatform.dao.user.CltUserLoginMapper;
+import net.northking.cloudplatform.domain.user.CltOrg;
+import net.northking.cloudplatform.domain.user.CltOrgExample;
+import net.northking.cloudplatform.domain.user.CltUserAndLogin;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.query.user.OrgQuery;
+import net.northking.cloudplatform.query.user.UserAndLoginQuery;
+import net.northking.cloudplatform.service.OrgService;
+import net.northking.cloudplatform.utils.CltUtils;
+import net.northking.cloudplatform.utils.UUIDUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
+
+import java.util.*;
+
+/**
+ * @Title: 机构逻辑实现类
+ * @Description:
+ * @Company: Northking
+ * @Author: suny
+ * @CreateDate: 2017/11/11
+ * @UpdateUser:
+ * @Version:0.1
+ */
+@Service
+public class OrgServiceImpl  extends BaseServiceImpl<CltOrg, CltOrgExample, String> implements OrgService {
+
+
+    private final static Logger logger = LoggerFactory.getLogger(OrgServiceImpl.class);
+
+    @Autowired
+    private CltOrgMapper cltOrgMapper;
+
+    @Autowired
+    private CltUserLoginMapper cltUserLoginMapper;
+
+    /**
+     *  查询机构信息
+     *  parameter  parentOrgId
+     *  rerutn  Page<CltcustIdOrg>
+     *  exception 数据库异常 自定义异常
+     *  如果父节点为空则查询客户号下所有的机构
+     *  如果父节点不为空则根据父节点查询所有的子节点机构
+     * */
+    @Override
+    public Page<CltOrg> queryCltOrg(CltOrg cltOrg) throws Exception {
+
+        List<CltOrg> cltOrgQueryList = null;
+
+        List<CltOrg> resultTtemList = null;
+
+        cltOrgQueryList = cltOrgMapper.selectByCustIdParendId(cltOrg);
+
+        String parentOrgId = cltOrg.getParentOrgId();//父机构ID
+
+        if(parentOrgId==null||"".equals(parentOrgId)){
+
+            resultTtemList = getItemInfo(cltOrgQueryList);
+
+            cltOrgQueryList.clear();
+
+            cltOrgQueryList.addAll(resultTtemList);
+        }
+        return new Page<>(cltOrgQueryList);
+    }
+
+    public static  List<CltOrg>  getItemInfo(List<CltOrg> cltOrgQueryList ){
+
+        List<CltOrg>  rusult = new ArrayList<CltOrg>();
+
+        for (int i=0;i<cltOrgQueryList.size();i++){
+
+            CltOrg cltOrg = (CltOrg)cltOrgQueryList.get(i);
+
+            Map map = CltUtils.beanToMap(cltOrg);
+
+            String  cltParentOrgId = (String)map.get("parentOrgId");
+
+            if (null!=cltParentOrgId&&"0".equals(cltParentOrgId)){
+
+                Map  orgInfoMap1 = new HashMap();
+
+                orgInfoMap1.putAll(map);
+
+                getSonTree(orgInfoMap1, cltOrgQueryList);
+
+                CltUtils.mapToBean(orgInfoMap1,cltOrg);
+
+                rusult.add(cltOrg);
+            }
+        }
+
+        return  rusult;
+    }
+
+    private static Map<String,Object> getSonTree(Map<String,Object> parentCltOrgMap,List<CltOrg> itemList){
+
+        List<Map<String,Object>> sonList = new ArrayList<Map<String,Object>>();
+
+        Map<String, Object> sonMap;
+
+        for(CltOrg item : itemList){
+
+            if(parentCltOrgMap.get("orgId").toString().equals(item.getParentOrgId().toString())){
+
+                sonMap = new HashMap<String, Object>();
+
+                sonMap = CltUtils.beanToMap(item);
+
+                sonList.add(sonMap);
+
+                getSonTree(sonMap,itemList);
+            }
+        }
+
+        parentCltOrgMap.put("sonCltOrgMap", sonList);
+
+        return parentCltOrgMap;
+    }
+
+    /**
+     *  新增机构
+     *  exception  SQLException  CoreExption
+     * */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
+    public CltOrg addCltOrg(CltOrg cltOrg)throws Exception{
+        int addNum = 0;
+       addParamData(cltOrg);
+        try{
+            addNum = cltOrgMapper.insertSelective(cltOrg);
+        }catch (Exception e){
+            logger.error("addCltOrg",e);
+            throw new GlobalException(ErrorConstants.ADD_CLT_ORG_ERROR_CODE,ErrorConstants.ADD_CLT_ORG_ERROR_MESSAGE);
+        }
+        return cltOrg;
+    }
+
+
+    /**
+     * 修改机构
+     * exception SQLException CoreExption
+     * */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
+    public Integer updateCltOrg(CltOrg cltOrg)throws Exception{
+        int updateNum = 0;
+          cltOrg.setUpdateDate(new Date());
+        try{
+            updateNum = cltOrgMapper.updateByPrimaryKeySelective(cltOrg);
+        }catch (Exception e){
+            logger.error("updateCltOrg",e);
+            throw new GlobalException(ErrorConstants.UPDATE_CLT_ORG_ERROR_CODE,ErrorConstants.UPDATE_CLT_ORG_ERROR_MESSAGE);
+        }
+        return updateNum;
+    }
+
+
+    /**
+     * 删除机构
+     * */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
+    public Integer deleteCltOrg(CltOrg cltOrg)throws Exception{
+
+        Integer  result =null;
+
+        String isLevel = cltOrg.getIsLeaf();//是否为叶子节点
+
+        String orgId = cltOrg.getOrgId();//机构ID
+
+        String isDelete = "0";//0 - 可删除   1-不可删除
+
+        int parentOrgIdNum = 0;
+
+        //判断机构下是否存在所属用户  如果存在 则不删除机构
+        UserAndLoginQuery userAndLoginQuery=new UserAndLoginQuery();
+
+        userAndLoginQuery.setOrgId(orgId);
+
+        userAndLoginQuery.setCustId(cltOrg.getCustId());
+
+        List<CltUserAndLogin> users = cltUserLoginMapper.findUserByOrgId(userAndLoginQuery);
+        if(users!=null) {
+            if (users.size() > 0) {
+
+                isDelete = "1";
+
+                throw new GlobalException(ErrorConstants.DELETE_CLT_ORG_ERROR_CODE, ErrorConstants.DELETE_CLT_ORG_ERROR_MESSAGE);
+            }
+        }
+
+
+        //Y为叶子，N为父节点
+        if ("N".equals(isLevel)) {
+
+            //查询机构下是否存在子机构 （根据parentOrgId父节点ID查询挂属机构信息）
+            cltOrg.setParentOrgId(orgId);
+
+            List<CltOrg> list = cltOrgMapper.selectByCustIdParendId(cltOrg);
+
+            if (list != null) {
+
+                parentOrgIdNum = list.size();
+
+                //根据父机构ID查询下属机构条数大于0的时候抛错不允许删除
+                if (parentOrgIdNum > 0) {
+
+                    isDelete = "1";
+
+                    throw  new GlobalException(ErrorConstants.DELETE_CLT_ORG_PAREND_ID_ERROR_CODE, ErrorConstants.DELETE_CLT_ORG_PAREND_ID_ERROR_MESSAGE);
+
+                }
+
+            }
+
+        }else {
+
+            throw new GlobalException(ErrorConstants.QUERY_IS_LEVEL_ERROR_CODE, ErrorConstants.QUERY_IS_LEVEL_ERROR_MESSAGE);
+
+        }
+
+
+        //0-不挂属子机构  可删除   抛出数据库异常
+        if ("0".equals(isDelete)) {
+
+            //调用数据库
+
+            result = cltOrgMapper.deleteByPrimaryKey(cltOrg.getOrgId());
+
+        }
+
+        return result;
+    }
+
+    @Override
+    public CltOrg queryCltOrgByOrgId(String orgId) throws Exception {
+
+        return  cltOrgMapper.selectByPrimaryKey(orgId);
+    }
+
+
+
+    //根据父机构Id和客户id修改机构信息
+    @Override
+    public Integer updateCltOrgByParentorgIdAndCustId(CltOrg cltOrg) throws Exception {
+
+        int updateNum = 0;
+
+        cltOrg.setUpdateDate(new Date());
+
+        try{
+
+            updateNum = cltOrgMapper.updateCltOrgByParentorgIdAndCustId(cltOrg);
+
+        }catch (Exception e){
+
+            logger.error("updateCltOrgByParentorgIdAndCustId",e);
+
+            throw new GlobalException(ErrorConstants.UPDATE_CLT_ORG_BY_PARENT_ORGID_AND_CUSTID_ERROR_CODE,ErrorConstants.UPDATE_CLT_ORG_BY_PARENT_ORGID_AND_CUSTID_ERROR_MESSAGE);
+        }
+        return updateNum;
+    }
+
+
+
+    //根据客户ID和parentOrgId删除机构信息
+    @Override
+    public Integer delteCltOrgByParentorgIdAndCustId(OrgQuery orgQuery) throws Exception {
+
+        int delteNum = 0;
+
+        String parentOrgId=orgQuery.getParentOrgId();
+
+        String custId=orgQuery.getCustId();
+
+        try{
+
+            delteNum = cltOrgMapper.delteCltOrgByParentorgIdAndCustId(parentOrgId,custId);
+
+        }catch (Exception e){
+
+            logger.error("delteCltOrgByParentorgIdAndCustId",e);
+
+            throw new GlobalException(ErrorConstants.DELTE_CLT_ORG_BY_PARENT_ORGID_AND_CUSTID_ERROR_CODE,ErrorConstants.DELTE_CLT_ORG_BY_PARENT_ORGID_AND_CUSTID_ERROR_MESSAGE);
+        }
+        return delteNum;
+    }
+
+
+    //新增机构组装参数
+    public  void addParamData(CltOrg cltOrg){
+        String UUID = UUIDUtil.getUUID();
+        CltOrg parentOrgInfo = null;
+        String  parentOrgId = cltOrg.getParentOrgId();
+        if(parentOrgId==null||"".equals(parentOrgId)){
+            throw new GlobalException(ErrorConstants.ADD_CLT_PARENTORGID_NULL_ERROR_CODE,ErrorConstants.ADD_CLT_PARENTORGID_NULL_ERROR_MESSAGE);
+    }
+
+        if("0".equals(parentOrgId)){
+
+            cltOrg.setParentOrgId("0");
+
+            cltOrg.setOrgGradation(UUID);
+
+            cltOrg.setOrgLevel(1);
+
+        }else{
+
+            parentOrgInfo = cltOrgMapper.selectByPrimaryKey(parentOrgId);
+
+            cltOrg.setOrgGradation(cltOrg.getOrgGradation()+","+UUID);
+
+            cltOrg.setOrgLevel(parentOrgInfo.getOrgLevel()+1);
+        }
+
+
+        cltOrg.setOrgId(UUID);
+        cltOrg.setIsLeaf("N");
+        cltOrg.setCreateDate(new Date());
+    }
+
+    /**
+     * 装配查询参数
+     *
+     * @param query 查询对像
+     * @return
+     */
+    private CltOrgExample assemblyExample(OrgQuery query) {
+        CltOrgExample cltOrgExample = new CltOrgExample();
+        cltOrgExample.setOrderByClause(query.getOrderByClause());
+        CltOrgExample.Criteria criteria = cltOrgExample.createCriteria();
+        if (StringUtils.hasText(query.getParentOrgId())) {
+            criteria.andParentOrgIdEqualTo(query.getParentOrgId());
+        }
+        return cltOrgExample;
+    }
+
+}

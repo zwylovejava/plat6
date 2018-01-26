@@ -1,0 +1,19 @@
+package net.northking.cloudplatform.manager.service;
+
+
+import net.northking.cloudplatform.model.LoadBalanceInfo;
+
+/**
+ * create by zwy on 2017/12/5
+ */
+public interface LoadBalanceService {
+
+    boolean put(LoadBalanceInfo loadBalanceInfo);
+
+    LoadBalanceInfo get(String groupId, String key);
+
+    boolean remove(String groupId);
+
+    String getLoadBalanceGroupName(String groupId);
+
+}

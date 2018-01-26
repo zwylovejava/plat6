@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.testexecute.CltTestStepDataMapper" >
+    <select id="queryTestStepDataById" resultType="net.northking.cloudplatform.domain.testexecute.CltTestStepData">
+          SELECT <include refid="Base_Column_List"/> FROM CLT_TEST_STEP_DATA WHERE  CASE_ID=#{caseId} AND STEP_ID=#{stepId} ORDER BY TYPE ASC
+
+    </select>
+
+    <select id="queryTestStepDataBytsId" resultType="net.northking.cloudplatform.domain.testexecute.CltTestStepData">
+
+      SELECT b.TYPE,b.VALUE,c.NAME APP_BIZ_NMAE
+      FROM  CLT_TEST_CASE_STEP a,CLT_TEST_STEP_DATA b,CLT_APP_BIZ_PARAM c
+      WHERE a.ID=b.STEP_ID AND c.ID=b.PARAM_ID  AND a.CASE_ID=#{caseId} AND a.TRANS_ID=#{transId}
+
+    </select>
+
+</mapper>

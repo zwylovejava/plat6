@@ -1,0 +1,112 @@
+package net.northking.cloudplatform.query.testexecute;
+
+import net.northking.cloudplatform.common.PageQuery;
+
+public class TestCaseStepQuery extends PageQuery<TestCaseStepQuery> {
+    private String id;
+
+    private String caseId;
+
+    private String transId;
+
+    private Integer idx;
+
+    //最大顺序
+    private String maxIdx;
+
+    //用例执行流程表ID
+    private String executeId;
+
+    private String executeStatus; //执行状态,0为初始化,1为成功，2为失败
+
+    private String actualResult; //实际结果
+
+    private String executeResult;  //失败原因
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getCaseId() {
+        return caseId;
+    }
+
+    public void setCaseId(String caseId) {
+        this.caseId = caseId;
+    }
+
+    public String getTransId() {
+        return transId;
+    }
+
+    public void setTransId(String transId) {
+        this.transId = transId;
+    }
+
+    public Integer getIdx() {
+        return idx;
+    }
+
+    public void setIdx(Integer idx) {
+        this.idx = idx;
+    }
+
+
+    public String getMaxIdx() {
+        return maxIdx;
+    }
+
+    public void setMaxIdx(String maxIdx) {
+        this.maxIdx = maxIdx;
+    }
+
+    public String getExecuteId() {
+        return executeId;
+    }
+
+    public void setExecuteId(String executeId) {
+        this.executeId = executeId;
+    }
+
+    public String getExecuteStatus() {
+        return executeStatus;
+    }
+
+    public void setExecuteStatus(String executeStatus) {
+        this.executeStatus = executeStatus;
+    }
+
+    public String getActualResult() {
+        return actualResult;
+    }
+
+    public void setActualResult(String actualResult) {
+        this.actualResult = actualResult;
+    }
+
+    public String getExecuteResult() {
+        return executeResult;
+    }
+
+    public void setExecuteResult(String executeResult) {
+        this.executeResult = executeResult;
+    }
+
+    @Override
+    public String toString() {
+        return "TestCaseStepQuery{" +
+                "id='" + id + '\'' +
+                ", caseId='" + caseId + '\'' +
+                ", transId='" + transId + '\'' +
+                ", idx=" + idx +
+                ", maxIdx='" + maxIdx + '\'' +
+                ", executeId='" + executeId + '\'' +
+                ", executeStatus='" + executeStatus + '\'' +
+                ", actualResult='" + actualResult + '\'' +
+                ", executeResult='" + executeResult + '\'' +
+                '}';
+    }
+}

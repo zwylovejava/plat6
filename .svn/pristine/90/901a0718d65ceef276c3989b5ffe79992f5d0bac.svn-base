@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.user.CltProjectTeamMapper" >
+  <delete id="deleteByUserIds">
+    delete from CLT_PROJECT_TEAM where PRO_ID=#{proId}
+    and USER_ID =#{userId}
+    and ROLE_ID =#{roleId}
+
+  </delete>
+
+
+  <!-- 根据用户查询项目列表-->
+  <select id="selectProjectByUserId" parameterType="java.lang.String" resultType="net.northking.cloudplatform.domain.project.CltProject">
+SELECT b.CREATE_DATE,b.CREATE_USER,b.NEED_ATTACH,b.PRO_DESC,b.PRO_ID,b.PRO_NAME,b.PRO_TYPE,b.STATUS,b.SYS_LINK_ADDR,b.TEST_ENVI
+,b.TEST_MANAGER,b.TEST_PLAN_END_TIME,b.TEST_PLAN_START_TIME,b.TEST_TYPE,b.UPDATE_DATE,b.UPDATE_USER
+FROM  CLT_PROJECT_TEAM AS a INNER JOIN CLT_PROJECT AS b ON a.PRO_ID=b.PRO_ID  WHERE a.USER_ID=#{userId}
+
+
+  </select>
+
+
+  <select id="selectByProId" parameterType="java.lang.String" resultType="net.northking.cloudplatform.domain.user.CltProjectTeam">
+
+   SELECT TEAM_ID ,ROLE_ID,USER_ID FROM CLT_PROJECT_TEAM WHERE  PRO_ID = #{proId,jdbcType=VARCHAR}
+
+  </select>
+
+  <!--根据项目id用户id角色id查询团队表 -->
+  <select id="selectByProIdAndUserIdAndRoleId" parameterType="java.lang.String" resultType="net.northking.cloudplatform.domain.user.CltProjectTeam">
+  SELECT * FROM CLT_PROJECT_TEAM WHERE PRO_ID =#{proId,jdbcType=VARCHAR} AND ROLE_ID=#{roleId,jdbcType=VARCHAR} AND USER_ID=#{userId,jdbcType=VARCHAR}
+
+</select>
+
+
+
+  <!-- 根据项目id角色id查询项目团队-->
+  <select id="sselectByProIdAndRoleId" parameterType="java.lang.String" resultType="java.lang.Integer">
+    SELECT  count(*) FROM CLT_PROJECT_TEAM WHERE PRO_ID =#{proId,jdbcType=VARCHAR} AND ROLE_ID != #{roleId,jdbcType=VARCHAR}
+
+  </select>
+
+
+  <!-- 根据项目id删除团队-->
+  <delete id="deleteByProId"  parameterType="java.lang.String" >
+    delete from CLT_PROJECT_TEAM
+    where  PRO_ID = #{proId,jdbcType=VARCHAR}
+  </delete>
+
+
+<!--根据项目id用户id和角色id查询记录数 -->
+  <select id="countByProIdAndUserIdAndRoleId" parameterType="java.lang.String" resultType="java.lang.Integer">
+    SELECT count(*) FROM CLT_PROJECT_TEAM WHERE PRO_ID =#{proId} AND ROLE_ID=#{roleId} AND USER_ID=#{userId}
+
+  </select>
+
+
+  <!--根据用户id和角色id查询记录数 -->
+  <select id="countByRoleIdAndUserId"  resultType="java.lang.Integer" parameterType="java.lang.String" >
+
+      SELECT count(*) FROM CLT_PROJECT_TEAM WHERE ROLE_ID=#{roleId} AND USER_ID=#{userId}
+
+  </select>
+
+
+</mapper>

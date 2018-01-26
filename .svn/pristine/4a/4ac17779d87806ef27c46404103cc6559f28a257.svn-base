@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.user.CltRoleMapper" >
+    <resultMap id="UserWithFunsByRoleId" type="net.northking.cloudplatform.domain.user.CltRole" extends="BaseResultMap">
+        <collection property="funcs" javaType="ArrayList" ofType="net.northking.cloudplatform.domain.user.CltFunc"
+                    column="ROLE_ID"
+                    select="net.northking.cloudplatform.dao.user.CltFuncMapper.selectByRoleId"/>
+    </resultMap>
+
+    <!-- 根据用户ID获取所有角色 -->
+    <select id="selectAndFuncsByUserId" resultMap="UserWithFunsByRoleId" parameterType="java.lang.String" >
+        select
+        a.*
+        from CLT_ROLE a, CLT_USER_ROLE b
+        where a.ROLE_ID=b.ROLE_ID and USER_ID = #{userId,jdbcType=CHAR}
+        order by a.CREATE_DATE desc
+    </select>
+
+    <select id="selectByUserId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+        select
+        a.*
+        from CLT_ROLE a, CLT_USER_ROLE b
+        where a.ROLE_ID=b.ROLE_ID and USER_ID = #{userId,jdbcType=CHAR}
+        order by a.CREATE_DATE desc
+    </select>
+
+    <!--根据角色代码查询角色的Id -->
+    <select id="selectRoleIdByRoleCode" resultType="net.northking.cloudplatform.domain.user.CltRole"   parameterType="java.lang.String" >
+
+        select * from CLT_ROLE AS a  where a.ROLE_CODE = #{roleCode,jdbcType=VARCHAR}
+
+    </select>
+
+    <!-- 根据项目Id删除角色-->
+    <delete id="deleteByProId" parameterType="java.lang.String">
+
+        DELETE FROM CLT_ROLE
+        WHERE PRO_ID = #{proId,jdbcType=VARCHAR} AND ROLE_LEVEL = "2"
+
+    </delete>
+
+    <!--根据项目id查询角色 -->
+    <select id="selectRoleIdByProId" resultType="net.northking.cloudplatform.domain.user.CltRole"   parameterType="java.lang.String" >
+
+        SELECT ROLE_LEVEL FROM CLT_ROLE WHERE PRO_ID= #{proId,jdbcType=VARCHAR}
+
+
+    </select>
+
+    <select id="selectAllRole" resultMap="BaseResultMap" >
+       SELECT
+    *
+    FROM
+    CLT_ROLE
+
+
+    </select>
+
+    <select id="queryAllCltRoleIsNotSuper" resultMap="BaseResultMap" >
+        SELECT
+        *
+        FROM
+        CLT_ROLE WHERE IS_SUPER='N'
+
+    </select>
+
+
+    <select id="queryRoleTeamByRoleId" resultType="net.northking.cloudplatform.domain.user.CltRole">
+        select r.*
+        from CLT_ROLE r join CLT_PROJECT_TEAM p
+
+        on r.ROLE_ID=p.ROLE_ID
+
+        where r.ROLE_ID in(
+        <foreach collection="array" separator="," item="id">
+            #{id}
+        </foreach>
+
+        )
+    </select>
+
+    <select id="queryFuncRoleId"  resultType="net.northking.cloudplatform.domain.user.CltRole">
+
+        select r.*
+        from CLT_ROLE r join CLT_FUNC_ROLE p
+
+        on r.ROLE_ID=p.ROLE_ID
+
+        where r.ROLE_ID in(
+        <foreach collection="array" separator="," item="id">
+            #{id}
+        </foreach>
+
+        )
+
+
+
+    </select>
+
+</mapper>

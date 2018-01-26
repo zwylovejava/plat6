@@ -1,0 +1,53 @@
+package net.northking.cloudplatform.feign.testbug;
+
+import net.northking.cloudplatform.common.Page;
+import net.northking.cloudplatform.domain.testbug.CltTestBug;
+import net.northking.cloudplatform.query.testbug.TestBugQuery;
+import net.northking.cloudplatform.result.ResultInfo;
+import org.springframework.cloud.netflix.feign.FeignClient;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+
+import java.util.List;
+
+/**
+ * Created by liujinghao on 2017/12/25.
+ */
+@FeignClient(name = "cloudplatform-gateway")
+public interface TestBugFeignClient {
+
+    /**
+     * 添加缺陷信息
+     * @param testBugQuery
+     * @return
+     */
+    @RequestMapping(value = "/testbug/addTestBug", method = RequestMethod.POST, consumes="application/json")
+     ResultInfo<Integer> addTestBug(@RequestBody @Validated TestBugQuery testBugQuery);
+
+    /**
+     * 查询缺陷列表
+     * @param testBugQuery
+     * @return
+     */
+    @RequestMapping(value = "/testbug/queryAllTestBugs", method = RequestMethod.POST, consumes="application/json")
+     ResultInfo<Page<CltTestBug>> queryAllTestBugs(@RequestBody  TestBugQuery testBugQuery);
+
+    /**
+     * 查询缺陷详情
+     * @param testBugQuery
+     * @return
+     */
+    @RequestMapping(value = "/testbug/queryBugByBugId", method = RequestMethod.POST, consumes="application/json")
+     ResultInfo<CltTestBug> queryBugByBugId(@RequestBody TestBugQuery testBugQuery);
+
+    //根据StepId和caseId判断缺陷是否已添加
+    @RequestMapping(value = "/testbug/queryTestBugBycaseID", method = RequestMethod.POST, consumes="application/json")
+    public ResultInfo<List<CltTestBug>> queryTestBugById(@RequestBody TestBugQuery testBugQuery);
+
+    //根据批次ID查询缺陷列表
+    @RequestMapping(value = "/testbug/queryTestBugByBathId", method = RequestMethod.POST, consumes="application/json")
+    public ResultInfo<List<CltTestBug>> queryTestBugByBathId(@RequestBody TestBugQuery testBugQuery);
+}

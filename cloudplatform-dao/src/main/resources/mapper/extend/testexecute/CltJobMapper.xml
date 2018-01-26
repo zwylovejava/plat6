@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.testexecute.CltJobMapper" >
+    <select id="quertJobListById" resultType="net.northking.cloudplatform.dto.testexecute.JobPlan" parameterType="net.northking.cloudplatform.dto.testexecute.JobPlanQuery">
+
+
+        SELECT a.CUSTEM_NAME,a.CUSTEM_CODE,a.PROJECT_ID,a.PROJECT_NAME,a.JOB_NAME,a.JOB_ID,a.STATUS,a.CREATE_DATE START_DATE,b.CREATE_DATE,b.END_DATE,b.PRIORITY,b.BATCH_ID,a.MANAGER_ID
+        FROM CLT_JOB a,CLT_BATCH b
+        WHERE a.BATCH_ID=b.BATCH_ID
+
+        <if test="managerId !='' and managerId != null">
+            and MANAGER_ID=#{managerId}
+        </if>
+
+        <if test="custemName !='' and custemName != null">
+            AND a.CUSTEM_NAME like CONCAT('%',#{custemName},'%')
+        </if>
+        <if test="projectName !='' and projectName != null">
+            AND a.PROJECT_NAME like CONCAT('%',#{projectName},'%')
+        </if>
+        <if test="jobName !='' and jobName != null">
+            AND a.JOB_NAME like CONCAT('%',#{jobName},'%')
+        </if>
+        <if test="status !='' and status != null">
+            and a.STATUS=#{status}
+        </if>
+
+    </select>
+
+    <select id="countByManagerId" resultType="java.lang.Integer" parameterType="java.lang.String">
+
+        SELECT COUNT(*) FROM CLT_JOB WHERE MANAGER_ID = #{managerId,jdbcType=VARCHAR}
+
+    </select>
+</mapper>

@@ -1,0 +1,543 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="net.northking.cloudplatform.dao.user.CltUserMapper" >
+  <resultMap id="BaseResultMap" type="net.northking.cloudplatform.domain.user.CltUser" >
+    <id column="USER_ID" property="userId" jdbcType="VARCHAR" />
+    <result column="CUST_ID" property="custId" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="GENDER" property="gender" jdbcType="VARCHAR" />
+    <result column="NATIONALITY" property="nationality" jdbcType="VARCHAR" />
+    <result column="ID_TYPE" property="idType" jdbcType="VARCHAR" />
+    <result column="ID_NO" property="idNo" jdbcType="VARCHAR" />
+    <result column="MARRIAGE" property="marriage" jdbcType="VARCHAR" />
+    <result column="POLITICS" property="politics" jdbcType="VARCHAR" />
+    <result column="FAMILY_COUNTY_ID" property="familyCountyId" jdbcType="VARCHAR" />
+    <result column="EMAIL" property="email" jdbcType="VARCHAR" />
+    <result column="CELL_PHONE" property="cellPhone" jdbcType="VARCHAR" />
+    <result column="ADDRESS" property="address" jdbcType="VARCHAR" />
+    <result column="BIRTHDAY" property="birthday" jdbcType="DATE" />
+    <result column="GRADUATED_SCHOOL" property="graduatedSchool" jdbcType="VARCHAR" />
+    <result column="GRADUATED_DATE" property="graduatedDate" jdbcType="VARCHAR" />
+    <result column="GRADUATED_SPECIALTY" property="graduatedSpecialty" jdbcType="VARCHAR" />
+    <result column="EDU_CODE" property="eduCode" jdbcType="VARCHAR" />
+    <result column="SKILLS_CERTIFICATE" property="skillsCertificate" jdbcType="VARCHAR" />
+    <result column="SPECIALTY" property="specialty" jdbcType="VARCHAR" />
+    <result column="WORK_STATUS" property="workStatus" jdbcType="VARCHAR" />
+    <result column="CREATE_USER" property="createUser" jdbcType="VARCHAR" />
+    <result column="CREATE_DATE" property="createDate" jdbcType="DATE" />
+    <result column="UPDATE_USER" property="updateUser" jdbcType="VARCHAR" />
+    <result column="UPDATE_DATE" property="updateDate" jdbcType="DATE" />
+    <result column="EXPANDS" property="expands" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    USER_ID, CUST_ID, ORG_ID, GENDER, NATIONALITY, ID_TYPE, ID_NO, MARRIAGE, POLITICS, 
+    FAMILY_COUNTY_ID, EMAIL, CELL_PHONE, ADDRESS, BIRTHDAY, GRADUATED_SCHOOL, GRADUATED_DATE, 
+    GRADUATED_SPECIALTY, EDU_CODE, SKILLS_CERTIFICATE, SPECIALTY, WORK_STATUS, CREATE_USER, 
+    CREATE_DATE, UPDATE_USER, UPDATE_DATE, EXPANDS
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="net.northking.cloudplatform.domain.user.CltUserExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from CLT_USER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from CLT_USER
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from CLT_USER
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="net.northking.cloudplatform.domain.user.CltUserExample" >
+    delete from CLT_USER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="net.northking.cloudplatform.domain.user.CltUser" >
+    insert into CLT_USER (USER_ID, CUST_ID, ORG_ID, 
+      GENDER, NATIONALITY, ID_TYPE, 
+      ID_NO, MARRIAGE, POLITICS, 
+      FAMILY_COUNTY_ID, EMAIL, CELL_PHONE, 
+      ADDRESS, BIRTHDAY, GRADUATED_SCHOOL, 
+      GRADUATED_DATE, GRADUATED_SPECIALTY, EDU_CODE, 
+      SKILLS_CERTIFICATE, SPECIALTY, WORK_STATUS, 
+      CREATE_USER, CREATE_DATE, UPDATE_USER, 
+      UPDATE_DATE, EXPANDS)
+    values (#{userId,jdbcType=VARCHAR}, #{custId,jdbcType=VARCHAR}, #{orgId,jdbcType=VARCHAR}, 
+      #{gender,jdbcType=VARCHAR}, #{nationality,jdbcType=VARCHAR}, #{idType,jdbcType=VARCHAR}, 
+      #{idNo,jdbcType=VARCHAR}, #{marriage,jdbcType=VARCHAR}, #{politics,jdbcType=VARCHAR}, 
+      #{familyCountyId,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{cellPhone,jdbcType=VARCHAR}, 
+      #{address,jdbcType=VARCHAR}, #{birthday,jdbcType=DATE}, #{graduatedSchool,jdbcType=VARCHAR}, 
+      #{graduatedDate,jdbcType=VARCHAR}, #{graduatedSpecialty,jdbcType=VARCHAR}, #{eduCode,jdbcType=VARCHAR}, 
+      #{skillsCertificate,jdbcType=VARCHAR}, #{specialty,jdbcType=VARCHAR}, #{workStatus,jdbcType=VARCHAR}, 
+      #{createUser,jdbcType=VARCHAR}, #{createDate,jdbcType=DATE}, #{updateUser,jdbcType=VARCHAR}, 
+      #{updateDate,jdbcType=DATE}, #{expands,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="net.northking.cloudplatform.domain.user.CltUser" >
+    insert into CLT_USER
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        USER_ID,
+      </if>
+      <if test="custId != null" >
+        CUST_ID,
+      </if>
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="gender != null" >
+        GENDER,
+      </if>
+      <if test="nationality != null" >
+        NATIONALITY,
+      </if>
+      <if test="idType != null" >
+        ID_TYPE,
+      </if>
+      <if test="idNo != null" >
+        ID_NO,
+      </if>
+      <if test="marriage != null" >
+        MARRIAGE,
+      </if>
+      <if test="politics != null" >
+        POLITICS,
+      </if>
+      <if test="familyCountyId != null" >
+        FAMILY_COUNTY_ID,
+      </if>
+      <if test="email != null" >
+        EMAIL,
+      </if>
+      <if test="cellPhone != null" >
+        CELL_PHONE,
+      </if>
+      <if test="address != null" >
+        ADDRESS,
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY,
+      </if>
+      <if test="graduatedSchool != null" >
+        GRADUATED_SCHOOL,
+      </if>
+      <if test="graduatedDate != null" >
+        GRADUATED_DATE,
+      </if>
+      <if test="graduatedSpecialty != null" >
+        GRADUATED_SPECIALTY,
+      </if>
+      <if test="eduCode != null" >
+        EDU_CODE,
+      </if>
+      <if test="skillsCertificate != null" >
+        SKILLS_CERTIFICATE,
+      </if>
+      <if test="specialty != null" >
+        SPECIALTY,
+      </if>
+      <if test="workStatus != null" >
+        WORK_STATUS,
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER,
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE,
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER,
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE,
+      </if>
+      <if test="expands != null" >
+        EXPANDS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="custId != null" >
+        #{custId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        #{nationality,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null" >
+        #{idType,jdbcType=VARCHAR},
+      </if>
+      <if test="idNo != null" >
+        #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="marriage != null" >
+        #{marriage,jdbcType=VARCHAR},
+      </if>
+      <if test="politics != null" >
+        #{politics,jdbcType=VARCHAR},
+      </if>
+      <if test="familyCountyId != null" >
+        #{familyCountyId,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="cellPhone != null" >
+        #{cellPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        #{birthday,jdbcType=DATE},
+      </if>
+      <if test="graduatedSchool != null" >
+        #{graduatedSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="graduatedDate != null" >
+        #{graduatedDate,jdbcType=VARCHAR},
+      </if>
+      <if test="graduatedSpecialty != null" >
+        #{graduatedSpecialty,jdbcType=VARCHAR},
+      </if>
+      <if test="eduCode != null" >
+        #{eduCode,jdbcType=VARCHAR},
+      </if>
+      <if test="skillsCertificate != null" >
+        #{skillsCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="specialty != null" >
+        #{specialty,jdbcType=VARCHAR},
+      </if>
+      <if test="workStatus != null" >
+        #{workStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateUser != null" >
+        #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        #{updateDate,jdbcType=DATE},
+      </if>
+      <if test="expands != null" >
+        #{expands,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="net.northking.cloudplatform.domain.user.CltUserExample" resultType="java.lang.Integer" >
+    select count(*) from CLT_USER
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update CLT_USER
+    <set >
+      <if test="record.userId != null" >
+        USER_ID = #{record.userId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.custId != null" >
+        CUST_ID = #{record.custId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgId != null" >
+        ORG_ID = #{record.orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.gender != null" >
+        GENDER = #{record.gender,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nationality != null" >
+        NATIONALITY = #{record.nationality,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idType != null" >
+        ID_TYPE = #{record.idType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.idNo != null" >
+        ID_NO = #{record.idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.marriage != null" >
+        MARRIAGE = #{record.marriage,jdbcType=VARCHAR},
+      </if>
+      <if test="record.politics != null" >
+        POLITICS = #{record.politics,jdbcType=VARCHAR},
+      </if>
+      <if test="record.familyCountyId != null" >
+        FAMILY_COUNTY_ID = #{record.familyCountyId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.email != null" >
+        EMAIL = #{record.email,jdbcType=VARCHAR},
+      </if>
+      <if test="record.cellPhone != null" >
+        CELL_PHONE = #{record.cellPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        ADDRESS = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.birthday != null" >
+        BIRTHDAY = #{record.birthday,jdbcType=DATE},
+      </if>
+      <if test="record.graduatedSchool != null" >
+        GRADUATED_SCHOOL = #{record.graduatedSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="record.graduatedDate != null" >
+        GRADUATED_DATE = #{record.graduatedDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.graduatedSpecialty != null" >
+        GRADUATED_SPECIALTY = #{record.graduatedSpecialty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.eduCode != null" >
+        EDU_CODE = #{record.eduCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.skillsCertificate != null" >
+        SKILLS_CERTIFICATE = #{record.skillsCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.specialty != null" >
+        SPECIALTY = #{record.specialty,jdbcType=VARCHAR},
+      </if>
+      <if test="record.workStatus != null" >
+        WORK_STATUS = #{record.workStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUser != null" >
+        CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createDate != null" >
+        CREATE_DATE = #{record.createDate,jdbcType=DATE},
+      </if>
+      <if test="record.updateUser != null" >
+        UPDATE_USER = #{record.updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updateDate != null" >
+        UPDATE_DATE = #{record.updateDate,jdbcType=DATE},
+      </if>
+      <if test="record.expands != null" >
+        EXPANDS = #{record.expands,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update CLT_USER
+    set USER_ID = #{record.userId,jdbcType=VARCHAR},
+      CUST_ID = #{record.custId,jdbcType=VARCHAR},
+      ORG_ID = #{record.orgId,jdbcType=VARCHAR},
+      GENDER = #{record.gender,jdbcType=VARCHAR},
+      NATIONALITY = #{record.nationality,jdbcType=VARCHAR},
+      ID_TYPE = #{record.idType,jdbcType=VARCHAR},
+      ID_NO = #{record.idNo,jdbcType=VARCHAR},
+      MARRIAGE = #{record.marriage,jdbcType=VARCHAR},
+      POLITICS = #{record.politics,jdbcType=VARCHAR},
+      FAMILY_COUNTY_ID = #{record.familyCountyId,jdbcType=VARCHAR},
+      EMAIL = #{record.email,jdbcType=VARCHAR},
+      CELL_PHONE = #{record.cellPhone,jdbcType=VARCHAR},
+      ADDRESS = #{record.address,jdbcType=VARCHAR},
+      BIRTHDAY = #{record.birthday,jdbcType=DATE},
+      GRADUATED_SCHOOL = #{record.graduatedSchool,jdbcType=VARCHAR},
+      GRADUATED_DATE = #{record.graduatedDate,jdbcType=VARCHAR},
+      GRADUATED_SPECIALTY = #{record.graduatedSpecialty,jdbcType=VARCHAR},
+      EDU_CODE = #{record.eduCode,jdbcType=VARCHAR},
+      SKILLS_CERTIFICATE = #{record.skillsCertificate,jdbcType=VARCHAR},
+      SPECIALTY = #{record.specialty,jdbcType=VARCHAR},
+      WORK_STATUS = #{record.workStatus,jdbcType=VARCHAR},
+      CREATE_USER = #{record.createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{record.createDate,jdbcType=DATE},
+      UPDATE_USER = #{record.updateUser,jdbcType=VARCHAR},
+      UPDATE_DATE = #{record.updateDate,jdbcType=DATE},
+      EXPANDS = #{record.expands,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="net.northking.cloudplatform.domain.user.CltUser" >
+    update CLT_USER
+    <set >
+      <if test="custId != null" >
+        CUST_ID = #{custId,jdbcType=VARCHAR},
+      </if>
+      <if test="orgId != null" >
+        ORG_ID = #{orgId,jdbcType=VARCHAR},
+      </if>
+      <if test="gender != null" >
+        GENDER = #{gender,jdbcType=VARCHAR},
+      </if>
+      <if test="nationality != null" >
+        NATIONALITY = #{nationality,jdbcType=VARCHAR},
+      </if>
+      <if test="idType != null" >
+        ID_TYPE = #{idType,jdbcType=VARCHAR},
+      </if>
+      <if test="idNo != null" >
+        ID_NO = #{idNo,jdbcType=VARCHAR},
+      </if>
+      <if test="marriage != null" >
+        MARRIAGE = #{marriage,jdbcType=VARCHAR},
+      </if>
+      <if test="politics != null" >
+        POLITICS = #{politics,jdbcType=VARCHAR},
+      </if>
+      <if test="familyCountyId != null" >
+        FAMILY_COUNTY_ID = #{familyCountyId,jdbcType=VARCHAR},
+      </if>
+      <if test="email != null" >
+        EMAIL = #{email,jdbcType=VARCHAR},
+      </if>
+      <if test="cellPhone != null" >
+        CELL_PHONE = #{cellPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        ADDRESS = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="birthday != null" >
+        BIRTHDAY = #{birthday,jdbcType=DATE},
+      </if>
+      <if test="graduatedSchool != null" >
+        GRADUATED_SCHOOL = #{graduatedSchool,jdbcType=VARCHAR},
+      </if>
+      <if test="graduatedDate != null" >
+        GRADUATED_DATE = #{graduatedDate,jdbcType=VARCHAR},
+      </if>
+      <if test="graduatedSpecialty != null" >
+        GRADUATED_SPECIALTY = #{graduatedSpecialty,jdbcType=VARCHAR},
+      </if>
+      <if test="eduCode != null" >
+        EDU_CODE = #{eduCode,jdbcType=VARCHAR},
+      </if>
+      <if test="skillsCertificate != null" >
+        SKILLS_CERTIFICATE = #{skillsCertificate,jdbcType=VARCHAR},
+      </if>
+      <if test="specialty != null" >
+        SPECIALTY = #{specialty,jdbcType=VARCHAR},
+      </if>
+      <if test="workStatus != null" >
+        WORK_STATUS = #{workStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="createUser != null" >
+        CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      </if>
+      <if test="createDate != null" >
+        CREATE_DATE = #{createDate,jdbcType=DATE},
+      </if>
+      <if test="updateUser != null" >
+        UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      </if>
+      <if test="updateDate != null" >
+        UPDATE_DATE = #{updateDate,jdbcType=DATE},
+      </if>
+      <if test="expands != null" >
+        EXPANDS = #{expands,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="net.northking.cloudplatform.domain.user.CltUser" >
+    update CLT_USER
+    set CUST_ID = #{custId,jdbcType=VARCHAR},
+      ORG_ID = #{orgId,jdbcType=VARCHAR},
+      GENDER = #{gender,jdbcType=VARCHAR},
+      NATIONALITY = #{nationality,jdbcType=VARCHAR},
+      ID_TYPE = #{idType,jdbcType=VARCHAR},
+      ID_NO = #{idNo,jdbcType=VARCHAR},
+      MARRIAGE = #{marriage,jdbcType=VARCHAR},
+      POLITICS = #{politics,jdbcType=VARCHAR},
+      FAMILY_COUNTY_ID = #{familyCountyId,jdbcType=VARCHAR},
+      EMAIL = #{email,jdbcType=VARCHAR},
+      CELL_PHONE = #{cellPhone,jdbcType=VARCHAR},
+      ADDRESS = #{address,jdbcType=VARCHAR},
+      BIRTHDAY = #{birthday,jdbcType=DATE},
+      GRADUATED_SCHOOL = #{graduatedSchool,jdbcType=VARCHAR},
+      GRADUATED_DATE = #{graduatedDate,jdbcType=VARCHAR},
+      GRADUATED_SPECIALTY = #{graduatedSpecialty,jdbcType=VARCHAR},
+      EDU_CODE = #{eduCode,jdbcType=VARCHAR},
+      SKILLS_CERTIFICATE = #{skillsCertificate,jdbcType=VARCHAR},
+      SPECIALTY = #{specialty,jdbcType=VARCHAR},
+      WORK_STATUS = #{workStatus,jdbcType=VARCHAR},
+      CREATE_USER = #{createUser,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=DATE},
+      UPDATE_USER = #{updateUser,jdbcType=VARCHAR},
+      UPDATE_DATE = #{updateDate,jdbcType=DATE},
+      EXPANDS = #{expands,jdbcType=VARCHAR}
+    where USER_ID = #{userId,jdbcType=VARCHAR}
+  </update>
+</mapper>

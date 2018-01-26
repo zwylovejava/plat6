@@ -1,0 +1,388 @@
+package net.northking.cloudplatform.service.impl;
+
+
+import net.northking.cloudplatform.constants.ErrorConstants;
+import net.northking.cloudplatform.dao.base.BaseServiceImpl;
+import net.northking.cloudplatform.dao.user.CltFuncRoleMapper;
+import net.northking.cloudplatform.dao.user.CltRoleMapper;
+import net.northking.cloudplatform.dao.user.CltUserRoleMapper;
+import net.northking.cloudplatform.domain.user.CltFunc;
+import net.northking.cloudplatform.domain.user.CltRole;
+import net.northking.cloudplatform.domain.user.CltRoleExample;
+import net.northking.cloudplatform.domain.user.CltUserRole;
+import net.northking.cloudplatform.exception.GlobalException;
+import net.northking.cloudplatform.query.user.RoleQuery;
+import net.northking.cloudplatform.result.ResultCode;
+import net.northking.cloudplatform.service.RoleService;
+import net.northking.cloudplatform.utils.BeanUtil;
+import net.northking.cloudplatform.utils.ImportExcelUtil;
+import net.northking.cloudplatform.utils.UUIDUtil;
+import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+/**
+ * Created by laodeng on 2017/11/21.
+ */
+@Service
+public class RoleServiceImpl extends BaseServiceImpl<CltRole, CltRoleExample, String> implements RoleService {
+
+    //注入mapper
+    @Autowired
+    private CltRoleMapper cltRoleMapper;
+
+    @Autowired
+    private CltFuncRoleMapper cltFuncRoleMapper;
+
+    @Autowired
+    private CltUserRoleMapper cltUserRoleMapper;
+
+
+    private Logger logger = LoggerFactory.getLogger(RoleServiceImpl.class);
+
+    /**
+     * 增加角色
+     * @param cltRole
+     * @return
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
+    public Integer addCltRoleInfo(CltRole cltRole) {
+
+        //判断角色代码的唯一性
+        String roleCode=cltRole.getRoleCode();
+
+        CltRole role = cltRoleMapper.selectRoleIdByRoleCode(roleCode);
+
+        if(role!=null){
+
+            throw new GlobalException(ErrorConstants.ADD_ROLE_PARAM_ERROR_CODE,ErrorConstants.ADD_ROLE_PARAM_ERROR_MESSAGE);
+        }
+        //添加字段属性值
+        try {
+            cltRole.setRoleId(UUIDUtil.getUUID());
+            cltRole.setCreateDate(new Date());
+            cltRole.setStatus("1");
+            return  cltRoleMapper.insertSelective(cltRole);
+        } catch (Exception e) {
+
+           logger.error("addCltRoleInfo" , e);
+
+            throw new GlobalException(ErrorConstants.ADD_CLT_ROLE_ERROR_CODE,ErrorConstants.ADD_CLT_ROLE_ERROR_MESSAGE);
+        }
+    }
+
+
+    /**
+     * 装备查询参数
+     */
+    private CltRoleExample getExample(RoleQuery roleQuery){
+        CltRoleExample example = new CltRoleExample();
+        //分组排序
+        example.setOrderByClause(roleQuery.getOrderByClause());
+
+        CltRoleExample.Criteria criteria = example.createCriteria();
+
+        if(roleQuery.getProId() == null || "".equals(roleQuery.getProId())){
+            //如果项目id为null，则查询公共角色
+            criteria.andRoleLevelEqualTo("1");
+        }else {
+            //查询业务角色
+            criteria.andProIdEqualTo(roleQuery.getProId());
+        }
+        if (roleQuery.getRoleName() != null){
+            //不要忘了增加"%"以实现模糊查询
+            criteria.andRoleNameLike("%"+roleQuery.getRoleName()+"%");
+        }
+            return example;
+    }
+
+    /**
+     * 更新角色信息
+     * @param cltRole
+     * @return
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
+    public Integer updateCltRoleInfo(CltRole cltRole) {
+        try {
+            if (cltRole.getRoleId() == null){
+                throw new GlobalException(ResultCode.INVALID_PARAM.code() , "角色id不能为空");
+            }
+            //刷新更改时间
+            cltRole.setUpdateDate(new Date());
+            return cltRoleMapper.updateByPrimaryKeySelective(cltRole);
+        } catch (Exception e) {
+            logger.error("updateCltRoleInfo" , e);
+            throw new GlobalException(ErrorConstants.UPDATE_CLT_ROLE_ERROR_CODE ,ErrorConstants.UPDATE_CLT_ROLE_ERROR_MESSAGE);
+        }
+    }
+
+    /**
+     * 导入角色execl
+     */
+    @Override
+    public void importRoleExcelInfo(RoleQuery roleQuery) {
+
+        //获取execl表中的所有数据
+        List<List<Object>> list = new ArrayList<>();
+
+        String filePath = roleQuery.getFilePath();
+
+        if (!StringUtils.isNotBlank(filePath)){
+            throw new GlobalException(ResultCode.INVALID_PARAM.code() ,"路径不能为空");
+        }
+        try {
+            list = ImportExcelUtil.importExecl(filePath);
+
+        } catch (IOException e) {
+            logger.error("importRoleExcelInfo" , e);
+            throw new GlobalException(ResultCode.INVALID_PARAM.code() ,"io流异常");
+        }
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+
+            //将数据保存到角色对象
+            for (int i = 0; i < list.size(); i++) {
+                try {
+                    //为每个数据子集合创建一个新的角色对象
+                    CltRole cltRole = new CltRole();
+
+                    List<Object> valueList = list.get(i);
+                    //添加id
+                    cltRole.setRoleId(UUIDUtil.getUUID());
+                    cltRole.setRoleName(String.valueOf(valueList.get(0)));
+                    cltRole.setProId(String.valueOf(valueList.get(1)));
+                    cltRole.setRoleLevel(String.valueOf(valueList.get(2)));
+                    cltRole.setRoleDesc(String.valueOf(valueList.get(3)));
+                    cltRole.setCreateUser(String.valueOf(valueList.get(4)));
+                    //date格式需要进行转换
+                    cltRole.setCreateDate(sdf.parse(String.valueOf(valueList.get(5))));
+                    cltRole.setUpdateUser(String.valueOf(valueList.get(6)));
+                    cltRole.setUpdateDate(sdf.parse(String.valueOf(valueList.get(7))));
+                    cltRole.setStatus(String.valueOf(valueList.get(8)));
+
+                    //保存
+                    cltRoleMapper.insertSelective(cltRole);
+                } catch (Exception e) {
+                    logger.error("importRoleExcelInfo" , e);
+                    throw new GlobalException(ResultCode.INVALID_PARAM.code() ,"导入失败");
+                }
+            }
+    }
+
+    /**
+     * 查询项目下的业务角色和所有的公共角色
+     * @return
+     */
+    public List<CltRole> queryCltRolesInfo(RoleQuery roleQuery) throws Exception {
+
+       CltRole cltRole = new CltRole();
+
+       BeanUtil.copyProperties(roleQuery ,cltRole);
+
+        List<CltRole> list = null;
+
+        //查询所有的业务角色
+        try {
+            CltRoleExample serviceExample = new CltRoleExample();
+
+            CltRoleExample.Criteria serviceCriteria = serviceExample.createCriteria();
+
+            serviceCriteria.andProIdEqualTo(roleQuery.getProId());
+            serviceCriteria.andRoleLevelEqualTo("2");
+            list = cltRoleMapper.selectByExample(serviceExample);
+        } catch (Exception e) {
+            logger.error("queryCltRolesInfo",e);
+            throw new GlobalException(ErrorConstants.QUERY_SERVICE_ROLE_ERROR_CODE ,ErrorConstants.QUERY_SERVICE_ROLE_ERROR_MESSAGE);
+        }
+
+        //查询所有的公共角色
+        try {
+            CltRoleExample commonExample = new CltRoleExample();
+
+            CltRoleExample.Criteria commonCriteria = commonExample.createCriteria();
+
+            commonCriteria.andRoleLevelEqualTo("1");
+
+            list.addAll(cltRoleMapper.selectByExample(commonExample));
+        } catch (Exception e) {
+            logger.error("queryCltRolesInfo",e);
+            throw new GlobalException(ErrorConstants.QUERY_COMMON_ROLE_ERROR_CODE ,ErrorConstants.QUERY_COMMON_ROLE_ERROR_MESSAGE);
+        }
+
+        return list;
+    }
+
+
+
+    //查询所有的角色列表(包括管理员角色/功能列表)
+    @Override
+    public List<CltRole> queryAllCltRole() throws Exception {
+
+        List<CltFunc> cltFuncList = null;
+
+        List<CltRole>  cltRoleList  =  cltRoleMapper.selectAllRole();
+
+        for (int i=0;i<cltRoleList.size();i++){
+
+            CltRole cltRole = (CltRole)cltRoleList.get(i);
+
+            try{
+
+                cltFuncList = cltFuncRoleMapper.queryFuncListByRoleId(cltRole.getRoleId());
+
+                cltRole.setFuncList(cltFuncList);
+
+            }catch (Exception e){
+
+                logger.error("queryByRoleId",e);
+
+                throw new GlobalException(ErrorConstants.QUERY_FUNC_ROLE_ERROR_CODE,ErrorConstants.QUERY_FUNC_ROLE_ERROR_MESSAGE);
+            }
+        }
+
+
+        return cltRoleList;
+    }
+
+    //查询除管理员角色的所有的用户的列表
+    @Override
+    public List<CltRole> queryAllCltRoleIsNotSuper() throws Exception {
+
+
+        try {
+            List<CltRole> cltRoles = cltRoleMapper.queryAllCltRoleIsNotSuper();
+
+            return cltRoles;
+
+        } catch (Exception e) {
+            logger.error("queryAllCltRoleIsNotSuper",e);
+
+            throw new GlobalException(ErrorConstants.QUERY_CLT_ROLE_LIST_ERROR_CODE,ErrorConstants.QUERY_CLT_ROLE_LIST_ERROR_MESSAGE);
+
+        }
+    }
+
+
+
+
+
+    /**
+     * 通过角色id查询角色信息
+     * @param roleQuery
+     * @return
+     */
+    public CltRole selectCltRoleByRoleId(RoleQuery roleQuery){
+
+        String roleId = roleQuery.getRoleId();
+
+        if(roleId == null || "".equals(roleId)){
+            throw new GlobalException(ResultCode.INVALID_PARAM.code() , "角色id不能为空");
+        }
+        return  cltRoleMapper.selectByPrimaryKey(roleId);
+    }
+
+    /**
+     * 批量删除角色
+     * @param roleQuery
+     * @return
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, timeout = 36000, rollbackFor = Exception.class)
+    public String deleteRolesByRoleIds(RoleQuery roleQuery) {
+
+        String[] ids = roleQuery.getIds();
+
+        Integer count = 0;
+
+        String msg = "";
+
+        for (int i = 0; i < ids.length; i++) {
+
+            String roleId  = (String)ids[i];
+
+            if (StringUtils.isEmpty(roleId)){
+                throw new GlobalException(ResultCode.INVALID_PARAM.code() , "要删除的角色ID不能为空");
+            }
+
+            //查询出角色详细信息
+            CltRole cltRole = cltRoleMapper.selectByPrimaryKey(roleId);
+
+            if(cltRole!=null){
+
+                //判断是否为公共角色
+                if("1".equals(cltRole.getRoleLevel())){
+
+                    throw new GlobalException(ResultCode.INVALID_PARAM.code() , cltRole.getRoleName()+"是公共角色不能删除");
+                }
+
+                //查询角色是否关联用户
+                List<CltUserRole>  listCltUserRole=cltUserRoleMapper.queryUserRoleByRoleId(roleId);
+
+                if(listCltUserRole!=null&&listCltUserRole.size()>0){
+                    StringBuffer stringBuffer = new StringBuffer();
+                    for ( CltUserRole cltUserRole:listCltUserRole){
+                        stringBuffer.append("["+cltUserRole.getUserName()+"],");
+                    }
+
+                    throw new GlobalException(ResultCode.INVALID_PARAM.code() , cltRole.getRoleName()+"已被"+stringBuffer.toString()+"用户关联");
+                }
+                //查询角色是否关联功能
+                List<CltFunc> listCltFunc = cltRoleMapper.queryFuncRoleId(ids);
+                if(listCltFunc!=null&&listCltFunc.size()>0){
+
+                    StringBuffer stringBuffer = new StringBuffer();
+                    for (CltFunc cltFunc:listCltFunc){
+                        stringBuffer.append("["+cltFunc.getFuncName()+"],");
+                    }
+                    throw new GlobalException(ResultCode.INVALID_PARAM.code() ,cltRole.getRoleName()+"已被"+stringBuffer.toString()+"功能关联");
+                }
+
+                int deleteCount = cltRoleMapper.deleteByPrimaryKey(roleId);
+                //判断要删除的对象是否存在
+                if (deleteCount == 0){
+                    msg += "roleId为"+roleId+"的数据不存在";
+                }else{
+                    count++;
+                }
+
+            }
+
+        }
+
+        msg = "删除的数据个数为"+count +"  "+ msg;
+
+        return msg;
+    }
+    //根据角色代码查询对应的角色
+    @Override
+    public CltRole selectRoleIdByRoleCode(String roleCode) throws Exception {
+
+        try{
+
+            CltRole cltRole=cltRoleMapper.selectRoleIdByRoleCode(roleCode);
+
+            return cltRole;
+
+        }catch (Exception e){
+            logger.error("selectRoleIdByRoleCode",e);
+            throw new GlobalException(ErrorConstants.QUERY_ROLE_BYROLECODE_ERROR_CODE,ErrorConstants.QUERY_ROLE_BYROLECODE_ERROR_MESSAGE);
+
+
+        }
+
+    }
+
+
+}
